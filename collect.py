@@ -51,22 +51,44 @@ def build_catalog():
     q = urllib.parse.urlencode({"client_id": cid, "client_secret": sec, "grant_type": "client_credentials"})
     tok = http("https://id.twitch.tv/oauth2/token?" + q, data=b"", method="POST")["access_token"]
     h = {"Client-ID": cid, "Authorization": "Bearer " + tok}
-    games, seen, off = [], set(), 0
+    P = IGDB_PLATFORM
+    variantes = [   # du plus précis au plus large : on garde la première qui renvoie des jeux
+        f"platforms=({P}) & release_dates.region=(1,8) & version_parent=null",
+        f"platforms=({P}) & release_dates.release_region=(1,8) & version_parent=null",
+        f"platforms=({P}) & release_dates.region=(1,8)",
+        f"platforms=({P}) & version_parent=null",
+        f"platforms=({P})",
+    ]
+    def page(where, off):
+        body = f"fields name,cover.image_id; where {where}; sort id asc; limit 500; offset {off};"
+        return http("https://api.igdb.com/v4/games", body.encode(), h, "POST")
+    where, first = None, []
+    for i, w in enumerate(variantes):
+        try:
+            first = page(w, 0)
+        except RuntimeError as e:
+            print(f"Variante {i + 1} refusée : {e}")
+            continue
+        print(f"Variante {i + 1} : {len(first)} jeux sur la première page")
+        if first:
+            where = w
+            break
+    if not where:
+        raise SystemExit("IGDB ne renvoie aucun jeu : vérifie les clés Twitch.")
+    games, seen, off, pg = [], set(), 0, first
     while True:
-        body = (f"fields name,cover.image_id; where platforms=({IGDB_PLATFORM}) & release_dates.region=1 "
-                f"& release_dates.platform={IGDB_PLATFORM} & version_parent=null; sort id asc; limit 500; offset {off};")
-        page = http("https://api.igdb.com/v4/games", body.encode(), h, "POST")
-        for g in page:
+        for g in pg:
             n = norm(g["name"])
             if n in seen:
                 continue
             seen.add(n)
             img = (g.get("cover") or {}).get("image_id")
             games.append({"id": g["id"], "t": g["name"], "cover": img})
-        if len(page) < 500:
+        if len(pg) < 500:
             break
         off += 500
         time.sleep(0.4)
+        pg = page(where, off)
     print(f"Catalogue : {len(games)} jeux")
     return {"date": TODAY, "games": games}
 
@@ -161,7 +183,7 @@ def ebay_search(tok, market, q):
 def main():
     os.makedirs(DATA, exist_ok=True)
     cat = load(f"{DATA}/catalog.json")
-    if not cat or (datetime.date.today() - datetime.date.fromisoformat(cat["date"])).days >= 7:
+    if not cat or not cat.get("games") or (datetime.date.today() - datetime.date.fromisoformat(cat["date"])).days >= 7:
         cat = build_catalog()
         save(f"{DATA}/catalog.json", cat)
     games = cat["games"]
