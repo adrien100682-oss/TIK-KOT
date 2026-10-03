@@ -24,7 +24,7 @@ a.btn{background:var(--acc);color:#111;padding:9px 16px;border-radius:10px;font-
 .info{display:flex;flex-direction:column;align-items:center;gap:10px}
 .auto{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mut)}
 .auto button{background:var(--acc);color:#111;border:0;border-radius:8px;padding:6px 12px;font-weight:700;cursor:pointer}
-.auto input{width:110px}
+.auto input[type=range]{width:110px}
 @media(min-width:900px){
  .card{flex-direction:row;gap:5vw;padding:16px 4vw}
  .cover{height:min(82vh,820px);width:auto;font-size:clamp(26px,3vw,46px);padding:30px}
@@ -44,13 +44,11 @@ body.train .card:not(.rev)::after{content:"Clique la jaquette : quel prix ?";pos
 <header>
  <div class="row">
   <select id="console"><option>PlayStation 2</option><option disabled>Game Boy Advance (bientôt)</option><option disabled>Super Nintendo (bientôt)</option></select>
-  <select id="lang"><option value="FR">PAL Français</option><option value="EN">PAL Anglais</option><option value="DE">PAL Allemand</option><option value="IT">PAL Italien</option><option value="ES">PAL Espagnol</option></select>
-  <select id="cond"><option value="complet">Complet occasion</option><option value="neuf">Neuf</option><option value="disque">Disque seul</option><option value="boite">Boîte seule</option></select>
  </div>
  <div class="auto"><button id="ab">▶ Défilement auto</button><label>Délai : <input id="sp" type="range" min="2" max="30" value="6"> <b id="sv">6</b> s</label><span>(flèches ↑ ↓ du clavier aussi)</span></div>
  <div class="auto"><label>Prix min : <input id="mn" type="range" min="0" max="500" step="5" value="0"> <b id="mv">0</b> €</label><label><input type="checkbox" id="tr"> Mode entraînement (prix masqué)</label><label><input type="checkbox" id="mp"> 🗺 Carte rareté / prix</label><label><input type="checkbox" id="ms" checked> Afficher les introuvables en ligne</label></div>
  <div class="dash"><div>Jeux listés<b id="d1">-</b></div><div>Prix moyen<b id="d2">-</b></div><div>Moyenne top 10 %<b id="d3">-</b></div></div>
- <div class="note">Prix = article + port. Référence = moyenne des 3 annonces les moins chères. Mis à jour : <span id="up">-</span></div>
+ <div class="note">Jeux complets d'occasion sur eBay.fr. Prix = article + port. Référence = moyenne des 3 annonces les moins chères. Mis à jour : <span id="up">-</span></div>
 </header>
 <div id="feed"></div>
 <div id="map" style="display:none"><svg id="sv2" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid meet" style="color:var(--fg)"></svg><div class="note">Clique un point pour ouvrir le jeu. Échelle logarithmique.</div></div>
@@ -65,11 +63,19 @@ const days=d=>Math.max(1,Math.round((Date.now()-new Date(d))/864e5)+1);
 let G=[];
 const cover=g=>`<div class="cover" onclick="this.parentNode.classList.toggle('rev')" style="background-color:${col(g.id)}${g.cover?`;background-image:url(${IMG}${g.cover}.jpg);background-size:cover;background-position:center;font-size:0`:""}">${g.cover?"":esc(g.t)}</div>`;
 function build(){
- const lang=$("lang").value,cond=$("cond").value,min=+$("mn").value,key=lang+"|"+cond;
+ const min=+$("mn").value;
  let rows=[],miss=[];
- G.forEach(g=>{const e=g.k[key];if(!e)return;
-  if(e.n)rows.push({g,n:e.n,ref:e.ref,min:e.min,url:e.url,sold:e.sold30||0,since:e.since,sure:e.sure});
-  else if(e.last)miss.push({g,last:e.last,date:e.date})});
+ G.forEach(g=>{
+  const L=Object.entries(g.k).filter(([k])=>k.endsWith("|complet")).map(([k,e])=>({lang:k.split("|")[0],...e}));
+  const live=L.filter(e=>e.n);
+  if(live.length){
+   const e=live.find(x=>x.lang=="FR")||[...live].sort((a,b)=>b.n-a.n)[0];
+   rows.push({g,n:e.n,ref:e.ref,min:e.min,url:e.url,sold:e.sold30||0,since:e.since,sure:e.sure,ver:e.lang,
+    others:live.filter(x=>x!==e).map(x=>`${x.lang} ${eur(x.ref)} (${x.n})`).join(" · ")});
+  }else{
+   const e=L.filter(x=>x.last).sort((a,b)=>b.last-a.last)[0];
+   if(e)miss.push({g,last:e.last,date:e.date,ver:e.lang});
+  }});
  rows=rows.filter(r=>r.ref>=min).sort((a,b)=>b.ref-a.ref);
  miss=$("ms").checked?miss.filter(m=>m.last>=min).sort((a,b)=>b.last-a.last):[];
  const f=$("feed");
@@ -87,11 +93,11 @@ function build(){
   return `<section class="card"><div class="rank">#${i+1} / ${rows.length}</div>${cover(r.g)}
  <div class="info"><h2 class="gt">${esc(r.g.t)}</h2>${r.n<=3?'<span class="badge">RARE : '+r.n+' annonce'+(r.n>1?'s':'')+'</span>':''}
  <div class="price">${eur(r.ref)}</div><div class="tier">${tier(r.ref)}</div><div class="quad">${r.q}</div>
- <div class="meta">Prix de référence port inclus<br>${r.n} annonce(s) en cours · moins chère : ${eur(r.min)}<br>${sold}${r.sure<r.n?"<br>Langue probable pour "+(r.n-r.sure)+" annonce(s)":""}</div>
+ <div class="meta">Prix de référence port inclus (version ${esc(r.ver)})<br>${r.n} annonce(s) en cours · moins chère : ${eur(r.min)}<br>${sold}${r.others?"<br>Autres versions : "+esc(r.others):""}${r.sure<r.n?"<br>Langue probable pour "+(r.n-r.sure)+" annonce(s)":""}</div>
  <a class="btn" href="${safe(r.url)}" target="_blank" rel="noopener">Voir l'annonce la moins chère</a></div></section>`});
  const B=miss.map(m=>`<section class="card"><div class="rank">Introuvable en ligne</div>${cover(m.g).replace('class="cover"','class="cover" data-miss="1"')}
  <div class="info"><h2 class="gt">${esc(m.g.t)}</h2><span class="badge" style="background:#555">INTROUVABLE</span><div class="price">?</div>
- <div class="meta">Aucune annonce pour ce filtre.<br>Dernier prix vu : ${eur(m.last)} le ${esc(m.date)}</div></div></section>`);
+ <div class="meta">Aucune annonce pour ce filtre.<br>Dernier prix vu (version ${esc(m.ver)}) : ${eur(m.last)} le ${esc(m.date)}</div></div></section>`);
  f.innerHTML=A.concat(B).join("");
  f.scrollTop=0;
 }
@@ -119,6 +125,6 @@ document.addEventListener("keydown",e=>{if(e.target.tagName==="SELECT"||e.target
  if(["ArrowDown","PageDown"," "].includes(e.key)){e.preventDefault();feed.scrollBy({top:h,behavior:"smooth"})}
  if(["ArrowUp","PageUp"].includes(e.key)){e.preventDefault();feed.scrollBy({top:-h,behavior:"smooth"})}
  if(tm)auto(true)});
-["lang","cond","ms"].forEach(i=>$(i).onchange=build);$("mn").oninput=()=>{$("mv").textContent=$("mn").value;build()};
+["ms"].forEach(i=>$(i).onchange=build);$("mn").oninput=()=>{$("mv").textContent=$("mn").value;build()};
 fetch("data/latest.json",{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json()}).then(d=>{G=d.games;$("up").textContent=d.updated+" · "+d.catalog_total+" jeux PAL au catalogue";build()}).catch(()=>{$("feed").innerHTML='<div class="empty">Pas encore de données : la collecte eBay doit tourner au moins une fois.</div>'});
 </script></body></html>
