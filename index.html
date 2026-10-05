@@ -96,7 +96,7 @@ body.train .card:not(.rev)::after{content:"Clique l'image : quel prix ?";positio
  <div class="note">PAL FR · complets d'occasion · port inclus (eBay France + vendeurs belges) · prix <b>demandés</b>, pas des ventes conclues : vise toujours en dessous · Mis à jour : <span id="up">-</span> · flèches ↑ ↓</div>
 </header>
 <div id="feed"></div>
-<div id="map" style="display:none"><svg id="sv2" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid meet" style="color:var(--fg)"></svg><div class="note">Clique un point pour ouvrir le jeu. Échelle logarithmique, prix de l'annonce la moins chère.</div></div>
+<div id="map" style="display:none"><svg id="sv2" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid meet" style="color:var(--fg)"></svg><div class="note">Les 25 jeux les plus chers sont nommés (points jaunes). Passe la souris sur un point pour voir son nom, clique pour ouvrir sa fiche. Astuce : monte « Prix minimum » dans ⚙ Filtres pour dégager la carte. Échelle logarithmique, prix de l'annonce la moins chère.</div></div>
 <script>
 const tier=p=>p>=100?"💎 Pépite à prendre":p>=40?"👍 Intéressant":p>=15?"😐 Moyen":"🗑 Banal";
 const tcol=p=>p>=100?"#22d3a0":p>=40?"#ffb020":p>=15?"#9aa0b4":"#6b7080";
@@ -188,7 +188,8 @@ function drawMap(rows,medP,medN){
  <line x1="60" y1="${Y(medP)}" x2="740" y2="${Y(medP)}" stroke="currentColor" opacity=".4" stroke-dasharray="4"/>
  <g font-size="13" fill="currentColor" opacity=".6"><text x="735" y="40" text-anchor="end">🔥 Cher et rare</text><text x="65" y="40">💰 Cher et courant</text><text x="735" y="455" text-anchor="end">🧩 Rare, pas cher</text><text x="65" y="455">📦 Courant, pas cher</text>
  <text x="400" y="486" text-anchor="middle">← plus d'annonces (courant) | moins d'annonces (rare) →</text></g>`;
- rows.forEach((r,i)=>{h+=`<g style="cursor:pointer" onclick="goTo(${i})"><circle cx="${X(r.n)}" cy="${Y(r.min)}" r="8" fill="${col(r.g.id)}" stroke="#ffb020" stroke-width="2"/><text x="${X(r.n)+11}" y="${Y(r.min)+4}" font-size="11" fill="currentColor">${esc(r.g.t)} · ${Math.round(r.min)}€</text></g>`});
+ rows.forEach((r,i)=>{const x=X(r.n)+((r.g.id%9)-4)*2.5,y=Y(r.min),top=i<25;
+  h+=`<g style="cursor:pointer" onclick="goTo(${i})"><title>${esc(r.g.t)} · ${Math.round(r.min)} € · ${r.n} annonce(s)</title><circle cx="${x}" cy="${y}" r="${top?7:4}" fill="${top?"#ffb020":col(r.g.id)}" fill-opacity="${top?1:.75}" stroke="#ffb020" stroke-width="${top?2:1}"/>${top?`<text x="${x+10}" y="${y+4}" font-size="12" font-weight="700" fill="currentColor">${esc(r.g.t)} · ${Math.round(r.min)}€</text>`:""}</g>`});
  sv.innerHTML=h}
 function goTo(i){$("mp").checked=false;$("mp").onchange();$("feed").scrollTo({top:i*$("feed").clientHeight})}
 let tm=null;const feed=$("feed");
