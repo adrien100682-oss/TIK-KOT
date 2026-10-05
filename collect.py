@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
-"""Collecte PS2 PAL : catalogue IGDB + annonces eBay -> data/*.json (sans dépendance externe)."""
+"""Collecte PAL : catalogue IGDB + annonces eBay -> data/*.json (sans dépendance externe)."""
 import os, json, time, re, base64, datetime, urllib.request, urllib.parse, urllib.error, unicodedata
 
 MAIN_MARKET = "EBAY_FR"      # eBay France
-OTHER_MARKETS = []           # autres pays : désactivés. Plus tard : ["EBAY_GB", "EBAY_DE", "EBAY_IT", "EBAY_ES"]
+OTHER_MARKETS = ["EBAY_BE", "EBAY_GB", "EBAY_DE", "EBAY_IT", "EBAY_ES"]   # comparaison autres pays (jeux de valeur seulement)
 MIN_VALUE = 50               # (autres pays) prix mini pour chercher un jeu
-FOREIGN_MAX = 80             # (autres pays) nombre max de jeux cherchés par pays
+FOREIGN_MAX = 60             # (autres pays) nombre max de jeux cherchés par pays
 GBP_EUR = 1.15               # taux approximatif livre -> euro
 MAX_CALLS = 4500             # budget d'appels eBay par jour (quota gratuit estimé à ~5000)
 DATA = "data"
 TODAY = datetime.date.today().isoformat()
+EUROPE = {"FR", "BE", "LU", "CH", "DE", "IT", "ES", "GB", "IE", "NL", "PT", "AT"}   # pays de vendeur acceptés
+CJK = re.compile(r"[\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]")                      # titres en japonais/chinois/coréen : ignorés
 
 # Consoles dans l'ordre de priorité. Chaque jour, le script traite celles qui sont "à renouveler" (selon "every"),
 # les plus en retard d'abord, tant qu'il reste du budget d'appels. Pour en retirer une, supprime sa ligne.
-# "igdb" = numéro de plateforme IGDB, "q" = mot ajouté à la recherche eBay, "need" = mots exigés dans le titre.
 CONSOLES = [
-    # "every" = rythme de mise à jour en jours : 2 = priorité haute (PS1, PS2), 5 = marché récent, 12 = consoles anciennes
     {"key": "ps1", "name": "PlayStation 1", "igdb": 7, "q": "ps1", "need": [" ps1 ", " psx ", " ps one ", " psone ", " playstation 1 ", " playstation one "], "every": 2},
     {"key": "ps2", "name": "PlayStation 2", "igdb": 8, "q": "ps2", "need": [" ps2 ", " playstation 2 ", " ps 2 "], "every": 2},
     {"key": "gc", "name": "GameCube", "igdb": 21, "q": "gamecube", "need": [" gamecube ", " game cube ", " ngc "], "every": 5},
@@ -42,7 +42,7 @@ CONSOLES = [
 for c in CONSOLES:   # mots interdits = mots des autres consoles (sauf ceux contenus dans les nôtres)
     others = {w for o in CONSOLES if o is not c for w in o["need"]}
     c["_ban"] = [w for w in others if not any(w in n for n in c["need"])] + c.get("ban", [])
-COUNTRY_LANG = {"FR": "FR", "DE": "DE", "IT": "IT", "ES": "ES", "GB": "EN", "IE": "EN"}
+COUNTRY_LANG = {"FR": "FR", "BE": "FR", "DE": "DE", "IT": "IT", "ES": "ES", "GB": "EN", "IE": "EN"}   # BE = français « probable »
 
 
 def http(url, data=None, headers=None, method=None):
@@ -145,7 +145,8 @@ def has(t, words):
 BAD = [" lot ", " lots ", " bundle ", " pack ", " custom ", " repro ", " reproduction ", " copie ", " copy ", " backup ",
        " burned ", " grave ", " console ", " manette ", " controller ", " memory card ", " carte memoire ", " poster ",
        " guide ", " soundtrack ", " ost ", " figurine ", " peluche ", " x2 ", " x3 ", " x4 ", " 2 jeux ", " 3 jeux "]
-OTHER_PLAT = [" ps1 ", " ps3 ", " ps4 ", " ps5 ", " psp ", " psx ", " xbox ", " gamecube ", " wii ", " switch ", " dreamcast "]
+# Jeux japonais / américains / importés : jamais comptés comme PAL
+NOT_PAL = [" ntsc ", " jap ", " japan ", " japon ", " japonais ", " japanese ", " jp ", " usa ", " us import ", " import ", " asia "]
 BOX_ONLY = [" boite seule ", " boitier seul ", " boite vide ", " case only ", " box only ", " empty case ", " sans jeu ",
             " jaquette seule ", " notice seule ", " cover only ", " manual only ", " nur ovp ", " nur hulle ", " cover seule "]
 DISC_ONLY = [" disque seul ", " cd seul ", " dvd seul ", " loose ", " disc only ", " game only ", " sans boite ",
@@ -155,19 +156,36 @@ INCOMPLETE = [" sans notice ", " sans manuel ", " no manual ", " ohne anleitung 
 NEW_WORDS = [" sealed ", " blister ", " scelle ", " brand new ", " neuf sous ", " factory sealed "]
 COMPLETE = [" complet ", " complete ", " cib ", " avec notice ", " avec boite ", " avec boitier ", " boite et notice ",
             " notice incluse ", " with manual ", " avec manuel ", " vollstandig ", " komplett ", " mit anleitung ", " mit ovp ",
-            " completo ", " con caja ", " con scatola ", " en boite ", " with box ", " boxed "]
+            " completo ", " con caja ", " con scatola ", " en boite ", " with box ", " boxed ", " compleet ", " met boekje "]
 LANGS = {
-    "FR": [" pal fr ", " pal fra ", " francais ", " version francaise ", " fra ", " vf ", " vfr ", " fr "],
+    "FR": [" pal fr ", " pal fra ", " francais ", " version francaise ", " fra ", " vf ", " vfr ", " fr ", " frans ", " franse "],
     "DE": [" pal de ", " pal ger ", " deutsch ", " german ", " allemand ", " version allemande "],
     "IT": [" pal it ", " pal ita ", " italiano ", " italian ", " italien ", " ita "],
     "ES": [" pal es ", " pal esp ", " espanol ", " spanish ", " espagnol ", " esp "],
     "EN": [" pal uk ", " pal eng ", " english ", " anglais ", " uk ", " eng "],
 }
+# Éditions spéciales : le prix ne doit PAS être mélangé avec celui de la version standard
+SPECIAL = {
+    "collector": [" collector ", " collectors ", " edition collector ", " coffret ", " steelbook ", " ultimate edition ", " deluxe "],
+    "limitee": [" limited ", " limitee ", " edition limitee ", " special edition ", " edition speciale ", " anniversary ", " edition anniversaire "],
+    "budget": [" platinum ", " greatest hits ", " best of ", " classics ", " player s choice ", " the best ", " essentials "],
+    "presse": [" presse ", " press ", " promo ", " promotional ", " not for resale ", " nfr ", " demo ", " preview ",
+               " review copy ", " vente interdite ", " exemplaire de presse "],
+}
+
+def special(title, gname):
+    """Étiquette d'édition spéciale (collector/limitee/budget/presse) ou ''. Ignore les mots qui font partie du nom du jeu."""
+    t, gn = norm(title), norm(gname)
+    for label, words in SPECIAL.items():
+        for w in words:
+            if w in t and w not in gn:
+                return label
+    return ""
 
 def classify(title, cond_id, cfg):
     """Retourne l'état : neuf / complet / disque / boite, ou None si douteux (annonce ignorée)."""
     t = norm(title)
-    if has(t, BAD) or has(t, cfg["_ban"]) or not has(t, cfg["need"]):
+    if has(t, BAD) or has(t, NOT_PAL) or has(t, cfg["_ban"]) or not has(t, cfg["need"]):
         return None
     if has(t, BOX_ONLY):
         return "boite"
@@ -215,6 +233,12 @@ def total_price(it):
         return None          # port inconnu : on ignore plutôt que de fausser le prix
     return round(base + to_eur(ship, cur), 2)
 
+def photo(it):
+    u = (it.get("image") or {}).get("imageUrl")
+    if not u or not u.startswith("https://"):
+        return None
+    return re.sub(r"/s-l\d+\.", "/s-l500.", u)
+
 
 # ---------- eBay ----------
 def ebay_token():
@@ -245,6 +269,7 @@ def run_console(cfg, games, tok, budget):
     # suites : jeux dont le nom contient strictement tous les mots de celui-ci
     supers = {gid: [t2 for g2, t2 in gt.items() if g2 != gid and t < t2] for gid, t in gt.items()}
     hist = ld("history.json", {})
+    fxd = load(f"{D}/fx.json", {})   # jeux dont les autres pays ont été cherchés : date
     seen, rows, searched = set(), [], set()
     state = {"calls": 0, "errors": 0, "stop": False}
 
@@ -269,13 +294,18 @@ def run_console(cfg, games, tok, budget):
             tt = toks(title)
             if iid in seen or not gt[gid] <= tt or any(sp <= tt for sp in supers[gid]):
                 continue
+            country = (it.get("itemLocation") or {}).get("country")
+            if (country and country not in EUROPE) or CJK.search(title):
+                continue                  # vendeur hors Europe ou titre asiatique : on ignore
             cond = classify(title, it.get("conditionId"), cfg)
-            lang, sure = language(title, (it.get("itemLocation") or {}).get("country"))
+            lang, sure = language(title, country)
             tot = total_price(it)
             if not cond or not lang or tot is None:
                 continue
+            sp = special(title, g["t"])
             seen.add(iid)
-            rows.append({"id": iid, "g": gid, "k": f"{lang}|{cond}", "p": tot, "u": it.get("itemWebUrl"), "s": sure, "m": m})
+            rows.append({"id": iid, "g": gid, "k": f"{lang}|{cond}" + (f"|{sp}" if sp else ""), "p": tot,
+                         "u": it.get("itemWebUrl"), "s": sure, "m": m, "i": photo(it)})
         searched.add((gid, m))
 
     for g in games:                       # 1) tous les jeux sur eBay.fr
@@ -292,6 +322,10 @@ def run_console(cfg, games, tok, budget):
     for m in OTHER_MARKETS:
         for g in cand[:per]:
             scan(g, m)
+    for g in cand[:per]:
+        if (g["id"], OTHER_MARKETS[0] if OTHER_MARKETS else MAIN_MARKET) in searched:
+            fxd[str(g["id"])] = TODAY
+    save(f"{D}/fx.json", fxd)
     print(f"{cfg['name']} : {state['calls']} appels eBay, {len(rows)} annonces retenues")
 
     # Annonces disparues depuis hier = ventes estimées
@@ -313,17 +347,17 @@ def run_console(cfg, games, tok, budget):
     for r in rows:
         groups.setdefault((r["g"], r["k"]), []).append(r)
 
-    for key in set(groups) | set(gone):
-        gid, k = key
-        lst = sorted(groups.get(key, []), key=lambda r: r["p"])
+    for gk in set(groups) | set(gone):
+        gid, k = gk
+        lst = sorted(groups.get(gk, []), key=lambda r: r["p"])
         ref = round(sum(r["p"] for r in lst[:3]) / len(lst[:3]), 2) if lst else None
         h = hist.setdefault(str(gid), {}).setdefault(k, {"s": []})
         if ref is not None:
             h["last"], h["date"] = ref, TODAY
-        h["s"] = (h["s"] + [[TODAY, ref, len(lst), gone.get(key, 0)]])[-400:]
+        h["s"] = (h["s"] + [[TODAY, ref, len(lst), gone.get(gk, 0)]])[-400:]
         if lst:
             h["now"] = {"n": len(lst), "ref": ref, "min": lst[0]["p"], "url": lst[0]["u"],
-                        "top": [[r["p"], r["u"]] for r in lst[:3]],
+                        "top": [[r["p"], r["u"], r.get("i") if j == 0 else None] for j, r in enumerate(lst[:3])],
                         "sure": sum(1 for r in lst if r["s"]), "d": TODAY}
         else:
             h.pop("now", None)
@@ -350,7 +384,7 @@ def run_console(cfg, games, tok, budget):
             e["sold30"] = sum(x[3] for x in h["s"] if x[0] >= limit)
             e["since"] = h["s"][0][0]
             d[k] = e
-        out.append({"id": g["id"], "t": g["t"], "cover": g["cover"], "x": g.get("x", 0), "k": d})
+        out.append({"id": g["id"], "t": g["t"], "cover": g["cover"], "x": g.get("x", 0), "fx": fxd.get(str(g["id"])), "k": d})
     save(f"{D}/latest.json", {"updated": TODAY, "console": cfg["name"], "catalog_total": len(games), "games": out})
     return state["calls"], state["stop"]
 
