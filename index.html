@@ -59,6 +59,20 @@ table.cmp{width:100%;border-collapse:collapse;background:var(--card);border-radi
 .sub{font-size:12px;color:var(--mut);text-align:center}
 body.train .card:not(.rev) .info{visibility:hidden}
 body.train .card:not(.rev)::after{content:"Clique l'image : quel prix ?";position:absolute;bottom:14px;color:var(--mut);font-size:14px}
+header{position:relative}
+#q{background:var(--bg);color:var(--fg);border:1px solid var(--mut);border-radius:8px;padding:7px 10px;font-size:15px;width:230px}
+#res{display:none;position:absolute;left:14px;top:100%;z-index:20;background:var(--card);border:1px solid var(--line);border-radius:10px;width:min(560px,94vw);max-height:60vh;overflow:auto;box-shadow:0 10px 30px #000a}
+.hit{padding:9px 12px;border-bottom:1px solid var(--line);cursor:pointer;display:flex;flex-direction:column;gap:2px;font-size:15px}
+.hit:hover{background:#ffb02022}.hit span{font-size:12px;color:var(--mut)}
+#mod{display:none;position:fixed;inset:0;background:#000b;z-index:50;align-items:center;justify-content:center}
+.mbox{background:var(--card);color:var(--fg);border-radius:14px;padding:18px;max-width:520px;width:92%;display:flex;flex-direction:column;gap:12px;position:relative;max-height:92vh;overflow:auto}
+.mbox h3{margin:0 0 4px;font-size:20px}.mbox .x{position:absolute;top:8px;right:10px;background:none;border:0;color:var(--mut);font-size:20px;cursor:pointer}
+.mrow{display:flex;gap:12px;align-items:flex-start}.mrow img{width:90px;border-radius:8px}
+.mbox label{display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--mut)}
+.mbox input[type=number]{font-size:22px;padding:8px;border-radius:8px;border:1px solid var(--mut);background:var(--bg);color:var(--fg)}
+.mhint{font-size:12px;color:var(--mut)}.mbtn{display:flex;gap:8px;flex-wrap:wrap}
+.mbtn button,.flt button{background:var(--acc);color:#111;border:0;border-radius:8px;padding:8px 14px;font-weight:700;cursor:pointer;font-size:14px}
+.mbtn .sec2,.flt button{background:var(--bg);color:var(--fg);border:1px solid var(--mut)}
 #map{flex:1;min-height:0;padding:8px 12px;text-align:center;color:var(--fg)}#map svg{width:100%;height:100%;max-height:78vh}
 .empty{padding:30px;text-align:center;color:var(--mut)}
 @media(min-width:900px){
@@ -80,6 +94,7 @@ body.train .card:not(.rev)::after{content:"Clique l'image : quel prix ?";positio
 <header>
  <div class="bar">
   <select id="console"><option>Chargement…</option></select>
+  <input id="q" type="search" placeholder="🔎 Chercher un jeu par nom…" autocomplete="off">
   <button id="ab">▶ Défilement auto</button>
   <label><input type="checkbox" id="tr"> 🎓 Entraînement</label>
   <details><summary>⚙ Filtres</summary><div class="flt">
@@ -90,12 +105,16 @@ body.train .card:not(.rev)::after{content:"Clique l'image : quel prix ?";positio
    <label><input type="checkbox" id="ms" checked> Montrer les introuvables</label>
    <label><input type="checkbox" id="ex"> 🔒 Exclus seulement</label>
    <label><input type="checkbox" id="mp"> Vue carte</label>
+   <button id="exp" type="button">⬇ Exporter mes prix saisis</button>
+   <label>⬆ Importer mes prix saisis <input type="file" id="imp" accept=".json"></label>
   </div></details>
   <div class="stats"><div>Jeux<b id="d1">-</b></div><div>Prix moyen<b id="d2">-</b></div><div>Top 10 %<b id="d3">-</b></div></div>
  </div>
  <div class="note">PAL FR · complets d'occasion · port inclus (eBay France + vendeurs belges) · prix <b>demandés</b>, pas des ventes conclues : vise toujours en dessous · Mis à jour : <span id="up">-</span> · flèches ↑ ↓</div>
 </header>
+<div id="res"></div>
 <div id="feed"></div>
+<div id="mod"></div>
 <div id="map" style="display:none"><svg id="sv2" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid meet" style="color:var(--fg)"></svg><div class="note">Les 25 jeux les plus chers sont nommés (points jaunes). Passe la souris sur un point pour voir son nom, clique pour ouvrir sa fiche. Astuce : monte « Prix minimum » dans ⚙ Filtres pour dégager la carte. Échelle logarithmique, prix de l'annonce la moins chère.</div></div>
 <script>
 const tier=p=>p>=100?"💎 Pépite à prendre":p>=40?"👍 Intéressant":p>=15?"😐 Moyen":"🗑 Banal";
@@ -110,7 +129,12 @@ const NAMES={FR:"française",EN:"anglaise (UK)",DE:"allemande",IT:"italienne",ES
 const SPL={collector:"Collector / coffret",limitee:"Édition limitée / spéciale",budget:"Réédition budget (Platinum, Greatest Hits…)",presse:"Presse / promo / démo"};
 const FLAG={FR:"linear-gradient(90deg,#0055a4 33%,#fff 33% 66%,#ef4135 66%)",IT:"linear-gradient(90deg,#009246 33%,#fff 33% 66%,#ce2b37 66%)",DE:"linear-gradient(180deg,#000 33%,#dd0000 33% 66%,#ffce00 66%)",ES:"linear-gradient(180deg,#aa151b 25%,#f1bf00 25% 75%,#aa151b 75%)"};
 const flag=l=>l=="EN"?'<svg class="fl" viewBox="0 0 60 30"><rect width="60" height="30" fill="#012169"/><path d="M0 0L60 30M60 0L0 30" stroke="#fff" stroke-width="6"/><path d="M0 0L60 30M60 0L0 30" stroke="#c8102e" stroke-width="2"/><path d="M30 0v30M0 15h60" stroke="#fff" stroke-width="10"/><path d="M30 0v30M0 15h60" stroke="#c8102e" stroke-width="6"/></svg>':`<span class="fl" style="background:${FLAG[l]||"#555"}"></span>`;
-let G=[],CUR="";
+let G=[],CUR="",GM={},CAT=[],CK="";
+const LS="tikkot_manual";
+function ldMan(){try{return JSON.parse(localStorage.getItem(LS)||"{}")}catch(e){return {}}}
+function svMan(o){try{localStorage.setItem(LS,JSON.stringify(o))}catch(e){alert("Impossible d'enregistrer dans ce navigateur.")}}
+const MAN=()=>ldMan()[CK]||{};
+const nrm=s=>String(s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g," ").trim();
 function cover(g,photo){
  const igdb=g.cover?IMG+g.cover+".jpg":"",src=photo||igdb;
  const cap=photo?"📷 Photo de l'annonce la moins chère (la vraie boîte)":"Jaquette IGDB : peut être US/autre, pas forcément la PAL FR";
@@ -119,7 +143,9 @@ const byLang=(a,b)=>a.lang.localeCompare(b.lang);
 function build(){
  const min=+$("mn").value,all=$("all").checked;
  let rows=[],miss=[];
- G.forEach(g=>{
+ const man=MAN(),inG=new Set(G.map(g=>g.id)),base=G.slice();
+ CAT.forEach(c=>{if(man[c.id]&&!inG.has(c.id))base.push({id:c.id,t:c.t,cover:c.cover,x:c.x||0,k:{}})});
+ base.forEach(g=>{
   const L=Object.entries(g.k).map(([k,e])=>{const p=k.split("|");return {lang:p[0],cond:p[1],sp:p[2]||"",...e}}).filter(e=>e.cond=="complet");
   const live=L.filter(e=>e.n),std=live.filter(e=>!e.sp);
   const pick=a=>a.find(x=>x.lang=="FR")||(all?[...a].sort((x,y)=>y.n-x.n)[0]:null);
@@ -128,10 +154,12 @@ function build(){
   if(e){
    const top=e.top||[[e.min,e.url]];
    rows.push({g,n:e.n,ref:e.ref,min:e.min,top,img:top[0]&&top[0][2],sold:e.sold30||0,since:e.since,sure:e.sure,ver:e.lang,spOnly,
-    frSeen:L.some(x=>x.lang=="FR"),specs:live.filter(x=>x.sp&&x!==e).sort(byLang),others:std.filter(x=>x!==e).sort(byLang)});
+    frSeen:L.some(x=>x.lang=="FR"),specs:live.filter(x=>x.sp&&x!==e).sort(byLang),others:std.filter(x=>x!==e).sort(byLang),man:man[g.id]});
   }else{
    const m=L.filter(x=>x.last&&!x.sp&&(all||x.lang=="FR")).sort((a,b)=>b.last-a.last)[0];
-   if(m)miss.push({g,last:m.last,date:m.date,ver:m.lang});
+   let c=m?{last:m.last,date:m.date,ver:m.lang,src:"auto"}:null;const mp=man[g.id];
+   if(mp&&(!c||mp.d>=c.date))c={last:mp.p,date:mp.d,ver:"FR",src:"manual"};
+   if(c)miss.push({g,...c});
   }});
  if($("ex").checked){rows=rows.filter(r=>r.g.x);miss=miss.filter(m=>m.g.x)}
  if($("two").checked)rows=rows.filter(r=>r.n>=2);
@@ -162,7 +190,7 @@ function build(){
   const table=`<table class="cmp"><tr><th>Version</th><th>Annonces</th><th>Moy. des 3 moins chères</th></tr>${["FR","EN","DE","IT","ES"].map(line).join("")}</table>`;
   const more=r.top.slice(1).map((t,j)=>`<a href="${safe(t[1])}" target="_blank" rel="noopener">${["🥈 2e","🥉 3e"][j]} <b>${eur(t[0])}</b> ↗</a>`).join("");
   const tc=tcol(r.min);
-  return `<section class="card"><div class="rank">#${i+1} / ${rows.length}</div>${cover(r.g,r.img)}
+  return `<section class="card" data-id="${r.g.id}"><div class="rank">#${i+1} / ${rows.length}</div>${cover(r.g,r.img)}
  <div class="info" style="--t:${tc}"><h2 class="gt">${esc(r.g.t)}</h2>
  <div class="meta"><span class="vers">${flag(r.ver)}Version ${NAMES[r.ver]||r.ver}</span>${r.g.x?'<span class="badge" style="background:#7a3cff">🔒 EXCLU '+esc(CUR)+'</span>':''}</div>
  ${W.join("")}
@@ -171,11 +199,12 @@ function build(){
  ${more?`<div class="more">${more}</div>`:""}
  <div class="tiles"><div><b>${r.n}</b>annonce${r.n>1?"s":""} en ligne</div><div class="${r.n<3?"bad":""}"><b>${eur(r.ref)}</b>moy. 3 moins chères${r.n<3?" ⚠ peu fiable":""}</div><div><b>≈ ${r.since?r.sold:"?"}</b>vente(s) / 30 j${r.since&&d<30?" (suivi "+d+" j)":""}</div></div>
  ${table}
- <div class="sub">${r.sure<r.n?"Langue probable (pas écrite dans le titre) pour "+(r.n-r.sure)+" annonce(s). ":""}FR + Belgique pour la version française.</div></div></section>`});
- const B=miss.map(m=>`<section class="card"><div class="rank">Introuvable en ligne</div>${cover(m.g,null)}
- <div class="info" style="--t:#6b7080"><h2 class="gt">${esc(m.g.t)}</h2><div class="meta"><span class="vers">${flag(m.ver)}Version ${NAMES[m.ver]||m.ver}</span><span class="badge" style="background:#555">INTROUVABLE</span>${m.g.x?'<span class="badge" style="background:#7a3cff">🔒 EXCLU '+esc(CUR)+'</span>':""}</div>
- <div class="price"><div class="pl">Dernier prix vu (le ${esc(m.date)})</div><div class="pv">${eur(m.last)}</div></div>
- <div class="sub">Aucune annonce en ligne pour ce jeu en ce moment.</div></div></section>`);
+ <div class="sub">${r.man?"✍ Ton prix de vente saisi : "+eur(r.man.p)+" ("+esc(r.man.d)+"). ":""}${r.sure<r.n?"Langue probable (pas écrite dans le titre) pour "+(r.n-r.sure)+" annonce(s). ":""}FR + Belgique pour la version française.</div></div></section>`});
+ const B=miss.map(m=>{const isM=m.src=="manual";return `<section class="card" data-id="${m.g.id}"><div class="rank">Introuvable en ligne</div>${cover(m.g,null)}
+ <div class="info" style="--t:${isM?"#b07cff":"#6b7080"}"><h2 class="gt">${esc(m.g.t)}</h2><div class="meta"><span class="vers">${flag(m.ver)}Version ${NAMES[m.ver]||m.ver}</span>${isM?'<span class="badge" style="background:#7a3cff">✍ VENDU (prix saisi par toi)</span>':'<span class="badge" style="background:#555">INTROUVABLE</span>'}${m.g.x?'<span class="badge" style="background:#7a3cff">🔒 EXCLU '+esc(CUR)+'</span>':""}</div>
+ <div class="price"><div class="pl">${isM?"Prix de vente réussi saisi le "+esc(m.date):"Dernier prix vu (le "+esc(m.date)+")"}</div><div class="pv">${eur(m.last)}</div></div>
+ <div class="more"><a href="#" onclick="openGame(${m.g.id});return false">✏ ${isM?"Modifier / supprimer ce prix":"Saisir un prix de vente réussi"}</a></div>
+ <div class="sub">Aucune annonce en ligne en ce moment.${isM?" Si une annonce FR apparaît à la prochaine collecte, son prix remplacera le tien.":""}</div></div></section>`});
  f.innerHTML=A.concat(B).join("");
  f.scrollTop=0;
 }
@@ -193,6 +222,48 @@ function drawMap(rows,medP,medN){
  sv.innerHTML=h}
 function goTo(i){$("mp").checked=false;$("mp").onchange();$("feed").scrollTo({top:i*$("feed").clientHeight})}
 let tm=null;const feed=$("feed");
+function frInfo(g){if(!g)return {};
+ const L=Object.entries(g.k).map(([k,e])=>{const p=k.split("|");return {lang:p[0],cond:p[1],sp:p[2]||"",...e}}).filter(e=>e.cond=="complet"&&!e.sp&&e.lang=="FR");
+ return {live:L.find(e=>e.n),last:L.filter(e=>e.last).sort((a,b)=>b.last-a.last)[0]}}
+function stTxt(id){const fi=frInfo(GM[id]),mp=MAN()[id],p=[];
+ if(fi.live)p.push("🟢 en vente dès "+eur(fi.live.min)+" ("+fi.live.n+" annonce"+(fi.live.n>1?"s":"")+")");
+ else if(fi.last)p.push("⚪ introuvable · dernier prix vu "+eur(fi.last.last));
+ else if(!mp)p.push("❔ jamais vu en vente");
+ if(mp)p.push("✍ vendu "+eur(mp.p)+" (saisi par toi)");
+ return p.join(" · ")}
+function openGame(id){id=+id;$("res").style.display="none";
+ const c=(CAT.length?CAT:G).find(x=>x.id==id)||GM[id];if(!c)return;
+ const mp=MAN()[id],fi=frInfo(GM[id]),igdb=c.cover?IMG+c.cover+".jpg":"";
+ $("mod").innerHTML=`<div class="mbox"><button class="x" onclick="closeMod()">✕</button>
+ <div class="mrow">${igdb?`<img src="${safe(igdb)}" alt="">`:""}<div><h3>${esc(c.t)}</h3><div class="sub" style="text-align:left">${stTxt(id)}</div></div></div>
+ ${fi.live?'<div class="warn">Ce jeu est en vente en ce moment : le site affiche déjà le prix des annonces. Ton prix saisi ne sert que de repère.</div>':""}
+ <label>Prix de vente réussi (€, port inclus, version FR complète)<input id="mp_p" type="number" min="1" step="1" value="${mp?mp.p:""}" placeholder="ex : 120" onkeydown="if(event.key==='Enter')saveMan(${id})"></label>
+ <div class="mhint">Le jeu apparaît ensuite dans la liste (« ✍ VENDU »). Dès qu'une annonce FR est trouvée par la collecte, c'est son prix qui s'affiche à la place. Enregistré dans ce navigateur seulement (voir ⚙ Filtres pour exporter).</div>
+ <div class="mbtn"><button onclick="saveMan(${id})">Enregistrer</button>${mp?`<button class="sec2" onclick="delMan(${id})">Supprimer mon prix</button>`:""}<button class="sec2" onclick="goGame(${id})">Voir dans la liste</button></div></div>`;
+ $("mod").style.display="flex";setTimeout(()=>{const i=$("mp_p");if(i)i.focus()},50)}
+function closeMod(){$("mod").style.display="none"}
+function saveMan(id){const v=Math.round(+$("mp_p").value);if(!(v>0)){alert("Entre un prix en euros (nombre positif).");return}
+ const o=ldMan();(o[CK]=o[CK]||{})[id]={p:v,d:new Date().toISOString().slice(0,10)};svMan(o);closeMod();build();goGame(id)}
+function delMan(id){const o=ldMan();if(o[CK]){delete o[CK][id];svMan(o)}closeMod();build()}
+function goGame(id){closeMod();$("mp").checked=false;$("mp").onchange();
+ const i=[...feed.children].findIndex(s=>s.dataset&&s.dataset.id==id);
+ if(i<0){alert("Ce jeu n'est pas dans la liste affichée (prix minimum, « Au moins 2 annonces », introuvables décochés…).");return}
+ feed.scrollTo({top:i*feed.clientHeight})}
+$("mod").onclick=e=>{if(e.target.id=="mod")closeMod()};
+$("q").oninput=()=>{const w=nrm($("q").value).split(" ").filter(Boolean),r=$("res");
+ if(!w.length||$("q").value.trim().length<2){r.style.display="none";return}
+ const hits=(CAT.length?CAT:G).filter(c=>{const n=" "+nrm(c.t)+" ";return w.every(x=>n.includes(x))})
+  .sort((a,b)=>(nrm(a.t).startsWith(w[0])?0:1)-(nrm(b.t).startsWith(w[0])?0:1)).slice(0,15);
+ r.innerHTML=hits.length?hits.map(c=>`<div class="hit" data-id="${c.id}" onclick="openGame(${c.id})"><b>${esc(c.t)}</b><span>${stTxt(c.id)}</span></div>`).join(""):'<div class="hit">Aucun jeu trouvé dans cette console.</div>';
+ r.style.display="block"};
+$("q").onkeydown=e=>{if(e.key=="Enter"){const h=$("res").querySelector(".hit[data-id]");if(h)openGame(h.dataset.id)}};
+document.addEventListener("click",e=>{if(!e.target.closest("#res,#q"))$("res").style.display="none"});
+document.addEventListener("keydown",e=>{if(e.key=="Escape")closeMod()});
+$("exp").onclick=()=>{const b=new Blob([JSON.stringify(ldMan(),null,1)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="mes-prix-vendus.json";a.click()};
+$("imp").onchange=e=>{const f=e.target.files[0];if(!f)return;f.text().then(t=>{try{const n=JSON.parse(t),o=ldMan();for(const k in n)o[k]=Object.assign(o[k]||{},n[k]);svMan(o);build();alert("Prix importés.")}catch(x){alert("Fichier invalide.")}})};
+function loadCat(key){const ok=r=>{if(!r.ok)throw 0;return r.json()};
+ fetch(`data/${key}/catalog.json`,{cache:"no-store"}).then(ok).catch(()=>key==="ps2"?fetch("data/catalog.json",{cache:"no-store"}).then(ok):Promise.reject())
+ .then(d=>{CAT=d.games||[];if(Object.keys(MAN()).length)build()}).catch(()=>{CAT=[]})}
 function step(){const h=feed.clientHeight;if(feed.scrollTop+h>=feed.scrollHeight-5)feed.scrollTo({top:0,behavior:"smooth"});else feed.scrollBy({top:h,behavior:"smooth"});
  if(document.body.classList.contains("train"))setTimeout(()=>{const c=feed.children[Math.round(feed.scrollTop/feed.clientHeight)];if(c)c.classList.add("rev")},$("sp").value*500)}
 function auto(on){clearInterval(tm);tm=null;$("ab").textContent=on?"⏸ Pause":"▶ Défilement auto";if(on)tm=setInterval(step,$("sp").value*1000)}
@@ -205,12 +276,13 @@ document.addEventListener("keydown",e=>{if(e.target.tagName==="SELECT"||e.target
  if(["ArrowUp","PageUp"].includes(e.key)){e.preventDefault();feed.scrollBy({top:-h,behavior:"smooth"})}
  if(tm)auto(true)});
 ["ms","ex","two","all"].forEach(i=>$(i).onchange=build);$("mn").oninput=()=>{$("mv").textContent=$("mn").value;build()};
-const SHOW=d=>{G=d.games;CUR=d.console||"";$("up").textContent=d.updated+" · "+d.catalog_total+" jeux au catalogue";build()};
-const EMPTY=()=>{G=[];$("up").textContent="-";build();$("feed").innerHTML='<div class="empty">Pas encore de données pour cette console : la collecte les traite à tour de rôle.</div>'};
-function loadConsole(key){fetch(`data/${key}/latest.json`,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json()}).then(SHOW).catch(()=>{
+const SHOW=d=>{G=d.games;GM=Object.fromEntries(G.map(g=>[g.id,g]));CUR=d.console||"";$("up").textContent=d.updated+" · "+d.catalog_total+" jeux au catalogue";build()};
+const EMPTY=()=>{G=[];GM={};$("up").textContent="-";build();$("feed").innerHTML='<div class="empty">Pas encore de données pour cette console : la collecte les traite à tour de rôle.</div>'};
+function loadConsole(key){CK=key;G=[];GM={};CAT=[];$("q").value="";$("res").style.display="none";loadCat(key);fetch(`data/${key}/latest.json`,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json()}).then(SHOW).catch(()=>{
  if(key==="ps2")fetch("data/latest.json",{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json()}).then(SHOW).catch(EMPTY);else EMPTY()})}
 $("console").onchange=()=>loadConsole($("console").value);
-fetch("data/consoles.json",{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json()}).then(c=>{
- if(!c.length)throw 0;$("console").innerHTML=c.map(x=>`<option value="${esc(x.key)}">${esc(x.name)} (${x.games})</option>`).join("");loadConsole(c[0].key)})
- .catch(()=>{$("console").innerHTML='<option value="ps2">PlayStation 2</option>';loadConsole("ps2")});
+fetch("data/consoles.json",{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json()}).catch(()=>[])
+ .then(c=>c.some(x=>x.key==="ps2")?c:fetch("data/latest.json",{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json()}).then(d=>[{key:"ps2",name:"PlayStation 2",games:d.games.length},...c]).catch(()=>c))
+ .then(c=>{if(!c.length)c=[{key:"ps2",name:"PlayStation 2",games:0}];
+  $("console").innerHTML=c.map(x=>`<option value="${esc(x.key)}">${esc(x.name)}${x.games?" ("+x.games+")":""}</option>`).join("");loadConsole(c[0].key)});
 </script></body></html>
