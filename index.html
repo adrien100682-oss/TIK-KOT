@@ -18,31 +18,37 @@ select{background:var(--bg);color:var(--fg);border:1px solid var(--mut);border-r
 .note{font-size:11px;color:var(--mut);margin-top:4px}
 #feed{flex:1;overflow-y:scroll;scroll-snap-type:y mandatory}
 .card{height:100%;scroll-snap-align:start;padding:10px 14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;position:relative}
-.cover{height:42%;aspect-ratio:3/4.2;border-radius:10px;display:flex;align-items:center;justify-content:center;text-align:center;padding:14px;font-weight:800;font-size:22px;color:#fff;box-shadow:0 10px 30px #0008;border-top:14px solid #111;cursor:pointer;flex:none}
+.cover{position:relative;overflow:hidden;height:42%;aspect-ratio:3/4.2;border-radius:10px;display:flex;align-items:center;justify-content:center;text-align:center;padding:0;font-weight:800;font-size:22px;color:#fff;box-shadow:0 10px 30px #0008;cursor:pointer;flex:none}
+.cover img{width:100%;height:100%;object-fit:cover;display:block}
+.cover.photo{background:#000!important}.cover.photo img{object-fit:contain}
+.cap{position:absolute;left:0;right:0;bottom:0;background:#000c;color:#fff;font-size:11px;font-weight:400;padding:4px 8px;line-height:1.25}
 .rank{position:absolute;top:8px;left:14px;color:var(--mut);font-size:13px}
 .info{display:flex;flex-direction:column;gap:8px;width:100%;max-width:640px}
 .gt{margin:0;font-size:22px;line-height:1.15;text-align:center}
 .tags{display:flex;gap:6px 14px;flex-wrap:wrap;align-items:center;justify-content:center;font-size:14px}
 .badge{background:var(--rare);color:#fff;font-weight:700;padding:3px 10px;border-radius:99px}
+.warn{background:#ff7a00;color:#111;font-weight:700;padding:8px 12px;border-radius:10px;font-size:14px}
+.warn.red{background:#d81f3f;color:#fff}
 .podium{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:8px;align-items:end}
 a.pod,div.pod{background:var(--card);border-radius:14px;padding:8px;text-align:center;color:var(--fg);text-decoration:none;display:block}
 .pod .lab{font-size:12px;color:var(--mut)}.pod .p{font-weight:800;font-size:22px}
-.pod.first{border:2px solid var(--acc);padding:12px 8px}.pod.first .p{font-size:46px;color:var(--acc);line-height:1.05}
+.pod.first{border:2px solid var(--acc);padding:12px 8px}.pod.first .p{font-size:46px;color:var(--acc);line-height:1.05;white-space:nowrap}
 .pod.empty{opacity:.35}
 .sub{font-size:13px;color:var(--mut);text-align:center}
-.sec{font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.05em}
+.sec{font-size:12px;color:var(--mut)}
 .others{display:flex;gap:8px;flex-wrap:wrap}
 .chip{display:flex;align-items:center;gap:8px;background:var(--card);padding:6px 10px;border-radius:10px;font-size:15px}
-.chip small{color:var(--mut)}
+.chip small{color:var(--mut)}.chip.none{opacity:.5}
 .fl{display:inline-block;width:26px;height:18px;border-radius:3px;border:1px solid #fff4;vertical-align:middle;flex:none}
 body.train .card:not(.rev) .info{visibility:hidden}
-body.train .card:not(.rev)::after{content:"Clique la jaquette : quel prix ?";position:absolute;bottom:14px;color:var(--mut);font-size:13px}
+body.train .card:not(.rev)::after{content:"Clique l'image : quel prix ?";position:absolute;bottom:14px;color:var(--mut);font-size:13px}
 #map{flex:1;min-height:0;padding:8px 12px;text-align:center;color:var(--fg)}#map svg{width:100%;height:100%;max-height:78vh}
 .empty{padding:30px;text-align:center;color:var(--mut)}
 @media(min-width:900px){
  header{padding:8px 24px}
  .card{flex-direction:row;gap:4vw;padding:12px 4vw}
- .cover{height:min(92%,900px);font-size:clamp(26px,3vw,46px);padding:30px}
+ .cover{height:min(92%,900px);font-size:clamp(26px,3vw,46px)}
+ .cap{font-size:13px}
  .info{flex:1;max-width:820px;gap:2.2vh;align-items:stretch}
  .gt{font-size:clamp(28px,3.4vw,56px);text-align:left}
  .tags{justify-content:flex-start;font-size:clamp(15px,1.3vw,21px)}
@@ -51,6 +57,7 @@ body.train .card:not(.rev)::after{content:"Clique la jaquette : quel prix ?";pos
  .pod.first{padding:2.4vh 14px}.pod.first .p{font-size:clamp(56px,7.5vw,130px)}
  .sub{font-size:clamp(14px,1.2vw,19px);text-align:left}
  .sec{font-size:clamp(12px,1vw,15px)}.chip{font-size:clamp(17px,1.6vw,26px);padding:8px 14px}
+ .warn{font-size:clamp(15px,1.3vw,21px)}
  .fl{width:36px;height:24px}.rank{font-size:15px}
 }
 </style></head><body>
@@ -63,10 +70,12 @@ body.train .card:not(.rev)::after{content:"Clique la jaquette : quel prix ?";pos
   <label><input type="checkbox" id="tr"> Entraînement</label>
   <label><input type="checkbox" id="mp"> Carte</label>
   <label><input type="checkbox" id="ms" checked> Introuvables</label>
+  <label><input type="checkbox" id="two"> Au moins 2 annonces</label>
+  <label><input type="checkbox" id="all"> Inclure les jeux sans version FR</label>
   <label><input type="checkbox" id="ex"> 🔒 Exclus seulement</label>
   <div class="stats"><div>Jeux<b id="d1">-</b></div><div>Prix moyen<b id="d2">-</b></div><div>Top 10 %<b id="d3">-</b></div></div>
  </div>
- <div class="note">Complets d'occasion sur eBay.fr, port inclus. Une annonce encore en ligne n'est pas vendue à ce prix : vise toujours en dessous. Mis à jour : <span id="up">-</span> · flèches ↑ ↓ du clavier</div>
+ <div class="note">Version PAL FR, complets d'occasion, port inclus (eBay France + vendeurs belges). Ce sont des prix <b>demandés</b>, pas des ventes conclues : vise toujours en dessous. Mis à jour : <span id="up">-</span> · flèches ↑ ↓ du clavier</div>
 </header>
 <div id="feed"></div>
 <div id="map" style="display:none"><svg id="sv2" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid meet" style="color:var(--fg)"></svg><div class="note">Clique un point pour ouvrir le jeu. Échelle logarithmique, prix de l'annonce la moins chère.</div></div>
@@ -79,26 +88,35 @@ const IMG="https://images.igdb.com/igdb/image/upload/t_cover_big/";
 const col=id=>`hsl(${(id*47)%360},45%,32%)`;
 const days=d=>Math.max(1,Math.round((Date.now()-new Date(d))/864e5)+1);
 const NAMES={FR:"française",EN:"anglaise (UK)",DE:"allemande",IT:"italienne",ES:"espagnole"};
+const SPL={collector:"Collector / coffret",limitee:"Édition limitée / spéciale",budget:"Réédition budget (Platinum, Greatest Hits…)",presse:"Presse / promo / démo"};
 const FLAG={FR:"linear-gradient(90deg,#0055a4 33%,#fff 33% 66%,#ef4135 66%)",IT:"linear-gradient(90deg,#009246 33%,#fff 33% 66%,#ce2b37 66%)",DE:"linear-gradient(180deg,#000 33%,#dd0000 33% 66%,#ffce00 66%)",ES:"linear-gradient(180deg,#aa151b 25%,#f1bf00 25% 75%,#aa151b 75%)"};
 const flag=l=>l=="EN"?'<svg class="fl" viewBox="0 0 60 30"><rect width="60" height="30" fill="#012169"/><path d="M0 0L60 30M60 0L0 30" stroke="#fff" stroke-width="6"/><path d="M0 0L60 30M60 0L0 30" stroke="#c8102e" stroke-width="2"/><path d="M30 0v30M0 15h60" stroke="#fff" stroke-width="10"/><path d="M30 0v30M0 15h60" stroke="#c8102e" stroke-width="6"/></svg>':`<span class="fl" style="background:${FLAG[l]||"#555"}"></span>`;
 let G=[],CUR="";
-const cover=g=>`<div class="cover" onclick="this.parentNode.classList.toggle('rev')" style="background-color:${col(g.id)}${g.cover?`;background-image:url(${IMG}${g.cover}.jpg);background-size:cover;background-position:center;font-size:0`:""}">${g.cover?"":esc(g.t)}</div>`;
+function cover(g,photo){
+ const igdb=g.cover?IMG+g.cover+".jpg":"",src=photo||igdb;
+ const cap=photo?"📷 Photo de l'annonce la moins chère (la vraie boîte)":"Jaquette IGDB : peut être US/autre, pas forcément la PAL FR";
+ return `<div class="cover${photo?" photo":""}" onclick="this.parentNode.classList.toggle('rev')" style="background-color:${col(g.id)}">${src?`<img src="${safe(src)}" alt="" loading="lazy" data-f="${igdb}" onerror="if(this.dataset.f&&this.src!==this.dataset.f){this.src=this.dataset.f;this.parentNode.classList.remove('photo');this.parentNode.querySelector('.cap').textContent='Jaquette IGDB : peut être US/autre, pas forcément la PAL FR'}else{this.remove()}">`:esc(g.t)}${src?`<div class="cap">${cap}</div>`:""}</div>`}
 const slot=(t,i)=>t?`<a class="pod ${i?"":"first"}" href="${safe(t[1])}" target="_blank" rel="noopener"><div class="lab">${["🥇 La moins chère","🥈 2e","🥉 3e"][i]}</div><div class="p">${eur(t[0])}</div></a>`:`<div class="pod empty"><div class="lab">${["","2e","3e"][i]}</div><div class="p">—</div></div>`;
+const byLang=(a,b)=>a.lang.localeCompare(b.lang);
 function build(){
- const min=+$("mn").value;
+ const min=+$("mn").value,all=$("all").checked;
  let rows=[],miss=[];
  G.forEach(g=>{
-  const L=Object.entries(g.k).filter(([k])=>k.endsWith("|complet")).map(([k,e])=>({lang:k.split("|")[0],...e}));
-  const live=L.filter(e=>e.n);
-  if(live.length){
-   const e=live.find(x=>x.lang=="FR")||[...live].sort((a,b)=>b.n-a.n)[0];
-   rows.push({g,n:e.n,ref:e.ref,min:e.min,top:e.top||[[e.min,e.url]],sold:e.sold30||0,since:e.since,sure:e.sure,ver:e.lang,
-    others:live.filter(x=>x!==e).sort((a,b)=>a.lang.localeCompare(b.lang))});
+  const L=Object.entries(g.k).map(([k,e])=>{const p=k.split("|");return {lang:p[0],cond:p[1],sp:p[2]||"",...e}}).filter(e=>e.cond=="complet");
+  const live=L.filter(e=>e.n),std=live.filter(e=>!e.sp);
+  const pick=a=>a.find(x=>x.lang=="FR")||(all?[...a].sort((x,y)=>y.n-x.n)[0]:null);
+  let e=pick(std),spOnly="";
+  if(!e){e=pick(live.filter(x=>x.sp));if(e)spOnly=e.sp}
+  if(e){
+   const top=e.top||[[e.min,e.url]];
+   rows.push({g,n:e.n,ref:e.ref,min:e.min,top,img:top[0]&&top[0][2],sold:e.sold30||0,since:e.since,sure:e.sure,ver:e.lang,spOnly,
+    specs:live.filter(x=>x.sp&&x!==e).sort(byLang),others:std.filter(x=>x!==e).sort(byLang)});
   }else{
-   const e=L.filter(x=>x.last).sort((a,b)=>b.last-a.last)[0];
-   if(e)miss.push({g,last:e.last,date:e.date,ver:e.lang});
+   const m=L.filter(x=>x.last&&!x.sp&&(all||x.lang=="FR")).sort((a,b)=>b.last-a.last)[0];
+   if(m)miss.push({g,last:m.last,date:m.date,ver:m.lang});
   }});
  if($("ex").checked){rows=rows.filter(r=>r.g.x);miss=miss.filter(m=>m.g.x)}
+ if($("two").checked)rows=rows.filter(r=>r.n>=2);
  rows=rows.filter(r=>r.min>=min).sort((a,b)=>b.min-a.min);
  miss=$("ms").checked?miss.filter(m=>m.last>=min).sort((a,b)=>b.last-a.last):[];
  const f=$("feed");
@@ -113,14 +131,27 @@ function build(){
  if(!rows.length&&!miss.length){f.innerHTML='<div class="empty">Aucun jeu pour ces filtres.</div>';return}
  const A=rows.map((r,i)=>{const d=r.since?days(r.since):0;
   const sold=r.since?`≈ ${r.sold} vente(s) estimée(s) sur 30 j`+(d<30?` (suivi depuis ${d} j)`:""):"";
-  const oth=r.others.length?`<div class="sec">Autres versions européennes · moyenne des moins chères</div><div class="others">${r.others.map(o=>`<div class="chip" title="Version ${NAMES[o.lang]||o.lang}">${flag(o.lang)}<b>${eur(o.ref)}</b><small>(${o.n})</small></div>`).join("")}</div>`:"";
-  return `<section class="card"><div class="rank">#${i+1} / ${rows.length}</div>${cover(r.g)}
+  // alertes
+  const W=[];
+  if(r.spOnly)W.push(`<div class="warn">⚠ ÉDITION SPÉCIALE : ${SPL[r.spOnly]||r.spOnly}. Ces prix ne sont PAS ceux de la version standard (la jaquette peut être identique).</div>`);
+  if(r.specs.length)W.push(`<div class="warn">⚠ Versions spéciales aussi en vente (prix différent de la standard) : ${r.specs.map(s=>`${flag(s.lang)} ${SPL[s.sp]||s.sp} <b>${eur(s.min)}</b> (${s.n})`).join(" · ")}</div>`);
+  if(r.n==1)W.push(`<div class="warn red">⚠ 1 seule annonce : prix isolé, non fiable. Un vendeur peut demander n'importe quoi.</div>`);
+  const refs=r.others.filter(o=>o.ref).map(o=>o.ref);
+  if(refs.length&&!r.spOnly&&r.ref>=50&&r.ref>=3*Math.min(...refs))W.push(`<div class="warn red">⚠ Méfiance : la version ${NAMES[r.ver]||r.ver} est ${Math.round(r.ref/Math.min(...refs))}× plus chère que dans les autres pays (${eur(Math.min(...refs))}). Prix peut-être exagéré.</div>`);
+  // comparaison pays
+  const have=Object.fromEntries(r.others.map(o=>[o.lang,o]));
+  const chips=["FR","EN","DE","IT","ES"].filter(l=>l!=r.ver).map(l=>{const o=have[l];
+   if(o)return `<div class="chip" title="Version ${NAMES[l]}">${flag(l)}<b>${eur(o.ref)}</b><small>moy. des 3 moins chères · ${o.n} annonce${o.n>1?"s":""}</small></div>`;
+   return r.g.fx?`<div class="chip none" title="Version ${NAMES[l]}">${flag(l)}<small>aucune annonce</small></div>`:""}).join("");
+  const oth=chips?`<div class="sec">Même jeu dans les autres versions européennes : nombre d'annonces et moyenne des 3 prix les plus bas</div><div class="others">${chips}</div>`:"";
+  return `<section class="card"><div class="rank">#${i+1} / ${rows.length}</div>${cover(r.g,r.img)}
  <div class="info"><h2 class="gt">${esc(r.g.t)}</h2>
  <div class="tags"><span>${flag(r.ver)} version ${NAMES[r.ver]||r.ver}</span>${r.g.x?'<span class="badge" style="background:#7a3cff">🔒 EXCLU '+esc(CUR)+'</span>':''}${r.n<=3?'<span class="badge">RARE : '+r.n+' annonce'+(r.n>1?'s':'')+'</span>':''}<span>${tier(r.min)}</span><span>${r.q}</span></div>
+ ${W.join("")}
  <div class="podium">${[0,1,2].map(j=>slot(r.top[j],j)).join("")}</div>
- <div class="sub">${r.n} annonce(s) en ligne · moyenne des 3 moins chères : ${eur(r.ref)}${r.n<3?" · ⚠ peu d'annonces, prix indicatif":""}<br>${sold}${r.sure<r.n?" · langue probable pour "+(r.n-r.sure)+" annonce(s)":""}</div>
+ <div class="sub">${r.n} annonce(s) en ligne (FR + Belgique) · moyenne des 3 moins chères : ${eur(r.ref)}${r.n<3?" · ⚠ peu d'annonces, prix indicatif":""}<br>${sold}${r.sure<r.n?" · langue probable pour "+(r.n-r.sure)+" annonce(s)":""}</div>
  ${oth}</div></section>`});
- const B=miss.map(m=>`<section class="card"><div class="rank">Introuvable en ligne</div>${cover(m.g)}
+ const B=miss.map(m=>`<section class="card"><div class="rank">Introuvable en ligne</div>${cover(m.g,null)}
  <div class="info"><h2 class="gt">${esc(m.g.t)}</h2><div class="tags"><span class="badge" style="background:#555">INTROUVABLE</span>${m.g.x?'<span class="badge" style="background:#7a3cff">🔒 EXCLU '+esc(CUR)+'</span>':""}<span>${flag(m.ver)} version ${NAMES[m.ver]||m.ver}</span></div>
  <div class="podium"><div class="pod first"><div class="lab">Dernier prix vu (le ${esc(m.date)})</div><div class="p">${eur(m.last)}</div></div></div>
  <div class="sub">Aucune annonce en ligne pour ce jeu en ce moment.</div></div></section>`);
@@ -151,7 +182,7 @@ document.addEventListener("keydown",e=>{if(e.target.tagName==="SELECT"||e.target
  if(["ArrowDown","PageDown"," "].includes(e.key)){e.preventDefault();feed.scrollBy({top:h,behavior:"smooth"})}
  if(["ArrowUp","PageUp"].includes(e.key)){e.preventDefault();feed.scrollBy({top:-h,behavior:"smooth"})}
  if(tm)auto(true)});
-["ms","ex"].forEach(i=>$(i).onchange=build);$("mn").oninput=()=>{$("mv").textContent=$("mn").value;build()};
+["ms","ex","two","all"].forEach(i=>$(i).onchange=build);$("mn").oninput=()=>{$("mv").textContent=$("mn").value;build()};
 const SHOW=d=>{G=d.games;CUR=d.console||"";$("up").textContent=d.updated+" · "+d.catalog_total+" jeux au catalogue";build()};
 const EMPTY=()=>{G=[];$("up").textContent="-";build();$("feed").innerHTML='<div class="empty">Pas encore de données pour cette console : la collecte les traite à tour de rôle.</div>'};
 function loadConsole(key){fetch(`data/${key}/latest.json`,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json()}).then(SHOW).catch(()=>{
