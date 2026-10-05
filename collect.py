@@ -11,6 +11,12 @@ MAX_CALLS = 4500             # budget d'appels eBay par jour (quota gratuit esti
 DATA = "data"
 TODAY = datetime.date.today().isoformat()
 EUROPE = {"FR", "BE", "LU", "CH", "DE", "IT", "ES", "GB", "IE", "NL", "PT", "AT"}   # pays de vendeur acceptés
+PRIORITY = ["ps2", "ps1", "ps3", "x360", "wii", "ds", "psp", "ps4"]   # consoles faciles à trouver en brocante/magasin : traitées en premier
+CHEAP_MAX = 10          # € : un jeu dont les annonces FR "complet" valent en moyenne moins que ça est jugé "bon marché"
+CHEAP_MIN_ADS = 3       # il faut au moins 3 annonces pour être sûr qu'il est bon marché
+CHEAP_RECHECK = 14      # jours entre deux contrôles d'un jeu bon marché
+UNSEEN_RECHECK = 6      # jours entre deux recherches d'un jeu jamais vu en vente (on continue de le chercher)
+RESET_ONCE = {"ps2": "v2"}     # repart de zéro UNE seule fois (efface l'ancien historique, pollué par d'anciennes erreurs de tri)
 CJK = re.compile(r"[\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]")                      # titres en japonais/chinois/coréen : ignorés
 
 # Consoles dans l'ordre de priorité. Chaque jour, le script traite celles qui sont "à renouveler" (selon "every"),
@@ -42,6 +48,12 @@ CONSOLES = [
 for c in CONSOLES:   # mots interdits = mots des autres consoles (sauf ceux contenus dans les nôtres)
     others = {w for o in CONSOLES if o is not c for w in o["need"]}
     c["_ban"] = [w for w in others if not any(w in n for n in c["need"])] + c.get("ban", [])
+ORDER = ["ps2", "ps1", "ps3", "x360", "wii", "ds", "psp", "ps4", "gc", "xbox", "xone", "switch", "3ds", "gba", "gbc", "gb",
+         "n64", "snes", "nes", "md", "dc", "saturn"]
+EVERY = {"ps2": 2, "ps1": 2, "ps3": 3, "x360": 3, "wii": 3, "ds": 4, "psp": 4, "ps4": 4, "gc": 5, "xbox": 5, "xone": 7, "switch": 7}
+for c in CONSOLES:
+    c["every"] = EVERY.get(c["key"], c["every"])
+CONSOLES.sort(key=lambda c: ORDER.index(c["key"]) if c["key"] in ORDER else 99)
 COUNTRY_LANG = {"FR": "FR", "BE": "FR", "DE": "DE", "IT": "IT", "ES": "ES", "GB": "EN", "IE": "EN"}   # BE = français « probable »
 
 
@@ -197,6 +209,8 @@ def classify(title, cond_id, cfg):
         return "neuf"
     if has(t, COMPLETE):
         return "complet"
+    if cond_id in ("2750", "3000", "4000", "5000", "6000"):
+        return "incertain"       # occasion, mais rien n'indique si la boîte/la notice sont là
     return None
 
 def language(title, country):
@@ -217,17 +231,26 @@ def to_eur(v, cur):
         return v * GBP_EUR
     return None
 
+def num(v):
+    """Lit un nombre même écrit « 26,60 », « 1 249,00 » ou « 1,249.00 »."""
+    s = str(v).strip().replace(" ", "").replace("\u00a0", "")
+    if "," in s and "." in s:
+        s = s.replace(",", "") if s.rfind(".") > s.rfind(",") else s.replace(".", "").replace(",", ".")
+    elif "," in s:
+        s = s.replace(",", ".")
+    return float(s)
+
 def total_price(it):
     p = it.get("price") or {}
     cur = p.get("currency")
-    base = to_eur(float(p["value"]), cur) if p.get("value") is not None else None
+    base = to_eur(num(p["value"]), cur) if p.get("value") is not None else None
     if base is None:
         return None
     ship = None
     for o in it.get("shippingOptions") or []:
         c = o.get("shippingCost") or {}
         if c.get("value") is not None and c.get("currency", cur) == cur:
-            v = float(c["value"])
+            v = num(c["value"])
             ship = v if ship is None else min(ship, v)
     if ship is None:
         return None          # port inconnu : on ignore plutôt que de fausser le prix
@@ -256,6 +279,19 @@ def ebay_search(tok, market, q):
     return http("https://api.ebay.com/buy/browse/v1/item_summary/search?" + p, headers=h).get("itemSummaries", [])
 
 
+def due(info):
+    """Faut-il (re)chercher ce jeu aujourd'hui ?  info = [date, bon_marché, déjà_vu] ou None (jamais cherché)."""
+    if not info:
+        return True
+    age = (datetime.date.today() - datetime.date.fromisoformat(info[0])).days
+    return age >= (CHEAP_RECHECK if info[1] else (0 if info[2] else UNSEEN_RECHECK))
+
+def load_scan(key):
+    return {} if is_fresh(key) else load(f"{DATA}/{key}/scan.json", {})
+
+def is_fresh(key):
+    return key in RESET_ONCE and not os.path.exists(f"{DATA}/{key}/reset_{RESET_ONCE[key]}.flag")
+
 def run_console(cfg, games, tok, budget):
     """Collecte une console. Retourne (appels utilisés, arrêt d'urgence ?)."""
     key = cfg["key"]
@@ -268,8 +304,17 @@ def run_console(cfg, games, tok, budget):
     gt = {g["id"]: toks(g["t"]) for g in games}
     # suites : jeux dont le nom contient strictement tous les mots de celui-ci
     supers = {gid: [t2 for g2, t2 in gt.items() if g2 != gid and t < t2] for gid, t in gt.items()}
-    hist = ld("history.json", {})
-    fxd = load(f"{D}/fx.json", {})   # jeux dont les autres pays ont été cherchés : date
+    flag = f"{D}/reset_{RESET_ONCE[key]}.flag" if key in RESET_ONCE else None
+    fresh = is_fresh(key)                                 # première collecte après remise à zéro ?
+    if fresh:
+        print(f"{cfg['name']} : remise à zéro de l'historique (une seule fois).")
+    hist = {} if fresh else ld("history.json", {})
+    fxd = {} if fresh else load(f"{D}/fx.json", {})   # jeux dont les autres pays ont été cherchés : date
+    sinfo = {} if fresh else load(f"{D}/scan.json", {})   # par jeu : [date de recherche, bon marché ?, déjà vu en vente ?]
+    hval = {int(gid): max([h["last"] for h in ks.values() if h.get("last")] or [0]) for gid, ks in hist.items()}
+    todo = [g for g in games if due(sinfo.get(str(g["id"])))]
+    todo.sort(key=lambda g: (-hval.get(g["id"], 0), (sinfo.get(str(g["id"])) or [""])[0]))   # valeur d'abord, puis les plus anciens
+    print(f"{cfg['name']} : {len(todo)} jeux à chercher sur {len(games)}")
     seen, rows, searched = set(), [], set()
     state = {"calls": 0, "errors": 0, "stop": False}
 
@@ -302,13 +347,17 @@ def run_console(cfg, games, tok, budget):
             tot = total_price(it)
             if not cond or not lang or tot is None:
                 continue
+            if tot >= 300 and state.get("hp", 0) < 30:
+                state["hp"] = state.get("hp", 0) + 1
+                print("PRIX ÉLEVÉ :", title[:70], "| prix brut :", it.get("price"), "| port :",
+                      [o.get("shippingCost") for o in it.get("shippingOptions") or []])
             sp = special(title, g["t"])
             seen.add(iid)
             rows.append({"id": iid, "g": gid, "k": f"{lang}|{cond}" + (f"|{sp}" if sp else ""), "p": tot,
                          "u": it.get("itemWebUrl"), "s": sure, "m": m, "i": photo(it)})
         searched.add((gid, m))
 
-    for g in games:                       # 1) tous les jeux sur eBay.fr
+    for g in todo:                        # 1) les jeux à renouveler sur eBay.fr
         scan(g, MAIN_MARKET)
     val = {}                              # 2) autres pays : jeux de valeur seulement
     for r in rows:
@@ -328,8 +377,39 @@ def run_console(cfg, games, tok, budget):
     save(f"{D}/fx.json", fxd)
     print(f"{cfg['name']} : {state['calls']} appels eBay, {len(rows)} annonces retenues")
 
+    # Garde-fou : prix aberrant (>= 500 € et >= 40 fois la médiane des autres annonces du même jeu) = ignoré
+    bygame = {}
+    for r in rows:
+        bygame.setdefault(r["g"], []).append(r)
+    bad = set()
+    for gid, lst in bygame.items():
+        for r in lst:
+            others = sorted(x["p"] for x in lst if x is not r)
+            if r["p"] >= 500 and len(others) >= 2 and r["p"] >= 40 * others[len(others) // 2]:
+                bad.add(r["id"])
+                print(f"Prix aberrant ignoré : {r['p']} € (autres annonces : {others[:4]}) {r['u']}")
+    rows = [r for r in rows if r["id"] not in bad]
+
+    # Mémoire par jeu : bon marché (on le recontrôlera rarement) ou jamais vu (on continue de le chercher)
+    by = {}
+    for r in rows:
+        if r["k"].endswith("|complet"):
+            by.setdefault(r["g"], {}).setdefault(r["k"].split("|")[0], []).append(r["p"])
+    def cheap(gid):
+        langs = by.get(gid) or {}
+        if len(langs.get("FR", [])) < CHEAP_MIN_ADS:
+            return False
+        return all(sum(sorted(ps)[:3]) / len(sorted(ps)[:3]) < CHEAP_MAX for ps in langs.values())
+    rowg = {r["g"] for r in rows}
+    for gid in {g for g, m in searched if m == MAIN_MARKET}:
+        was = str(gid) in hist and any(h.get("last") for h in hist[str(gid)].values())
+        sinfo[str(gid)] = [TODAY, 1 if cheap(gid) else 0, 1 if (gid in rowg or was) else 0]
+    save(f"{D}/scan.json", sinfo)
+    print(f"{cfg['name']} : {sum(1 for v in sinfo.values() if v[1])} jeux jugés bon marché (< {CHEAP_MAX} €), "
+          f"{sum(1 for v in sinfo.values() if not v[2])} jamais vus en vente")
+
     # Annonces disparues depuis hier = ventes estimées
-    prev = ld("snap.json", {})
+    prev = {} if fresh else ld("snap.json", {})
     today_ids = {r["id"] for r in rows}
     gone, snap = {}, {r["id"]: [r["g"], r["k"], r["m"]] for r in rows}
     for iid, v in prev.items():
@@ -361,11 +441,16 @@ def run_console(cfg, games, tok, budget):
                         "sure": sum(1 for r in lst if r["s"]), "d": TODAY}
         else:
             h.pop("now", None)
+    scanned = {g for g, m in searched}
     for gid, ks in hist.items():          # annonces plus vues : on retire l'état « en vente »
         for k, h in ks.items():
             if (int(gid), k) in groups or "now" not in h:
                 continue
             old = (datetime.date.today() - datetime.date.fromisoformat(h["now"].get("d", TODAY))).days
+            if int(gid) not in scanned:   # jeu pas cherché aujourd'hui (bon marché) : on garde l'ancien état un moment
+                if old >= 21:
+                    h.pop("now")
+                continue
             if (k.startswith("FR|") and (int(gid), MAIN_MARKET) in searched) or old >= 7:
                 h.pop("now")
     save(f"{D}/history.json", hist)
@@ -386,6 +471,9 @@ def run_console(cfg, games, tok, budget):
             d[k] = e
         out.append({"id": g["id"], "t": g["t"], "cover": g["cover"], "x": g.get("x", 0), "fx": fxd.get(str(g["id"])), "k": d})
     save(f"{D}/latest.json", {"updated": TODAY, "console": cfg["name"], "catalog_total": len(games), "games": out})
+    if fresh and not state["stop"]:
+        with open(flag, "w") as f:
+            f.write(TODAY)
     return state["calls"], state["stop"]
 
 
@@ -395,7 +483,8 @@ def main():
     def retard(c):          # >= 1 : la console est à renouveler (jamais traitée = en tête)
         d = state.get(c["key"])
         return 1e9 if not d else (datetime.date.today() - datetime.date.fromisoformat(d)).days / c["every"]
-    order = sorted([c for c in CONSOLES if retard(c) >= 1], key=lambda c: -retard(c))
+    order = sorted([c for c in CONSOLES if retard(c) >= 1],
+                   key=lambda c: (c["key"] not in PRIORITY, PRIORITY.index(c["key"]) if c["key"] in PRIORITY else 0, -retard(c)))
     have_ebay = bool(os.environ.get("EBAY_APP_ID") and os.environ.get("EBAY_CERT_ID"))
     tok, used, ran = (ebay_token() if have_ebay else None), 0, 0
     for cfg in order:
@@ -412,7 +501,8 @@ def main():
         if not have_ebay:
             print("Clés eBay absentes : seul le catalogue a été mis à jour.")
             break
-        n = len(cat["games"])
+        sc = load_scan(cfg["key"])
+        n = sum(1 for g in cat["games"] if due(sc.get(str(g["id"]))))   # nombre de jeux à chercher aujourd'hui
         if ran and used + n > MAX_CALLS:
             print(f"{cfg['name']} : trop gros pour le budget restant, repoussé.")
             continue
@@ -425,7 +515,7 @@ def main():
             break
     index = []
     for cfg in CONSOLES:
-        lt = load(f"{DATA}/{cfg['key']}/latest.json")
+        lt = load(f"{DATA}/{cfg['key']}/latest.json") or (load(f"{DATA}/latest.json") if cfg["key"] == "ps2" else None)
         if lt:
             index.append({"key": cfg["key"], "name": cfg["name"], "updated": lt["updated"], "games": len(lt["games"])})
     save(f"{DATA}/consoles.json", index)
