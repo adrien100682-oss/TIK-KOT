@@ -2,11 +2,46 @@
 """Collecte PS2 PAL : catalogue IGDB + annonces eBay -> data/*.json (sans dépendance externe)."""
 import os, json, time, re, base64, datetime, urllib.request, urllib.parse, urllib.error, unicodedata
 
-IGDB_PLATFORM = 8            # PlayStation 2
-MARKETS = ["EBAY_FR"]        # plus tard : "EBAY_DE", "EBAY_IT", "EBAY_ES"
-MAX_CALLS = 4500             # sécurité sur le quota gratuit eBay
+MAIN_MARKET = "EBAY_FR"      # eBay France
+OTHER_MARKETS = []           # autres pays : désactivés. Plus tard : ["EBAY_GB", "EBAY_DE", "EBAY_IT", "EBAY_ES"]
+MIN_VALUE = 50               # (autres pays) prix mini pour chercher un jeu
+FOREIGN_MAX = 80             # (autres pays) nombre max de jeux cherchés par pays
+GBP_EUR = 1.15               # taux approximatif livre -> euro
+MAX_CALLS = 4500             # budget d'appels eBay par jour (quota gratuit estimé à ~5000)
 DATA = "data"
 TODAY = datetime.date.today().isoformat()
+
+# Consoles dans l'ordre de priorité. Chaque jour, le script traite celles qui sont "à renouveler" (selon "every"),
+# les plus en retard d'abord, tant qu'il reste du budget d'appels. Pour en retirer une, supprime sa ligne.
+# "igdb" = numéro de plateforme IGDB, "q" = mot ajouté à la recherche eBay, "need" = mots exigés dans le titre.
+CONSOLES = [
+    # "every" = rythme de mise à jour en jours : 2 = priorité haute (PS1, PS2), 5 = marché récent, 12 = consoles anciennes
+    {"key": "ps1", "name": "PlayStation 1", "igdb": 7, "q": "ps1", "need": [" ps1 ", " psx ", " ps one ", " psone ", " playstation 1 ", " playstation one "], "every": 2},
+    {"key": "ps2", "name": "PlayStation 2", "igdb": 8, "q": "ps2", "need": [" ps2 ", " playstation 2 ", " ps 2 "], "every": 2},
+    {"key": "gc", "name": "GameCube", "igdb": 21, "q": "gamecube", "need": [" gamecube ", " game cube ", " ngc "], "every": 5},
+    {"key": "xbox", "name": "Xbox", "igdb": 11, "q": "xbox", "need": [" xbox "], "every": 5},
+    {"key": "ps3", "name": "PlayStation 3", "igdb": 9, "q": "ps3", "need": [" ps3 ", " playstation 3 ", " ps 3 "], "every": 5},
+    {"key": "x360", "name": "Xbox 360", "igdb": 12, "q": "xbox 360", "need": [" xbox 360 ", " x360 ", " 360 "], "every": 5},
+    {"key": "ps4", "name": "PlayStation 4", "igdb": 48, "q": "ps4", "need": [" ps4 ", " playstation 4 ", " ps 4 "], "every": 5},
+    {"key": "xone", "name": "Xbox One", "igdb": 49, "q": "xbox one", "need": [" xbox one ", " xone "], "every": 5},
+    {"key": "switch", "name": "Nintendo Switch", "igdb": 130, "q": "switch", "need": [" switch ", " nintendo switch "], "every": 5, "ban": [" switch 2 "]},
+    {"key": "wii", "name": "Wii", "igdb": 5, "q": "wii", "need": [" wii "], "every": 12, "ban": [" wii u ", " wiiu "]},
+    {"key": "n64", "name": "Nintendo 64", "igdb": 4, "q": "n64", "need": [" n64 ", " nintendo 64 "], "every": 12},
+    {"key": "snes", "name": "Super Nintendo", "igdb": 19, "q": "super nintendo", "need": [" snes ", " super nintendo ", " super nes ", " super famicom "], "every": 12},
+    {"key": "nes", "name": "NES", "igdb": 18, "q": "nes", "need": [" nes ", " nintendo nes "], "every": 12},
+    {"key": "md", "name": "Mega Drive", "igdb": 29, "q": "mega drive", "need": [" mega drive ", " megadrive ", " genesis "], "every": 12},
+    {"key": "dc", "name": "Dreamcast", "igdb": 23, "q": "dreamcast", "need": [" dreamcast "], "every": 12},
+    {"key": "saturn", "name": "Saturn", "igdb": 32, "q": "saturn", "need": [" saturn ", " sega saturn "], "every": 12},
+    {"key": "gba", "name": "Game Boy Advance", "igdb": 24, "q": "game boy advance", "need": [" gba ", " game boy advance ", " gameboy advance "], "every": 12},
+    {"key": "gbc", "name": "Game Boy Color", "igdb": 22, "q": "game boy color", "need": [" game boy color ", " gameboy color ", " gbc "], "every": 12},
+    {"key": "gb", "name": "Game Boy", "igdb": 33, "q": "game boy", "need": [" game boy ", " gameboy ", " gb "], "every": 12},
+    {"key": "ds", "name": "Nintendo DS", "igdb": 20, "q": "nintendo ds", "need": [" nds ", " nintendo ds ", " ds "], "every": 12},
+    {"key": "3ds", "name": "Nintendo 3DS", "igdb": 37, "q": "3ds", "need": [" 3ds ", " nintendo 3ds "], "every": 12},
+    {"key": "psp", "name": "PSP", "igdb": 38, "q": "psp", "need": [" psp "], "every": 12},
+]
+for c in CONSOLES:   # mots interdits = mots des autres consoles (sauf ceux contenus dans les nôtres)
+    others = {w for o in CONSOLES if o is not c for w in o["need"]}
+    c["_ban"] = [w for w in others if not any(w in n for n in c["need"])] + c.get("ban", [])
 COUNTRY_LANG = {"FR": "FR", "DE": "DE", "IT": "IT", "ES": "ES", "GB": "EN", "IE": "EN"}
 
 
@@ -45,13 +80,23 @@ def norm(s):
     return " " + re.sub(r"[^a-z0-9]+", " ", s).strip() + " "
 
 
+STOP = {"the", "a", "an", "of", "and", "de", "la", "le", "les", "du", "des", "et", "der", "die", "das"}
+
+def toks(s):
+    return frozenset(w for w in norm(s).split() if w not in STOP)
+
+
 # ---------- Catalogue IGDB ----------
-def build_catalog():
+_TOK = {}
+
+def build_catalog(cfg):
     cid, sec = os.environ["TWITCH_CLIENT_ID"], os.environ["TWITCH_CLIENT_SECRET"]
-    q = urllib.parse.urlencode({"client_id": cid, "client_secret": sec, "grant_type": "client_credentials"})
-    tok = http("https://id.twitch.tv/oauth2/token?" + q, data=b"", method="POST")["access_token"]
+    if "t" not in _TOK:
+        q = urllib.parse.urlencode({"client_id": cid, "client_secret": sec, "grant_type": "client_credentials"})
+        _TOK["t"] = http("https://id.twitch.tv/oauth2/token?" + q, data=b"", method="POST")["access_token"]
+    tok = _TOK["t"]
     h = {"Client-ID": cid, "Authorization": "Bearer " + tok}
-    P = IGDB_PLATFORM
+    P = cfg["igdb"]
     variantes = [   # du plus précis au plus large : on garde la première qui renvoie des jeux
         f"platforms=({P}) & release_dates.region=(1,8) & version_parent=null",
         f"platforms=({P}) & release_dates.release_region=(1,8) & version_parent=null",
@@ -60,7 +105,7 @@ def build_catalog():
         f"platforms=({P})",
     ]
     def page(where, off):
-        body = f"fields name,cover.image_id; where {where}; sort id asc; limit 500; offset {off};"
+        body = f"fields name,cover.image_id,platforms; where {where}; sort id asc; limit 500; offset {off};"
         return http("https://api.igdb.com/v4/games", body.encode(), h, "POST")
     where, first = None, []
     for i, w in enumerate(variantes):
@@ -74,7 +119,7 @@ def build_catalog():
             where = w
             break
     if not where:
-        raise SystemExit("IGDB ne renvoie aucun jeu : vérifie les clés Twitch.")
+        raise RuntimeError(f"IGDB ne renvoie aucun jeu pour {cfg['name']} (numéro de plateforme à vérifier).")
     games, seen, off, pg = [], set(), 0, first
     while True:
         for g in pg:
@@ -83,13 +128,13 @@ def build_catalog():
                 continue
             seen.add(n)
             img = (g.get("cover") or {}).get("image_id")
-            games.append({"id": g["id"], "t": g["name"], "cover": img})
+            games.append({"id": g["id"], "t": g["name"], "cover": img, "x": 1 if g.get("platforms") == [P] else 0})
         if len(pg) < 500:
             break
         off += 500
         time.sleep(0.4)
         pg = page(where, off)
-    print(f"Catalogue : {len(games)} jeux")
+    print(f"Catalogue {cfg['name']} : {len(games)} jeux")
     return {"date": TODAY, "games": games}
 
 
@@ -112,19 +157,17 @@ COMPLETE = [" complet ", " complete ", " cib ", " avec notice ", " avec boite ",
             " notice incluse ", " with manual ", " avec manuel ", " vollstandig ", " komplett ", " mit anleitung ", " mit ovp ",
             " completo ", " con caja ", " con scatola ", " en boite ", " with box ", " boxed "]
 LANGS = {
-    "FR": [" pal fr ", " pal fra ", " francais ", " version francaise ", " fra "],
+    "FR": [" pal fr ", " pal fra ", " francais ", " version francaise ", " fra ", " vf ", " vfr ", " fr "],
     "DE": [" pal de ", " pal ger ", " deutsch ", " german ", " allemand ", " version allemande "],
     "IT": [" pal it ", " pal ita ", " italiano ", " italian ", " italien ", " ita "],
     "ES": [" pal es ", " pal esp ", " espanol ", " spanish ", " espagnol ", " esp "],
     "EN": [" pal uk ", " pal eng ", " english ", " anglais ", " uk ", " eng "],
 }
 
-def classify(title, cond_id):
+def classify(title, cond_id, cfg):
     """Retourne l'état : neuf / complet / disque / boite, ou None si douteux (annonce ignorée)."""
     t = norm(title)
-    if has(t, BAD) or has(t, OTHER_PLAT):
-        return None
-    if " ps2 " not in t and " playstation 2 " not in t and " ps 2 " not in t:
+    if has(t, BAD) or has(t, cfg["_ban"]) or not has(t, cfg["need"]):
         return None
     if has(t, BOX_ONLY):
         return "boite"
@@ -149,19 +192,28 @@ def language(title, country):
     l = COUNTRY_LANG.get(country)
     return (l, False) if l else (None, False)
 
+def to_eur(v, cur):
+    if cur == "EUR":
+        return v
+    if cur == "GBP":
+        return v * GBP_EUR
+    return None
+
 def total_price(it):
     p = it.get("price") or {}
-    if p.get("currency") != "EUR":
+    cur = p.get("currency")
+    base = to_eur(float(p["value"]), cur) if p.get("value") is not None else None
+    if base is None:
         return None
     ship = None
     for o in it.get("shippingOptions") or []:
         c = o.get("shippingCost") or {}
-        if c.get("value") is not None and c.get("currency", "EUR") == "EUR":
+        if c.get("value") is not None and c.get("currency", cur) == cur:
             v = float(c["value"])
             ship = v if ship is None else min(ship, v)
     if ship is None:
         return None          # port inconnu : on ignore plutôt que de fausser le prix
-    return round(float(p["value"]) + ship, 2)
+    return round(base + to_eur(ship, cur), 2)
 
 
 # ---------- eBay ----------
@@ -180,64 +232,87 @@ def ebay_search(tok, market, q):
     return http("https://api.ebay.com/buy/browse/v1/item_summary/search?" + p, headers=h).get("itemSummaries", [])
 
 
-def main():
-    os.makedirs(DATA, exist_ok=True)
-    cat = load(f"{DATA}/catalog.json")
-    if not cat or not cat.get("games") or (datetime.date.today() - datetime.date.fromisoformat(cat["date"])).days >= 7:
-        cat = build_catalog()
-        save(f"{DATA}/catalog.json", cat)
-    games = cat["games"]
-    if not (os.environ.get("EBAY_APP_ID") and os.environ.get("EBAY_CERT_ID")):
-        print("Clés eBay absentes : seul le catalogue a été mis à jour.")
-        return
+def run_console(cfg, games, tok, budget):
+    """Collecte une console. Retourne (appels utilisés, arrêt d'urgence ?)."""
+    key = cfg["key"]
+    D = f"{DATA}/{key}"
+    os.makedirs(D, exist_ok=True)
+    def ld(name, default):          # ancienne organisation : les données PS2 étaient à la racine
+        v = load(f"{D}/{name}")
+        return v if v is not None else (load(f"{DATA}/{name}", default) if key == "ps2" else default)
 
-    names = {g["id"]: norm(g["t"]) for g in games}
-    supers = {gid: [n2 for g2, n2 in names.items() if g2 != gid and n in n2] for gid, n in names.items()}
-    tok, calls, seen, rows, searched = ebay_token(), 0, set(), [], set()
+    gt = {g["id"]: toks(g["t"]) for g in games}
+    # suites : jeux dont le nom contient strictement tous les mots de celui-ci
+    supers = {gid: [t2 for g2, t2 in gt.items() if g2 != gid and t < t2] for gid, t in gt.items()}
+    hist = ld("history.json", {})
+    seen, rows, searched = set(), [], set()
+    state = {"calls": 0, "errors": 0, "stop": False}
 
-    for g in games:
-        gid, n = g["id"], names[g["id"]]
-        if calls + len(MARKETS) > MAX_CALLS:
-            print("Quota atteint : le reste sera traité demain.")
-            break
-        for m in MARKETS:
-            calls += 1
-            try:
-                items = ebay_search(tok, m, f"{g['t']} ps2")
-            except RuntimeError as e:
-                print("Erreur :", e)
+    def scan(g, m):
+        if state["stop"] or state["calls"] >= budget:
+            return
+        state["calls"] += 1
+        try:
+            items = ebay_search(tok, m, f"{g['t']} {cfg['q']}")
+        except RuntimeError as e:
+            print("Erreur :", e)
+            state["errors"] += 1
+            if state["errors"] >= 5:
+                print("Trop d'erreurs d'affilée : arrêt (quota dépassé ou panne eBay).")
+                state["stop"] = True
+            return
+        state["errors"] = 0
+        gid = g["id"]
+        for it in items:
+            iid = it["itemId"]
+            title = it.get("title", "")
+            tt = toks(title)
+            if iid in seen or not gt[gid] <= tt or any(sp <= tt for sp in supers[gid]):
                 continue
-            for it in items:
-                iid = it["itemId"]
-                title = it.get("title", "")
-                tn = norm(title)
-                if iid in seen or n not in tn or has(tn, supers[gid]):
-                    continue
-                cond = classify(title, it.get("conditionId"))
-                lang, sure = language(title, (it.get("itemLocation") or {}).get("country"))
-                tot = total_price(it)
-                if not cond or not lang or tot is None:
-                    continue
-                seen.add(iid)
-                rows.append({"id": iid, "g": gid, "k": f"{lang}|{cond}", "p": tot, "u": it.get("itemWebUrl"), "s": sure})
-        searched.add(gid)
-    print(f"{calls} appels eBay, {len(rows)} annonces retenues")
+            cond = classify(title, it.get("conditionId"), cfg)
+            lang, sure = language(title, (it.get("itemLocation") or {}).get("country"))
+            tot = total_price(it)
+            if not cond or not lang or tot is None:
+                continue
+            seen.add(iid)
+            rows.append({"id": iid, "g": gid, "k": f"{lang}|{cond}", "p": tot, "u": it.get("itemWebUrl"), "s": sure, "m": m})
+        searched.add((gid, m))
+
+    for g in games:                       # 1) tous les jeux sur eBay.fr
+        scan(g, MAIN_MARKET)
+    val = {}                              # 2) autres pays : jeux de valeur seulement
+    for r in rows:
+        val[r["g"]] = max(val.get(r["g"], 0), r["p"])
+    for gid, ks in hist.items():
+        for h in ks.values():
+            if h.get("last"):
+                val[int(gid)] = max(val.get(int(gid), 0), h["last"])
+    cand = [g for g in sorted(games, key=lambda g: -val.get(g["id"], 0)) if val.get(g["id"], 0) >= MIN_VALUE]
+    per = max(0, min(FOREIGN_MAX, (budget - state["calls"]) // max(1, len(OTHER_MARKETS))))
+    for m in OTHER_MARKETS:
+        for g in cand[:per]:
+            scan(g, m)
+    print(f"{cfg['name']} : {state['calls']} appels eBay, {len(rows)} annonces retenues")
 
     # Annonces disparues depuis hier = ventes estimées
-    prev = load(f"{DATA}/snap.json", {})
+    prev = ld("snap.json", {})
     today_ids = {r["id"] for r in rows}
-    gone = {}
-    for iid, (gid, k) in prev.items():
-        if iid not in today_ids and gid in searched:
+    gone, snap = {}, {r["id"]: [r["g"], r["k"], r["m"]] for r in rows}
+    for iid, v in prev.items():
+        gid, k, m = v[0], v[1], (v[2] if len(v) > 2 else MAIN_MARKET)
+        if iid in today_ids:
+            continue
+        if (gid, m) in searched:
             gone[(gid, k)] = gone.get((gid, k), 0) + 1
-    save(f"{DATA}/snap.json", {r["id"]: [r["g"], r["k"]] for r in rows})
+        else:
+            snap[iid] = v                 # pas cherché aujourd'hui : on le garde pour demain
+    save(f"{D}/snap.json", snap)
 
     # Agrégation du jour
     groups = {}
     for r in rows:
         groups.setdefault((r["g"], r["k"]), []).append(r)
 
-    hist = load(f"{DATA}/history.json", {})
     for key in set(groups) | set(gone):
         gid, k = key
         lst = sorted(groups.get(key, []), key=lambda r: r["p"])
@@ -248,14 +323,18 @@ def main():
         h["s"] = (h["s"] + [[TODAY, ref, len(lst), gone.get(key, 0)]])[-400:]
         if lst:
             h["now"] = {"n": len(lst), "ref": ref, "min": lst[0]["p"], "url": lst[0]["u"],
-                        "sure": sum(1 for r in lst if r["s"])}
+                        "top": [[r["p"], r["u"]] for r in lst[:3]],
+                        "sure": sum(1 for r in lst if r["s"]), "d": TODAY}
         else:
             h.pop("now", None)
-    for gid, ks in hist.items():                       # jeux plus vus aujourd'hui
+    for gid, ks in hist.items():          # annonces plus vues : on retire l'état « en vente »
         for k, h in ks.items():
-            if (int(gid), k) not in groups and "now" in h and int(gid) in searched:
+            if (int(gid), k) in groups or "now" not in h:
+                continue
+            old = (datetime.date.today() - datetime.date.fromisoformat(h["now"].get("d", TODAY))).days
+            if (k.startswith("FR|") and (int(gid), MAIN_MARKET) in searched) or old >= 7:
                 h.pop("now")
-    save(f"{DATA}/history.json", hist)
+    save(f"{D}/history.json", hist)
 
     # Fichier lu par le site
     limit = (datetime.date.today() - datetime.timedelta(days=30)).isoformat()
@@ -268,11 +347,55 @@ def main():
         for k, h in ks.items():
             e = dict(h.get("now") or {})
             e["last"], e["date"] = h.get("last"), h.get("date")
-            e["sold30"] = sum(s[3] for s in h["s"] if s[0] >= limit)
+            e["sold30"] = sum(x[3] for x in h["s"] if x[0] >= limit)
             e["since"] = h["s"][0][0]
             d[k] = e
-        out.append({"id": g["id"], "t": g["t"], "cover": g["cover"], "k": d})
-    save(f"{DATA}/latest.json", {"updated": TODAY, "console": "PS2", "catalog_total": len(games), "games": out})
+        out.append({"id": g["id"], "t": g["t"], "cover": g["cover"], "x": g.get("x", 0), "k": d})
+    save(f"{D}/latest.json", {"updated": TODAY, "console": cfg["name"], "catalog_total": len(games), "games": out})
+    return state["calls"], state["stop"]
+
+
+def main():
+    os.makedirs(DATA, exist_ok=True)
+    state = load(f"{DATA}/state.json", {})
+    def retard(c):          # >= 1 : la console est à renouveler (jamais traitée = en tête)
+        d = state.get(c["key"])
+        return 1e9 if not d else (datetime.date.today() - datetime.date.fromisoformat(d)).days / c["every"]
+    order = sorted([c for c in CONSOLES if retard(c) >= 1], key=lambda c: -retard(c))
+    have_ebay = bool(os.environ.get("EBAY_APP_ID") and os.environ.get("EBAY_CERT_ID"))
+    tok, used, ran = (ebay_token() if have_ebay else None), 0, 0
+    for cfg in order:
+        D = f"{DATA}/{cfg['key']}"
+        os.makedirs(D, exist_ok=True)
+        cat = load(f"{D}/catalog.json") or (load(f"{DATA}/catalog.json") if cfg["key"] == "ps2" else None)
+        if not cat or not cat.get("games") or "x" not in cat["games"][0] or (datetime.date.today() - datetime.date.fromisoformat(cat["date"])).days >= 7:
+            try:
+                cat = build_catalog(cfg)
+            except RuntimeError as e:
+                print("Catalogue impossible :", e)
+                continue
+            save(f"{D}/catalog.json", cat)
+        if not have_ebay:
+            print("Clés eBay absentes : seul le catalogue a été mis à jour.")
+            break
+        n = len(cat["games"])
+        if ran and used + n > MAX_CALLS:
+            print(f"{cfg['name']} : trop gros pour le budget restant, repoussé.")
+            continue
+        calls, stop = run_console(cfg, cat["games"], tok, MAX_CALLS - used)
+        used += calls
+        ran += 1
+        state[cfg["key"]] = TODAY
+        save(f"{DATA}/state.json", state)
+        if stop:
+            break
+    index = []
+    for cfg in CONSOLES:
+        lt = load(f"{DATA}/{cfg['key']}/latest.json")
+        if lt:
+            index.append({"key": cfg["key"], "name": cfg["name"], "updated": lt["updated"], "games": len(lt["games"])})
+    save(f"{DATA}/consoles.json", index)
+    print(f"Total : {used} appels eBay, {ran} console(s) traitée(s)")
 
 
 if __name__ == "__main__":
