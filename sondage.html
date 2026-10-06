@@ -30,7 +30,7 @@
 
 <header>
     <h1>⚡ Console de Sondage Rapide (LBC & Vinted)</h1>
-    <div style="font-size: 13px; color: var(--mut);">Cible rapidement tes jeux de valeur et ouvre les recherches en un clic sur les plateformes externes.</div>
+    <div style="font-size: 13px; color: var(--mut);">Cible tes jeux de valeur. Les liens ouvrent directement les plateformes avec un <b>tri par nouveauté</b> et les vrais noms de consoles.</div>
     <div class="controls">
         <label>Valeur minimum de la cote (€) : 
             <input type="number" id="min-price" value="40" min="0" step="5" oninput="renderList()">
@@ -52,6 +52,30 @@
 let allGames = [];
 const consolesList = ["ps1", "ps2", "ps3", "ps4", "psp", "gc", "switch", "wii", "ds", "3ds", "xbox", "x360", "snes", "nes", "n64", "gb", "gba", "dc", "saturn", "md"];
 
+// Correspondance propre pour éviter les diminutifs obscurs dans les moteurs de recherche
+const CONSOLE_NAMES = {
+    "PS1": "PlayStation 1",
+    "PS2": "PlayStation 2",
+    "PS3": "PlayStation 3",
+    "PS4": "PlayStation 4",
+    "PSP": "PSP",
+    "GC": "Gamecube",
+    "SWITCH": "Nintendo Switch",
+    "WII": "Nintendo Wii",
+    "DS": "Nintendo DS",
+    "3DS": "Nintendo 3DS",
+    "XBOX": "Xbox",
+    "X360": "Xbox 360",
+    "SNES": "Super Nintendo",
+    "NES": "NES",
+    "N64": "Nintendo 64",
+    "GB": "Game Boy",
+    "GBA": "Game Boy Advance",
+    "DC": "Dreamcast",
+    "SATURN": "Sega Saturn",
+    "MD": "Mega Drive"
+};
+
 async function initSondage() {
     let select = document.getElementById('console-filter');
     let loadedData = [];
@@ -64,31 +88,28 @@ async function initSondage() {
             
             data.games.forEach(g => {
                 if (!g.k) return;
-                // On cherche le prix de référence (ref ou min) pour la version complète
                 Object.entries(g.k).forEach(([vKey, info]) => {
                     if (vKey.includes("complet") && (info.ref || info.min)) {
                         loadedData.push({
                             id: g.id,
                             name: g.t,
-                            console: key.toUpperCase(),
+                            consoleKey: key.toUpperCase(),
+                            consoleName: CONSOLE_NAMES[key.toUpperCase()] || key.toUpperCase(),
                             price: info.ref || info.min
                         });
                     }
                 });
             });
-        } catch (e) {
-            // Console ignorée si pas de données
-        }
+        } catch (e) {}
     }
 
     allGames = loadedData;
     
-    // Remplir le select des consoles disponibles
-    let foundConsoles = [...new Set(allGames.map(g => g.console))].sort();
+    let foundConsoles = [...new Set(allGames.map(g => g.consoleKey))].sort();
     foundConsoles.forEach(c => {
         let opt = document.createElement('option');
         opt.value = c;
-        opt.textContent = c;
+        opt.textContent = CONSOLE_NAMES[c] || c;
         select.appendChild(opt);
     });
 
@@ -102,13 +123,11 @@ function renderList() {
 
     let filtered = allGames.filter(g => {
         if (g.price < minVal) return false;
-        if (selectedConsole !== "ALL" && g.console !== selectedConsole) return false;
+        if (selectedConsole !== "ALL" && g.consoleKey !== selectedConsole) return false;
         return true;
     });
 
-    // Tri du plus cher au moins cher
     filtered.sort((a, b) => b.price - a.price);
-
     document.getElementById('count').textContent = filtered.length;
 
     if (filtered.length === 0) {
@@ -117,23 +136,28 @@ function renderList() {
     }
 
     container.innerHTML = filtered.map(item => {
-        // Encodage propre pour les URL de recherche
-        const query = encodeURIComponent(`${item.name} ${item.console}`);
-        const lbcUrl = `https://www.leboncoin.fr/recherche?text=${query}`;
-        const vintedUrl = `https://www.vinted.fr/catalog?search_text=${query}`;
+        // On combine le nom du jeu et le vrai nom de la console pour une recherche propre
+        const searchQuery = `${item.name} ${item.consoleName}`;
+        const queryEncoded = encodeURIComponent(searchQuery);
+
+        // URLs optimisées : 
+        // - Leboncoin : tri par date (sort=time)
+        // - Vinted : recherche textuelle avec ordre des plus récents (order=newest_first) et filtres basiques pour limiter les prix absurdes ou le non-jeu si besoin
+        const lbcUrl = `https://www.leboncoin.fr/recherche?text=${queryEncoded}&sort=time`;
+        const vintedUrl = `https://www.vinted.fr/catalog?search_text=${queryEncoded}&order=newest_first`;
 
         return `
             <div class="row">
                 <div class="info">
                     <div class="game-title" title="${item.name}">${item.name}</div>
                     <div class="game-meta">
-                        <span>Console : <b>${item.console}</b></span>
+                        <span>Console : <b>${item.consoleName}</b></span>
                     </div>
                 </div>
                 <div class="price-tag">~${Math.round(item.price)} €</div>
                 <div class="actions">
-                    <a href="${lbcUrl}" target="_blank" rel="noopener" class="btn btn-lbc">LBC ↗</a>
-                    <a href="${vintedUrl}" target="_blank" rel="noopener" class="btn btn-vinted">Vinted ↗</a>
+                    <a href="${lbcUrl}" target="_blank" rel="noopener" class="btn btn-lbc" title="Rechercher sur Leboncoin (Plus récents)">LBC ↗</a>
+                    <a href="${vintedUrl}" target="_blank" rel="noopener" class="btn btn-vinted" title="Rechercher sur Vinted (Plus récents)">Vinted ↗</a>
                 </div>
             </div>
         `;
