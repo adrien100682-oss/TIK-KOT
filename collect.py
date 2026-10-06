@@ -15,6 +15,7 @@ PRIORITY = ["ps2", "ps1", "ps3", "x360", "wii", "ds", "psp", "ps4"]   # consoles
 CHEAP_MAX = 10          # € : un jeu dont les annonces FR "complet" valent en moyenne moins que ça est jugé "bon marché"
 CHEAP_MIN_ADS = 3       # il faut au moins 3 annonces pour être sûr qu'il est bon marché
 CHEAP_RECHECK = 14      # jours entre deux contrôles d'un jeu bon marché
+LEFT_OK = 25           # une console est « terminée » s'il reste au plus 25 jeux non cherchés (requêtes en échec)
 UNSEEN_RECHECK = 6      # jours entre deux recherches d'un jeu jamais vu en vente (on continue de le chercher)
 RESET_ONCE = {"ps2": "v2"}     # repart de zéro UNE seule fois (efface l'ancien historique, pollué par d'anciennes erreurs de tri)
 CJK = re.compile(r"[\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]")                      # titres en japonais/chinois/coréen : ignorés
@@ -262,6 +263,17 @@ def photo(it):
         return None
     return re.sub(r"/s-l\d+\.", "/s-l500.", u)
 
+def photos(it):
+    """Jusqu'à 5 photos de l'annonce (celles déjà fournies par la recherche : aucun appel eBay supplémentaire)."""
+    urls = [(it.get("image") or {}).get("imageUrl")] + [(x or {}).get("imageUrl") for x in it.get("additionalImages") or []]
+    out = []
+    for u in urls:
+        if u and u.startswith("https://"):
+            u = re.sub(r"/s-l\d+\.", "/s-l500.", u)
+            if u not in out:
+                out.append(u)
+    return out[:5]
+
 
 # ---------- eBay ----------
 def ebay_token():
@@ -293,7 +305,7 @@ def is_fresh(key):
     return key in RESET_ONCE and not os.path.exists(f"{DATA}/{key}/reset_{RESET_ONCE[key]}.flag")
 
 def run_console(cfg, games, tok, budget):
-    """Collecte une console. Retourne (appels utilisés, arrêt d'urgence ?)."""
+    """Collecte une console. Retourne (appels utilisés, arrêt d'urgence ?, jeux restant à chercher)."""
     key = cfg["key"]
     D = f"{DATA}/{key}"
     os.makedirs(D, exist_ok=True)
@@ -375,11 +387,12 @@ def run_console(cfg, games, tok, budget):
             sp = special(title, g["t"])
             seen.add(iid)
             rows.append({"id": iid, "g": gid, "k": f"{lang}|{cond}" + (f"|{sp}" if sp else ""), "p": tot,
-                         "u": it.get("itemWebUrl"), "s": sure, "m": m, "i": photo(it)})
+                         "u": it.get("itemWebUrl"), "s": sure, "m": m, "i": photo(it), "im": photos(it)})
         searched.add((gid, m))
 
     for g in todo:                        # 1) les jeux à renouveler sur eBay.fr
         scan(g, MAIN_MARKET)
+    left = sum(1 for g in todo if (g["id"], MAIN_MARKET) not in searched)   # jeux pas encore cherchés (budget épuisé)
     val = {}                              # 2) autres pays : jeux de valeur seulement
     for r in rows:
         val[r["g"]] = max(val.get(r["g"], 0), r["p"])
@@ -460,7 +473,7 @@ def run_console(cfg, games, tok, budget):
         if lst:
             h["now"] = {"n": len(lst), "ref": ref, "min": lst[0]["p"], "url": lst[0]["u"],
                         "top": [[r["p"], r["u"], r.get("i") if j == 0 else None] for j, r in enumerate(lst[:3])],
-                        "sure": sum(1 for r in lst if r["s"]), "d": TODAY}
+                        "sure": sum(1 for r in lst if r["s"]), "d": TODAY, "imgs": lst[0].get("im") or []}
         else:
             h.pop("now", None)
     scanned = {g for g, m in searched}
@@ -496,7 +509,7 @@ def run_console(cfg, games, tok, budget):
     if fresh and not state["stop"]:
         with open(flag, "w") as f:
             f.write(TODAY)
-    return state["calls"], state["stop"]
+    return state["calls"], state["stop"], left
 
 
 def main():
@@ -506,10 +519,14 @@ def main():
         d = state.get(c["key"])
         return 1e9 if not d else (datetime.date.today() - datetime.date.fromisoformat(d)).days / c["every"]
     order = sorted([c for c in CONSOLES if retard(c) >= 1],
-                   key=lambda c: (c["key"] not in PRIORITY, PRIORITY.index(c["key"]) if c["key"] in PRIORITY else 0, -retard(c)))
+                   key=lambda c: (c["key"] not in PRIORITY, state.get(c["key"]) or "0000-00-00",   # prioritaires d'abord ; les plus anciennes (ou jamais faites) en tête
+                                  PRIORITY.index(c["key"]) if c["key"] in PRIORITY else 99))
     have_ebay = bool(os.environ.get("EBAY_APP_ID") and os.environ.get("EBAY_CERT_ID"))
     tok, used, ran = (ebay_token() if have_ebay else None), 0, 0
     for cfg in order:
+        if MAX_CALLS - used < 100:
+            print("Budget d'appels du jour épuisé : les autres consoles attendront.")
+            break
         D = f"{DATA}/{cfg['key']}"
         os.makedirs(D, exist_ok=True)
         cat = load(f"{D}/catalog.json") or (load(f"{DATA}/catalog.json") if cfg["key"] == "ps2" else None)
@@ -523,15 +540,13 @@ def main():
         if not have_ebay:
             print("Clés eBay absentes : seul le catalogue a été mis à jour.")
             break
-        sc = load_scan(cfg["key"])
-        n = sum(1 for g in cat["games"] if due(sc.get(str(g["id"]))))   # nombre de jeux à chercher aujourd'hui
-        if ran and used + n > MAX_CALLS:
-            print(f"{cfg['name']} : trop gros pour le budget restant, repoussé.")
-            continue
-        calls, stop = run_console(cfg, cat["games"], tok, MAX_CALLS - used)
+        calls, stop, left = run_console(cfg, cat["games"], tok, MAX_CALLS - used)
         used += calls
         ran += 1
-        state[cfg["key"]] = TODAY
+        if left <= LEFT_OK and not stop:
+            state[cfg["key"]] = TODAY             # console terminée : prochaine fois dans "every" jours
+        else:
+            print(f"{cfg['name']} : {left} jeux restent à chercher, la suite à la prochaine collecte (cette console reste prioritaire).")
         save(f"{DATA}/state.json", state)
         if stop:
             break
