@@ -43,12 +43,31 @@ details{position:relative}
 .info{grid-area:info;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:10px;width:100%;max-width:780px;justify-self:center}
 .conbar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 16px;border-radius:12px;color:#fff;font-weight:900;letter-spacing:1px;font-size:clamp(18px,2.2vw,32px);text-shadow:0 2px 6px #0007;text-transform:uppercase}
 .conbar .rk{font-size:13px;font-weight:600;letter-spacing:0;opacity:.85;text-transform:none;white-space:nowrap}
+.conbar .fg{display:flex;align-items:center;gap:10px;background:#0004;padding:4px 14px 4px 6px;border-radius:10px;font-size:.62em;letter-spacing:.5px}
+.conbar .fg.bad{background:#d81f3f}
+.conbar .fl.big{width:60px;height:40px;margin:0}
+.conbar .rk{margin-left:auto}
+.strip{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.sc{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:8px 4px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:3px}
+.sc.me{border-color:var(--t)}
+.sc.no{opacity:.55}
+.sc .fl.big{width:50px;height:34px;margin:0}
+.sc b{font-size:clamp(20px,2.1vw,30px);font-variant-numeric:tabular-nums}
+.sc small,.xcell small{font-size:12px;color:var(--mut)}
+.xgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:8px}
+.xcell{background:var(--bg);border:2px solid var(--line);border-radius:12px;padding:8px 4px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:3px}
+.xcell.me{border-color:var(--t)}
+.xcell b{font-size:clamp(20px,2.1vw,30px);font-variant-numeric:tabular-nums}
+.ed{background:var(--card);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:8px;border:2px solid #ff7a00}
+.edl{display:flex;flex-wrap:wrap;gap:8px}
+.edc{background:var(--bg);border-radius:10px;padding:8px 12px;display:flex;flex-direction:column;gap:2px;font-size:clamp(14px,1.2vw,17px)}
+.edc>b{font-size:clamp(15px,1.3vw,19px);color:#ffb36b}
 .verrow{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .verrow b{font-size:clamp(18px,2vw,30px);font-weight:900}
 .gt{margin:0;font-size:24px;line-height:1.12;font-weight:800}
 .badge{background:var(--rare);color:#fff;font-weight:700;padding:3px 10px;border-radius:99px;font-size:.85em}
 .pill{color:#fff;font-weight:800;padding:3px 12px;border-radius:99px;font-size:14px;letter-spacing:.5px;display:inline-block;white-space:nowrap}
-.warn{background:#ff7a00;color:#111;font-weight:700;padding:9px 12px;border-radius:10px;font-size:14px;line-height:1.3}
+.warn{background:#ff7a00;color:#111;font-weight:700;padding:10px 14px;border-radius:10px;font-size:clamp(15px,1.3vw,19px);line-height:1.3}
 .warn.red{background:#d81f3f;color:#fff}
 .note2{background:var(--card);border:1px dashed var(--mut);padding:8px 12px;border-radius:10px;font-size:14px;color:var(--fg)}
 .verdict{display:flex;gap:8px 12px;flex-wrap:wrap;align-items:center}
@@ -56,7 +75,7 @@ details{position:relative}
 .vr{color:var(--fg);font-size:15px;font-weight:600}
 .price{background:var(--card);border:3px solid var(--t);border-radius:16px;padding:10px 14px;text-align:center;color:var(--fg)}
 .pmain{display:block;text-decoration:none;color:var(--fg)}
-.pl{font-size:14px;color:var(--mut)}
+.pl{font-size:clamp(14px,1.2vw,17px);color:var(--mut)}.pl b{color:var(--fg)}
 .pvrow{display:flex;align-items:center;justify-content:center;gap:14px}
 .pv{font-size:clamp(54px,8vw,110px);font-weight:900;line-height:1.02;white-space:nowrap;color:var(--t);font-variant-numeric:tabular-nums}
 .wi{display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:50%;background:#ff7a00;color:#111;font-size:28px;font-weight:900;flex:none}
@@ -76,8 +95,8 @@ table.cmp{width:100%;border-collapse:collapse;background:var(--card);border-radi
 .cmp tr.me td{background:#ffb02022;font-weight:800}
 .cmp tr.no td{color:var(--mut);opacity:.7}
 .cmp td:nth-child(n+2),.cmp th:nth-child(n+2){text-align:right}
-.xc{background:var(--card);border-radius:12px;padding:8px 10px;display:flex;flex-direction:column;gap:6px}
-.xh{font-size:13px;font-weight:700;color:var(--mut)}
+.xc{background:var(--card);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.xh{font-size:clamp(13px,1.1vw,16px);font-weight:700;color:var(--mut)}
 .xrow{display:flex;align-items:center;gap:10px;font-size:15px}.xrow span{flex:1;color:var(--mut)}.xrow b{font-variant-numeric:tabular-nums}
 .fl{display:inline-block;width:26px;height:18px;border-radius:3px;border:1px solid #fff4;vertical-align:middle;flex:none;margin-right:6px}
 .fl.big{width:72px;height:48px;border-radius:6px;margin-right:12px;border:2px solid #fff5}
@@ -249,13 +268,13 @@ function phBox(imgs){if(!imgs||!imgs.length)return "";
 function ph(box,d){let L;try{L=JSON.parse(box.dataset.ph)}catch(e){return}const n=L.length;if(n<2)return;
  const i=((+box.dataset.i||0)+d+n)%n;box.dataset.i=i;box.querySelector("img").src=L[i];box.querySelector(".pc").textContent="📷 Photo "+(i+1)+"/"+n+" de l'annonce la moins chère · clique pour la suivante"}
 setInterval(()=>{if(document.hidden||NL)return;const c=feed.children[Math.round(feed.scrollTop/Math.max(1,feed.clientHeight))],b=c&&c.querySelector&&c.querySelector(".c-ph");if(b)ph(b,1)},2500);
-const conBar=(c,rk)=>`<div class="conbar" style="background:${ccol(c)}"><span>🎮 ${esc(cname(c))}</span>${rk?`<span class="rk">${rk}</span>`:""}</div>`;
+const conBar=(c,rk,l)=>`<div class="conbar" style="background:${ccol(c)}"><span>🎮 ${esc(cname(c))}</span>${l?`<span class="fg${l=="FR"?"":" bad"}">${flag(l,true)}<b>${l=="FR"?"FRANÇAISE":"⚠ "+esc((NAMES[l]||l).toUpperCase())}</b></span>`:""}${rk?`<span class="rk">${rk}</span>`:""}</div>`;
 const verRow=(l,extra)=>`<div class="verrow">${flag(l,true)}<b>Version ${NAMES[l]||l}</b>${extra||""}</div>`;
 function xcBlock(g){
- const L=(XC[g.id]||[]).filter(x=>x.c!=g.c).map(x=>{const fi=frInfo(x.g);return {c:x.c,live:fi.live,last:fi.last,v:fi.live?fi.live.min:(fi.last?fi.last.last:0)}}).filter(x=>x.live||x.last).sort((a,b)=>b.v-a.v);
+ const L=(XC[g.id]||[]).map(x=>{const fi=frInfo(x.g);return {c:x.c,me:x.c==g.c,live:fi.live,last:fi.last,v:fi.live?fi.live.min:(fi.last?fi.last.last:0)}}).filter(x=>x.live||x.last).sort((a,b)=>b.v-a.v);
  const h='<div class="xh">🎮 Même jeu sur les autres consoles (PAL FR, prix constatés)</div>';
- if(!L.length)return `<div class="xc hp">${h}<div class="sub">Aucun prix constaté sur les autres consoles pour l'instant.</div></div>`;
- return `<div class="xc hp">${h}${L.map(x=>`<div class="xrow">${pill(x.c)}<span>${esc(cname(x.c))}</span><b>${x.live?"dès "+eur(x.live.min)+" ("+x.live.n+" annonce"+(x.live.n>1?"s":"")+")":"⚪ dernier prix vu "+eur(x.last.last)}</b></div>`).join("")}</div>`}
+ if(L.length<2)return `<div class="xc hp">${h}<div class="sub">Aucun prix constaté sur une autre console pour l'instant (les consoles sont collectées à tour de rôle).</div></div>`;
+ return `<div class="xc hp">${h}<div class="xgrid">${L.map(x=>`<div class="xcell${x.me?" me":""}" style="${x.me?"":"border-color:"+ccol(x.c)}">${pill(x.c)}<b>${x.live?eur(x.live.min):"⚪ "+eur(x.last.last)}</b><small>${x.live?x.live.n+" annonce"+(x.live.n>1?"s":"")+(x.me?" ★":""):"dernier prix vu"}</small></div>`).join("")}</div></div>`}
 const byLang=(a,b)=>a.lang.localeCompare(b.lang);
 
 let NL=false;
@@ -329,7 +348,6 @@ function build(){
   const W=[];
   if(r.ver!="FR")W.push(`<div class="warn red">⚠ Aucune annonce en version FR${r.frSeen?" en ce moment (déjà vue en vente avant)":" et jamais vue en vente depuis le début du suivi"} : cette version n'existe peut-être pas en français. Le prix ci-dessous est celui de la version ${NAMES[r.ver]||r.ver}.</div>`);
   if(r.spOnly)W.push(`<div class="warn">⚠ ÉDITION SPÉCIALE : ${SPL[r.spOnly]||r.spOnly}. Ces prix ne sont PAS ceux de la version standard (la jaquette peut être identique).</div>`);
-  if(r.specs.length)W.push(`<div class="warn">⚠ Versions spéciales aussi en vente (prix différent de la standard) : ${r.specs.map(s=>`${SPL[s.sp]||s.sp} <b>${eur(s.min)}</b> (${s.n})`).join(" · ")}</div>`);
   W.push(uncTxt(r.unc));
   // raisons de se méfier du prix (icône ⚠ à côté du prix)
   const R=[],ps=r.top.map(t=>t[0]),refs=r.others.filter(o=>o.ref).map(o=>o.ref);
@@ -338,30 +356,28 @@ function build(){
   if(refs.length&&!r.spOnly&&r.ref>=50&&r.ref>=3*Math.min(...refs))R.push(Math.round(r.ref/Math.min(...refs))+"× plus cher que dans les autres pays ("+eur(Math.min(...refs))+").");
   if(r.n==1&&r.min>=300)R.push("Prix très élevé ET isolé : probablement fantaisiste.");
   const have=Object.fromEntries(r.others.map(o=>[o.lang,o]));
-  const line=l=>{const me=l==r.ver,o=me?{ref:r.ref,n:r.n}:have[l];
-   if(o)return `<tr class="${me?"me":""}"><td>${flag(l)}${NAMES[l]}${me?" ★":""}</td><td>${o.n}</td><td>${eur(o.ref)}</td></tr>`;
-   return `<tr class="no"><td>${flag(l)}${NAMES[l]}</td><td colspan="2">${r.g.fx?"aucune annonce":"pas encore vérifié"}</td></tr>`};
-  const table=`<table class="cmp hp"><tr><th>Version</th><th>Annonces</th><th>Moy. des 3 moins chères</th></tr>${["FR","EN","DE","IT","ES"].map(line).join("")}</table>`;
+  const cstrip=`<div class="xc hp"><div class="xh">🌍 Prix le plus bas par pays (même jeu, même console)</div><div class="strip">${["FR","EN","DE","IT","ES"].map(l=>{const me=l==r.ver,o=me?{min:r.min,n:r.n}:have[l];
+   return `<div class="sc${me?" me":""}${o?"":" no"}">${flag(l,true)}<b>${o?eur(o.min):"—"}</b><small>${o?o.n+" annonce"+(o.n>1?"s":"")+(me?" ★":""):(r.g.fx?"aucune annonce":"non vérifié")}</small></div>`}).join("")}</div></div>`;
+  const SS={collector:"Collector / coffret",limitee:"Édition limitée / spéciale",budget:"Budget : Platinum, Greatest Hits…",presse:"Presse / promo / démo"};
+  const eds=r.specs.length?`<div class="ed hp"><div class="xh">💿 Autres éditions en vente : prix à ne PAS comparer à la version standard</div><div class="edl">${r.specs.map(s=>`<span class="edc"><b>${esc(SS[s.sp]||s.sp)}</b><span>dès <b>${eur(s.min)}</b> · ${s.n} annonce${s.n>1?"s":""}</span></span>`).join("")}</div></div>`:"";
   const others=r.top.slice(1).map((t,j)=>`<a class="po" href="${safe(t[1])}" target="_blank" rel="noopener">${["🥈","🥉"][j]} ${eur(t[0])} ↗</a>`).join("");
-  const pbox=`<div class="price hp"><a class="pmain" href="${safe(r.top[0][1])}" target="_blank" rel="noopener"><div class="pl">🥇 La moins chère · port inclus</div><div class="pvrow"><span class="pv">${eur(r.min)}</span>${R.length?`<span class="wi${R.length>1?" red":""}" title="${esc(R.join(" | "))}">⚠</span>`:""}</div><div class="pg">Voir l'annonce ↗</div></a>${others?`<div class="pothers">${others}</div>`:""}${R.length?`<div class="pwarn">${R.map(x=>"⚠ "+esc(x)).join("<br>")}</div>`:""}</div>`;
-  const exclu=r.g.x?'<span class="badge" style="background:#7a3cff">🔒 EXCLU '+esc(cname(r.g.c))+'</span>':'';
+  const pbox=`<div class="price hp"><a class="pmain" href="${safe(r.top[0][1])}" target="_blank" rel="noopener"><div class="pl">🥇 La moins chère · port inclus · <b>${r.n} annonce${r.n>1?"s":""} en ligne</b></div><div class="pvrow"><span class="pv">${eur(r.min)}</span>${R.length?`<span class="wi${R.length>1?" red":""}" title="${esc(R.join(" | "))}">⚠</span>`:""}</div><div class="pg">Voir l'annonce ↗</div></a>${others?`<div class="pothers">${others}</div>`:""}${R.length?`<div class="pwarn">${R.map(x=>"⚠ "+esc(x)).join("<br>")}</div>`:""}</div>`;
+  const exclu=r.g.x?' <span class="badge" style="background:#7a3cff">🔒 EXCLU '+esc(cname(r.g.c))+'</span>':'';
   return `<section class="card${r.imgs.length?"":" nophoto"}" data-id="${esc(r.g.uid)}" data-ed="" style="${tvars(r.min)}">${covBox(r.g,chip(r.min))}
- <div class="info">${conBar(r.g.c,"#"+(i+1)+" / "+rows.length)}
- ${verRow(r.ver,exclu)}
- <h2 class="gt">${esc(r.g.t)}</h2>
+ <div class="info">${conBar(r.g.c,"#"+(i+1)+" / "+rows.length,r.ver)}
+ <h2 class="gt">${esc(r.g.t)}${exclu}</h2>
  <div class="hp" style="display:contents">${W.join("")}</div>
  <div class="verdict hp"><span class="vt">${vtxt(r.min)}</span><span class="vr">${r.q}</span>${r.n<=3?'<span class="badge">RARE : '+r.n+' annonce'+(r.n>1?'s':'')+'</span>':''}</div>
  ${pbox}
- <div class="tiles hp"><div><b>${r.n}</b>annonce${r.n>1?"s":""} en ligne</div><div class="${r.n<3?"bad":""}"><b>${eur(r.ref)}</b>moy. 3 moins chères${r.n<3?" ⚠ peu fiable":""}</div><div><b>≈ ${r.since?r.sold:"?"}</b>vente(s) / 30 j${r.since&&d<30?" (suivi "+d+" j)":""}</div></div>
- ${table}
+ ${cstrip}
  ${xcBlock(r.g)}
+ ${eds}
  <div class="sub hp">${r.man?"✍ Ton prix de vente saisi : "+eur(r.man.p)+" ("+esc(r.man.d)+"). ":""}${r.sure<r.n?"Langue probable (pas écrite dans le titre) pour "+(r.n-r.sure)+" annonce(s). ":""}FR + Belgique pour la version française.</div></div>${phBox(r.imgs)}</section>`});
  const B=miss.map(m=>{const isM=m.src=="manual",edl=m.ed?SPL[m.ed]:"";
   const badges=(edl?'<span class="badge" style="background:#ff7a00;color:#111">ÉDITION : '+esc(edl)+'</span>':'')+(isM?'<span class="badge" style="background:#7a3cff">✍ VENDU (prix saisi par toi)</span>':'<span class="badge" style="background:#555">INTROUVABLE</span>')+(m.g.x?'<span class="badge" style="background:#7a3cff">🔒 EXCLU '+esc(cname(m.g.c))+'</span>':"");
   return `<section class="card nophoto" data-id="${esc(m.g.uid)}" data-ed="${m.ed}" style="${tvars(m.last)}">${covBox(m.g,chip(m.last))}
- <div class="info">${conBar(m.g.c,"Introuvable en ligne")}
- ${verRow(m.ver,badges)}
- <h2 class="gt">${esc(m.g.t)}</h2>
+ <div class="info">${conBar(m.g.c,"Introuvable en ligne",m.ver)}
+ <h2 class="gt">${esc(m.g.t)}</h2><div class="verdict">${badges}</div>
  ${edl?'<div class="warn hp">⚠ Prix d\'une édition spéciale : ne pas le comparer à la version standard.</div>':""}
  ${uncTxt(m.unc)}
  <div class="verdict hp"><span class="vt">${vtxt(m.last)}</span></div>
