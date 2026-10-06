@@ -7,16 +7,17 @@
 @media(prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f4f5f8;--fg:#14161c;--mut:#555b70;--card:#fff;--line:#d9dce6}}
 *{box-sizing:border-box}html,body{height:100%;margin:0}
 body{background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;display:flex;flex-direction:column}
-header{padding:8px 14px;background:var(--card);border-bottom:1px solid var(--line)}
+header{padding:8px 14px;background:var(--card);border-bottom:1px solid var(--line);position:relative}
 .bar{display:flex;gap:10px 16px;flex-wrap:wrap;align-items:center;font-size:14px;color:var(--mut)}
 .bar label{display:flex;align-items:center;gap:6px}
 .bar input[type=range]{width:90px}
 select{background:var(--bg);color:var(--fg);border:1px solid var(--mut);border-radius:8px;padding:6px;font-size:15px}
-#ab,summary{background:var(--acc);color:#111;border:0;border-radius:8px;padding:7px 12px;font-weight:700;cursor:pointer;font-size:14px;list-style:none}
+#ab,#addb,summary{background:var(--acc);color:#111;border:0;border-radius:8px;padding:7px 12px;font-weight:700;cursor:pointer;font-size:14px;list-style:none}
+#addb{background:#7a3cff;color:#fff}
 summary{background:var(--bg);color:var(--fg);border:1px solid var(--mut)}
 summary::-webkit-details-marker{display:none}
 details{position:relative}
-.flt{display:flex;flex-direction:column;gap:10px;margin-top:8px;padding:12px;background:var(--bg);border:1px solid var(--line);border-radius:10px;position:absolute;z-index:9;min-width:300px}
+.flt{display:flex;flex-direction:column;gap:10px;margin-top:8px;padding:12px;background:var(--bg);border:1px solid var(--line);border-radius:10px;position:absolute;z-index:9;min-width:300px;max-height:70vh;overflow:auto}
 .stats{display:flex;gap:8px;margin-left:auto}.stats div{background:var(--bg);border-radius:10px;padding:4px 12px;font-size:11px}
 .stats b{display:block;font-size:18px;color:var(--fg)}
 .note{font-size:12px;color:var(--mut);margin-top:5px}
@@ -32,8 +33,11 @@ details{position:relative}
 .meta{display:flex;gap:10px;align-items:center;justify-content:center;color:var(--mut);font-size:15px;flex-wrap:wrap}
 .meta .vers{color:var(--fg);font-weight:700}
 .badge{background:var(--rare);color:#fff;font-weight:700;padding:3px 10px;border-radius:99px;font-size:.85em}
+.pillrow{display:flex;justify-content:center}
+.pill{color:#fff;font-weight:800;padding:3px 12px;border-radius:99px;font-size:14px;letter-spacing:.5px;display:inline-block;white-space:nowrap}
 .warn{background:#ff7a00;color:#111;font-weight:700;padding:9px 12px;border-radius:10px;font-size:14px;line-height:1.3}
 .warn.red{background:#d81f3f;color:#fff}
+.note2{background:var(--card);border:1px dashed var(--mut);padding:8px 12px;border-radius:10px;font-size:14px;color:var(--fg)}
 .verdict{display:flex;gap:8px 12px;flex-wrap:wrap;align-items:center;justify-content:center}
 .vt{background:var(--t);color:#0b0d12;font-weight:800;padding:5px 14px;border-radius:99px;font-size:16px}
 .vr{color:var(--fg);font-size:15px;font-weight:600}
@@ -59,7 +63,6 @@ table.cmp{width:100%;border-collapse:collapse;background:var(--card);border-radi
 .sub{font-size:12px;color:var(--mut);text-align:center}
 body.train .card:not(.rev) .info{visibility:hidden}
 body.train .card:not(.rev)::after{content:"Clique l'image : quel prix ?";position:absolute;bottom:14px;color:var(--mut);font-size:14px}
-header{position:relative}
 #q{background:var(--bg);color:var(--fg);border:1px solid var(--mut);border-radius:8px;padding:7px 10px;font-size:15px;width:230px}
 #res{display:none;position:absolute;left:14px;top:100%;z-index:20;background:var(--card);border:1px solid var(--line);border-radius:10px;width:min(560px,94vw);max-height:60vh;overflow:auto;box-shadow:0 10px 30px #000a}
 .hit{padding:9px 12px;border-bottom:1px solid var(--line);cursor:pointer;display:flex;flex-direction:column;gap:2px;font-size:15px}
@@ -67,10 +70,13 @@ header{position:relative}
 #mod{display:none;position:fixed;inset:0;background:#000b;z-index:50;align-items:center;justify-content:center}
 .mbox{background:var(--card);color:var(--fg);border-radius:14px;padding:18px;max-width:520px;width:92%;display:flex;flex-direction:column;gap:12px;position:relative;max-height:92vh;overflow:auto}
 .mbox h3{margin:0 0 4px;font-size:20px}.mbox .x{position:absolute;top:8px;right:10px;background:none;border:0;color:var(--mut);font-size:20px;cursor:pointer}
-.mrow{display:flex;gap:12px;align-items:flex-start}.mrow img{width:90px;border-radius:8px}
 .mbox label{display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--mut)}
-.mbox input[type=number]{font-size:22px;padding:8px;border-radius:8px;border:1px solid var(--mut);background:var(--bg);color:var(--fg)}
+.mbox input[type=number],.mbox input[type=text]{font-size:20px;padding:8px;border-radius:8px;border:1px solid var(--mut);background:var(--bg);color:var(--fg)}
+.mbox select{font-size:17px}
 .mhint{font-size:12px;color:var(--mut)}.mbtn{display:flex;gap:8px;flex-wrap:wrap}
+.mrow2{font-size:14px}.mrow2 a{color:var(--acc)}
+#a_s{border:1px solid var(--line);border-radius:10px;max-height:190px;overflow:auto}
+#a_s:empty{display:none}
 .mbtn button,.flt button{background:var(--acc);color:#111;border:0;border-radius:8px;padding:8px 14px;font-weight:700;cursor:pointer;font-size:14px}
 .mbtn .sec2,.flt button{background:var(--bg);color:var(--fg);border:1px solid var(--mut)}
 #map{flex:1;min-height:0;padding:8px 12px;text-align:center;color:var(--fg)}#map svg{width:100%;height:100%;max-height:78vh}
@@ -82,7 +88,7 @@ header{position:relative}
  .cap{font-size:13px}
  .info{flex:1;max-width:760px;gap:1.4vh;max-height:100%;overflow:auto}
  .gt{font-size:clamp(28px,3vw,50px);text-align:left}
- .meta,.verdict{justify-content:flex-start}
+ .meta,.verdict,.pillrow{justify-content:flex-start}
  .more{justify-content:flex-start}
  .sub{text-align:left;font-size:13px}
  .vt{font-size:clamp(17px,1.5vw,24px)}.vr{font-size:clamp(15px,1.3vw,21px)}
@@ -93,8 +99,9 @@ header{position:relative}
 </style></head><body>
 <header>
  <div class="bar">
-  <select id="console"><option>Chargement…</option></select>
+  <details id="cd"><summary id="cs">🎮 Consoles</summary><div class="flt" id="cl"></div></details>
   <input id="q" type="search" placeholder="🔎 Chercher un jeu par nom…" autocomplete="off">
+  <button id="addb" type="button">✍ Ajouter un prix de référence</button>
   <button id="ab">▶ Défilement auto</button>
   <label><input type="checkbox" id="tr"> 🎓 Entraînement</label>
   <details><summary>⚙ Filtres</summary><div class="flt">
@@ -123,49 +130,91 @@ const $=id=>document.getElementById(id),eur=n=>Math.round(n)+" €";
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const safe=u=>/^https:\/\//.test(u||"")?esc(u):"#";
 const IMG="https://images.igdb.com/igdb/image/upload/t_cover_big/";
-const col=id=>`hsl(${(id*47)%360},45%,32%)`;
+const hs=s=>{let h=0;for(const ch of String(s))h=(h*31+ch.charCodeAt(0))|0;return Math.abs(h)};
+const col=s=>`hsl(${(hs(s)*47)%360},45%,32%)`;
 const days=d=>Math.max(1,Math.round((Date.now()-new Date(d))/864e5)+1);
+const today=()=>new Date().toISOString().slice(0,10);
 const NAMES={FR:"française",EN:"anglaise (UK)",DE:"allemande",IT:"italienne",ES:"espagnole"};
 const SPL={collector:"Collector / coffret",limitee:"Édition limitée / spéciale",budget:"Réédition budget (Platinum, Greatest Hits…)",presse:"Presse / promo / démo"};
+const SHORT={ps1:"PS1",ps2:"PS2",ps3:"PS3",ps4:"PS4",psp:"PSP",x360:"360",xbox:"XBOX",xone:"X ONE",wii:"WII",ds:"DS","3ds":"3DS",gc:"GC",switch:"SWITCH",n64:"N64",snes:"SNES",nes:"NES",md:"MD",dc:"DC",saturn:"SATURN",gba:"GBA",gbc:"GBC",gb:"GB"};
+const CCOL={ps1:"#7c8aa5",ps2:"#2f6bff",ps3:"#1b2a8a",ps4:"#0a86d6",psp:"#0b7a75",x360:"#2ea043",xbox:"#5d8f12",xone:"#107c10",wii:"#2a9db5",ds:"#d94f7a","3ds":"#c0392b",gc:"#7b4fc9",switch:"#e60012",n64:"#d68910",snes:"#8e6cc6",nes:"#b03a2e",md:"#444",dc:"#f07f2d",saturn:"#556270",gba:"#5b3fa8",gbc:"#d35fb7",gb:"#7f8c3a"};
+const pill=c=>`<span class="pill" style="background:${CCOL[c]||col(c)}">${esc(SHORT[c]||String(c).toUpperCase())}</span>`;
 const FLAG={FR:"linear-gradient(90deg,#0055a4 33%,#fff 33% 66%,#ef4135 66%)",IT:"linear-gradient(90deg,#009246 33%,#fff 33% 66%,#ce2b37 66%)",DE:"linear-gradient(180deg,#000 33%,#dd0000 33% 66%,#ffce00 66%)",ES:"linear-gradient(180deg,#aa151b 25%,#f1bf00 25% 75%,#aa151b 75%)"};
 const flag=l=>l=="EN"?'<svg class="fl" viewBox="0 0 60 30"><rect width="60" height="30" fill="#012169"/><path d="M0 0L60 30M60 0L0 30" stroke="#fff" stroke-width="6"/><path d="M0 0L60 30M60 0L0 30" stroke="#c8102e" stroke-width="2"/><path d="M30 0v30M0 15h60" stroke="#fff" stroke-width="10"/><path d="M30 0v30M0 15h60" stroke="#c8102e" stroke-width="6"/></svg>':`<span class="fl" style="background:${FLAG[l]||"#555"}"></span>`;
-let G=[],CUR="",GM={},CAT=[],CK="";
-const LS="tikkot_manual";
-function ldMan(){try{return JSON.parse(localStorage.getItem(LS)||"{}")}catch(e){return {}}}
-function svMan(o){try{localStorage.setItem(LS,JSON.stringify(o))}catch(e){alert("Impossible d'enregistrer dans ce navigateur.")}}
-const MAN=()=>ldMan()[CK]||{};
 const nrm=s=>String(s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g," ").trim();
-// Filet de sécurité : un prix >= 200 € et >= 30 x la médiane des autres versions du même jeu est une erreur de collecte : on l'ignore.
-function clean(){G.forEach(g=>{const ents=Object.values(g.k||{});
- ents.forEach(e=>{const v=Math.max(e.min||0,e.last||0);if(v<200)return;
-  const o=ents.filter(x=>x!==e).map(x=>x.ref||x.last||0).filter(x=>x>0).sort((a,b)=>a-b);
+const cOf=u=>u.split(":")[0],iOf=u=>u.slice(u.indexOf(":")+1);
+
+/* ---- données enregistrées dans le navigateur ---- */
+const LS="tikkot_manual",LC="tikkot_custom",LSEL="tikkot_sel";
+function jget(k){try{return JSON.parse(localStorage.getItem(k)||"{}")}catch(e){return {}}}
+function jset(k,o){try{localStorage.setItem(k,JSON.stringify(o))}catch(e){alert("Impossible d'enregistrer dans ce navigateur.")}}
+const ldMan=()=>jget(LS),svMan=o=>jset(LS,o),ldCus=()=>jget(LC),svCus=o=>jset(LC,o);
+const ldSel=()=>{const s=jget(LSEL);return Array.isArray(s)?s:[]};
+
+/* ---- état ---- */
+let CONS=[],SEL=[],DB={},GM={};
+const okj=r=>{if(!r.ok)throw 0;return r.json()};
+const ents=g=>Object.entries(g.k||{}).map(([k,e])=>{const p=k.split("|");return {lang:p[0],cond:p[1],sp:p[2]||"",...e}});
+
+// Filet de sécurité : un prix >= 200 € et >= 30 x la médiane des autres versions du même jeu = erreur de collecte, ignoré.
+function clean(games){games.forEach(g=>{const es=Object.values(g.k||{});
+ es.forEach(e=>{const v=Math.max(e.min||0,e.last||0);if(v<200)return;
+  const o=es.filter(x=>x!==e).map(x=>x.ref||x.last||0).filter(x=>x>0).sort((a,b)=>a-b);
   if(o.length>=2&&v>=30*o[o.length>>1]){e.n=0;e.min=0;e.ref=0;e.last=0;e.top=null}})})}
+
+function loadOne(key){if(DB[key])return DB[key].p;
+ const nm=(CONS.find(c=>c.key==key)||{}).name||key;
+ const get=(f)=>fetch(`data/${key}/${f}`,{cache:"no-store"}).then(okj).catch(()=>key==="ps2"?fetch(`data/${f}`,{cache:"no-store"}).then(okj):Promise.reject());
+ const L=get("latest.json").catch(()=>({games:[],updated:"-",catalog_total:0}));
+ const C=get("catalog.json").catch(()=>({games:[]}));
+ const p=Promise.all([L,C]).then(([l,c])=>{const games=l.games||[],cat=c.games||[];
+  games.forEach(g=>{g.c=key;g.uid=key+":"+g.id});cat.forEach(g=>{g.c=key;g.uid=key+":"+g.id});
+  clean(games);
+  return DB[key]={p,games,cat,name:nm,updated:l.updated||"-",total:l.catalog_total||cat.length}});
+ DB[key]={p};return p}
+function pool(key){const d=DB[key],b=d&&d.cat?(d.cat.length?d.cat:d.games):[];
+ const cu=Object.entries(ldCus()[key]||{}).map(([id,v])=>({id,uid:key+":"+id,c:key,t:v.t,img:v.img,cover:null}));
+ return b.concat(cu)}
+const findGame=u=>GM[u]||pool(cOf(u)).find(x=>x.uid==u);
+const cname=c=>(DB[c]&&DB[c].name)||(CONS.find(x=>x.key==c)||{}).name||c;
+
 function cover(g,photo){
- const igdb=g.cover?IMG+g.cover+".jpg":"",src=photo||igdb;
- const cap=photo?"📷 Photo de l'annonce la moins chère (la vraie boîte)":"Jaquette IGDB : peut être US/autre, pas forcément la PAL FR";
- return `<div class="cover${photo?" photo":""}" onclick="this.parentNode.classList.toggle('rev')" style="background-color:${col(g.id)}">${src?`<img src="${safe(src)}" alt="" loading="lazy" data-f="${igdb}" onerror="if(this.dataset.f&&this.src!==this.dataset.f){this.src=this.dataset.f;this.parentNode.classList.remove('photo');this.parentNode.querySelector('.cap').textContent='Jaquette IGDB : peut être US/autre, pas forcément la PAL FR'}else{this.remove()}">`:esc(g.t)}${src?`<div class="cap">${cap}</div>`:""}</div>`}
+ const igdb=g.cover?IMG+g.cover+".jpg":"",src=photo||g.img||igdb;
+ const cap=photo?"📷 Photo de l'annonce la moins chère (la vraie boîte)":g.img?"Image fournie par toi":"Jaquette IGDB : peut être US/autre, pas forcément la PAL FR";
+ return `<div class="cover${photo?" photo":""}" onclick="this.parentNode.classList.toggle('rev')" style="background-color:${col(g.uid)}">${src?`<img src="${safe(src)}" alt="" loading="lazy" data-f="${igdb}" onerror="if(this.dataset.f&&this.src!==this.dataset.f){this.src=this.dataset.f;this.parentNode.classList.remove('photo');this.parentNode.querySelector('.cap').textContent='Jaquette IGDB : peut être US/autre, pas forcément la PAL FR'}else{this.remove()}">`:esc(g.t)}${src?`<div class="cap">${cap}</div>`:""}</div>`}
 const byLang=(a,b)=>a.lang.localeCompare(b.lang);
+
 function build(){
  const min=+$("mn").value,all=$("all").checked;
  let rows=[],miss=[];
- const man=MAN(),inG=new Set(G.map(g=>g.id)),base=G.slice();
- CAT.forEach(c=>{if(man[c.id]&&!inG.has(c.id))base.push({id:c.id,t:c.t,cover:c.cover,x:c.x||0,k:{}})});
+ const man=ldMan(),cus=ldCus(),base=[];
+ SEL.forEach(key=>{const d=DB[key];if(!d)return;
+  const inG=new Set(d.games.map(g=>String(g.id))),m=man[key]||{},mids=new Set(Object.keys(m).map(k=>k.split("|")[0]));
+  d.games.forEach(g=>base.push(g));
+  d.cat.forEach(c=>{if(mids.has(String(c.id))&&!inG.has(String(c.id)))base.push({id:c.id,uid:c.uid,c:key,t:c.t,cover:c.cover,x:c.x||0,k:{}})});
+  Object.entries(cus[key]||{}).forEach(([id,v])=>{if(mids.has(id))base.push({id,uid:key+":"+id,c:key,t:v.t,img:v.img||"",cover:null,x:0,k:{}})})});
  base.forEach(g=>{
-  const L=Object.entries(g.k).map(([k,e])=>{const p=k.split("|");return {lang:p[0],cond:p[1],sp:p[2]||"",...e}}).filter(e=>e.cond=="complet");
+  const mm=man[g.c]||{},idk=String(g.id),ms=mm[idk];
+  const E=ents(g),L=E.filter(e=>e.cond=="complet");
+  const U=E.filter(e=>e.cond=="incertain"&&e.lang=="FR"&&!e.sp&&e.n);
+  const unc=U.length?{n:U.reduce((a,x)=>a+x.n,0),min:Math.min(...U.map(x=>x.min))}:null;
   const live=L.filter(e=>e.n),std=live.filter(e=>!e.sp);
   const pick=a=>a.find(x=>x.lang=="FR")||(all?[...a].sort((x,y)=>y.n-x.n)[0]:null);
   let e=pick(std),spOnly="";
   if(!e){e=pick(live.filter(x=>x.sp));if(e)spOnly=e.sp}
   if(e){
    const top=e.top||[[e.min,e.url]];
-   rows.push({g,n:e.n,ref:e.ref,min:e.min,top,img:top[0]&&top[0][2],sold:e.sold30||0,since:e.since,sure:e.sure,ver:e.lang,spOnly,
-    frSeen:L.some(x=>x.lang=="FR"),specs:live.filter(x=>x.sp&&x!==e).sort(byLang),others:std.filter(x=>x!==e).sort(byLang),man:man[g.id]});
+   rows.push({g,n:e.n,ref:e.ref,min:e.min,top,img:top[0]&&top[0][2],sold:e.sold30||0,since:e.since,sure:e.sure,ver:e.lang,spOnly,unc,
+    frSeen:L.some(x=>x.lang=="FR"),specs:live.filter(x=>x.sp&&x!==e).sort(byLang),others:std.filter(x=>x!==e).sort(byLang),man:ms});
   }else{
    const m=L.filter(x=>x.last&&!x.sp&&(all||x.lang=="FR")).sort((a,b)=>b.last-a.last)[0];
-   let c=m?{last:m.last,date:m.date,ver:m.lang,src:"auto"}:null;const mp=man[g.id];
-   if(mp&&(!c||mp.d>=c.date))c={last:mp.p,date:mp.d,ver:"FR",src:"manual"};
-   if(c)miss.push({g,...c});
-  }});
+   let c=m?{last:m.last,date:m.date,ver:m.lang,src:"auto"}:null;
+   if(ms&&(!c||ms.d>=c.date))c={last:ms.p,date:ms.d,ver:"FR",src:"manual"};
+   if(c)miss.push({g,...c,ed:"",unc});
+  }
+  Object.keys(SPL).forEach(ed=>{const x=mm[idk+"|"+ed];
+   if(x&&!live.some(l=>l.lang=="FR"&&l.sp==ed))miss.push({g,last:x.p,date:x.d,ver:"FR",src:"manual",ed,unc:null})});
+ });
  if($("ex").checked){rows=rows.filter(r=>r.g.x);miss=miss.filter(m=>m.g.x)}
  if($("two").checked)rows=rows.filter(r=>r.n>=2);
  rows=rows.filter(r=>r.min>=min).sort((a,b)=>b.min-a.min);
@@ -179,7 +228,11 @@ function build(){
  const medP=med(rows.map(r=>r.min)),medN=med(rows.map(r=>r.n));
  rows.forEach(r=>{const hi=r.min>=medP,ra=r.n<=medN;r.q=hi&&ra?"🔥 Cher et rare":hi?"💰 Cher mais courant":ra?"🧩 Rare mais pas cher":"📦 Courant et bon marché"});
  drawMap(rows,medP,medN);
- if(!rows.length&&!miss.length){f.innerHTML='<div class="empty">Aucun jeu pour ces filtres.</div>';return}
+ if(!SEL.length){f.innerHTML='<div class="empty">Coche au moins une console dans « 🎮 Consoles ».</div>';return}
+ if(!rows.length&&!miss.length){
+  const nodata=SEL.every(k=>!DB[k]||!DB[k].games.length);
+  f.innerHTML=nodata?'<div class="empty">Pas encore de données pour cette console : la collecte les traite à tour de rôle.</div>':'<div class="empty">Aucun jeu pour ces filtres.</div>';return}
+ const uncTxt=u=>u?`<div class="note2">ℹ + ${u.n} annonce${u.n>1?"s":""} d'état non précisé (boîte/notice ?), dès <b>${eur(u.min)}</b>. Non comptées dans le prix ci-dessus.</div>`:"";
  const A=rows.map((r,i)=>{const d=r.since?days(r.since):0;
   const W=[];
   if(r.ver!="FR")W.push(`<div class="warn red">⚠ Aucune annonce en version FR${r.frSeen?" en ce moment (déjà vue en vente avant)":" et jamais vue en vente depuis le début du suivi"} : cette version n'existe peut-être pas en français. Le prix ci-dessous est celui de la version ${NAMES[r.ver]||r.ver}.</div>`);
@@ -188,6 +241,7 @@ function build(){
   if(r.n==1)W.push(`<div class="warn red">⚠ 1 seule annonce : prix isolé, non fiable. Un vendeur peut demander n'importe quoi.</div>`);
   const refs=r.others.filter(o=>o.ref).map(o=>o.ref);
   if(refs.length&&!r.spOnly&&r.ref>=50&&r.ref>=3*Math.min(...refs))W.push(`<div class="warn red">⚠ Méfiance : ${Math.round(r.ref/Math.min(...refs))}× plus cher que dans les autres pays (${eur(Math.min(...refs))}). Prix peut-être exagéré.</div>`);
+  W.push(uncTxt(r.unc));
   const have=Object.fromEntries(r.others.map(o=>[o.lang,o]));
   const line=l=>{const me=l==r.ver,o=me?{ref:r.ref,n:r.n}:have[l];
    if(o)return `<tr class="${me?"me":""}"><td>${flag(l)}${NAMES[l]}${me?" ★":""}</td><td>${o.n}</td><td>${eur(o.ref)}</td></tr>`;
@@ -195,20 +249,24 @@ function build(){
   const table=`<table class="cmp"><tr><th>Version</th><th>Annonces</th><th>Moy. des 3 moins chères</th></tr>${["FR","EN","DE","IT","ES"].map(line).join("")}</table>`;
   const more=r.top.slice(1).map((t,j)=>`<a href="${safe(t[1])}" target="_blank" rel="noopener">${["🥈 2e","🥉 3e"][j]} <b>${eur(t[0])}</b> ↗</a>`).join("");
   const tc=tcol(r.min);
-  return `<section class="card" data-id="${r.g.id}"><div class="rank">#${i+1} / ${rows.length}</div>${cover(r.g,r.img)}
+  return `<section class="card" data-id="${esc(r.g.uid)}" data-ed=""><div class="rank">#${i+1} / ${rows.length}</div>${cover(r.g,r.img)}
  <div class="info" style="--t:${tc}"><h2 class="gt">${esc(r.g.t)}</h2>
- <div class="meta"><span class="vers">${flag(r.ver)}Version ${NAMES[r.ver]||r.ver}</span>${r.g.x?'<span class="badge" style="background:#7a3cff">🔒 EXCLU '+esc(CUR)+'</span>':''}</div>
+ <div class="meta"><span class="vers">${flag(r.ver)}Version ${NAMES[r.ver]||r.ver}</span>${r.g.x?'<span class="badge" style="background:#7a3cff">🔒 EXCLU '+esc(cname(r.g.c))+'</span>':''}</div>
  ${W.join("")}
  <div class="verdict"><span class="vt">${tier(r.min)}</span><span class="vr">${r.q}</span>${r.n<=3?'<span class="badge">RARE : '+r.n+' annonce'+(r.n>1?'s':'')+'</span>':''}</div>
+ <div class="pillrow">${pill(r.g.c)}</div>
  <a class="price" href="${safe(r.top[0][1])}" target="_blank" rel="noopener"><div class="pl">🥇 La moins chère · port inclus</div><div class="pv">${eur(r.min)}</div><div class="pg">Voir l'annonce ↗</div></a>
  ${more?`<div class="more">${more}</div>`:""}
  <div class="tiles"><div><b>${r.n}</b>annonce${r.n>1?"s":""} en ligne</div><div class="${r.n<3?"bad":""}"><b>${eur(r.ref)}</b>moy. 3 moins chères${r.n<3?" ⚠ peu fiable":""}</div><div><b>≈ ${r.since?r.sold:"?"}</b>vente(s) / 30 j${r.since&&d<30?" (suivi "+d+" j)":""}</div></div>
  ${table}
  <div class="sub">${r.man?"✍ Ton prix de vente saisi : "+eur(r.man.p)+" ("+esc(r.man.d)+"). ":""}${r.sure<r.n?"Langue probable (pas écrite dans le titre) pour "+(r.n-r.sure)+" annonce(s). ":""}FR + Belgique pour la version française.</div></div></section>`});
- const B=miss.map(m=>{const isM=m.src=="manual";return `<section class="card" data-id="${m.g.id}"><div class="rank">Introuvable en ligne</div>${cover(m.g,null)}
- <div class="info" style="--t:${isM?"#b07cff":"#6b7080"}"><h2 class="gt">${esc(m.g.t)}</h2><div class="meta"><span class="vers">${flag(m.ver)}Version ${NAMES[m.ver]||m.ver}</span>${isM?'<span class="badge" style="background:#7a3cff">✍ VENDU (prix saisi par toi)</span>':'<span class="badge" style="background:#555">INTROUVABLE</span>'}${m.g.x?'<span class="badge" style="background:#7a3cff">🔒 EXCLU '+esc(CUR)+'</span>':""}</div>
+ const B=miss.map(m=>{const isM=m.src=="manual",edl=m.ed?SPL[m.ed]:"";return `<section class="card" data-id="${esc(m.g.uid)}" data-ed="${m.ed}"><div class="rank">Introuvable en ligne</div>${cover(m.g,null)}
+ <div class="info" style="--t:${isM?"#b07cff":"#6b7080"}"><h2 class="gt">${esc(m.g.t)}</h2><div class="meta"><span class="vers">${flag(m.ver)}Version ${NAMES[m.ver]||m.ver}</span>${edl?'<span class="badge" style="background:#ff7a00;color:#111">ÉDITION : '+esc(edl)+'</span>':''}${isM?'<span class="badge" style="background:#7a3cff">✍ VENDU (prix saisi par toi)</span>':'<span class="badge" style="background:#555">INTROUVABLE</span>'}${m.g.x?'<span class="badge" style="background:#7a3cff">🔒 EXCLU '+esc(cname(m.g.c))+'</span>':""}</div>
+ ${edl?'<div class="warn">⚠ Prix d\'une édition spéciale : ne pas le comparer à la version standard.</div>':""}
+ ${uncTxt(m.unc)}
+ <div class="pillrow">${pill(m.g.c)}</div>
  <div class="price"><div class="pl">${isM?"Prix de vente réussi saisi le "+esc(m.date):"Dernier prix vu (le "+esc(m.date)+")"}</div><div class="pv">${eur(m.last)}</div></div>
- <div class="more"><a href="#" onclick="openGame(${m.g.id});return false">✏ ${isM?"Modifier / supprimer ce prix":"Saisir un prix de vente réussi"}</a></div>
+ <div class="more"><a href="#" onclick="openAdd('${esc(m.g.uid)}');return false">✏ ${isM?"Modifier / supprimer ce prix":"Saisir un prix de vente réussi"}</a></div>
  <div class="sub">Aucune annonce en ligne en ce moment.${isM?" Si une annonce FR apparaît à la prochaine collecte, son prix remplacera le tien.":""}</div></div></section>`});
  f.innerHTML=A.concat(B).join("");
  f.scrollTop=0;
@@ -222,53 +280,110 @@ function drawMap(rows,medP,medN){
  <line x1="60" y1="${Y(medP)}" x2="740" y2="${Y(medP)}" stroke="currentColor" opacity=".4" stroke-dasharray="4"/>
  <g font-size="13" fill="currentColor" opacity=".6"><text x="735" y="40" text-anchor="end">🔥 Cher et rare</text><text x="65" y="40">💰 Cher et courant</text><text x="735" y="455" text-anchor="end">🧩 Rare, pas cher</text><text x="65" y="455">📦 Courant, pas cher</text>
  <text x="400" y="486" text-anchor="middle">← plus d'annonces (courant) | moins d'annonces (rare) →</text></g>`;
- rows.forEach((r,i)=>{const x=X(r.n)+((r.g.id%9)-4)*2.5,y=Y(r.min),top=i<25;
-  h+=`<g style="cursor:pointer" onclick="goTo(${i})"><title>${esc(r.g.t)} · ${Math.round(r.min)} € · ${r.n} annonce(s)</title><circle cx="${x}" cy="${y}" r="${top?7:4}" fill="${top?"#ffb020":col(r.g.id)}" fill-opacity="${top?1:.75}" stroke="#ffb020" stroke-width="${top?2:1}"/>${top?`<text x="${x+10}" y="${y+4}" font-size="12" font-weight="700" fill="currentColor">${esc(r.g.t)} · ${Math.round(r.min)}€</text>`:""}</g>`});
+ rows.forEach((r,i)=>{const x=X(r.n)+((hs(r.g.uid)%9)-4)*2.5,y=Y(r.min),top=i<25,sh=SHORT[r.g.c]||r.g.c;
+  h+=`<g style="cursor:pointer" onclick="goTo(${i})"><title>${esc(r.g.t)} (${esc(sh)}) · ${Math.round(r.min)} € · ${r.n} annonce(s)</title><circle cx="${x}" cy="${y}" r="${top?7:4}" fill="${top?"#ffb020":col(r.g.uid)}" fill-opacity="${top?1:.75}" stroke="${CCOL[r.g.c]||"#ffb020"}" stroke-width="${top?3:1.5}"/>${top?`<text x="${x+10}" y="${y+4}" font-size="12" font-weight="700" fill="currentColor">${esc(r.g.t)} (${esc(sh)}) · ${Math.round(r.min)}€</text>`:""}</g>`});
  sv.innerHTML=h}
 function goTo(i){$("mp").checked=false;$("mp").onchange();$("feed").scrollTo({top:i*$("feed").clientHeight})}
 let tm=null;const feed=$("feed");
+
+/* ---- statut d'un jeu (recherche) ---- */
 function frInfo(g){if(!g)return {};
- const L=Object.entries(g.k).map(([k,e])=>{const p=k.split("|");return {lang:p[0],cond:p[1],sp:p[2]||"",...e}}).filter(e=>e.cond=="complet"&&!e.sp&&e.lang=="FR");
+ const L=ents(g).filter(e=>e.cond=="complet"&&!e.sp&&e.lang=="FR");
  return {live:L.find(e=>e.n),last:L.filter(e=>e.last).sort((a,b)=>b.last-a.last)[0]}}
-function stTxt(id){const fi=frInfo(GM[id]),mp=MAN()[id],p=[];
+function manKeys(u){const c=cOf(u),id=iOf(u),m=ldMan()[c]||{};return Object.keys(m).filter(k=>k.split("|")[0]==id).map(k=>({ed:k.split("|")[1]||"",...m[k]}))}
+function stTxt(u){const fi=frInfo(GM[u]),mk=manKeys(u),p=[];
  if(fi.live)p.push("🟢 en vente dès "+eur(fi.live.min)+" ("+fi.live.n+" annonce"+(fi.live.n>1?"s":"")+")");
  else if(fi.last)p.push("⚪ introuvable · dernier prix vu "+eur(fi.last.last));
- else if(!mp)p.push("❔ jamais vu en vente");
- if(mp)p.push("✍ vendu "+eur(mp.p)+" (saisi par toi)");
+ else if(!mk.length)p.push("❔ jamais vu en vente");
+ mk.forEach(x=>p.push("✍ vendu "+eur(x.p)+(x.ed?" ("+SPL[x.ed].split(" ")[0]+")":"")+" (saisi par toi)"));
  return p.join(" · ")}
-function openGame(id){id=+id;$("res").style.display="none";
- const c=(CAT.length?CAT:G).find(x=>x.id==id)||GM[id];if(!c)return;
- const mp=MAN()[id],fi=frInfo(GM[id]),igdb=c.cover?IMG+c.cover+".jpg":"";
+
+/* ---- fenêtre « Ajouter un prix de référence » ---- */
+let AD={c:"",uid:"",fixed:false};
+function openAdd(uid,name){uid=uid||"";$("res").style.display="none";
+ const g=uid?findGame(uid):null;
+ AD={c:uid?cOf(uid):(SEL[0]||(CONS[0]&&CONS[0].key)||""),uid:uid,fixed:!!uid};
+ const nm=g?g.t:(name||"");
  $("mod").innerHTML=`<div class="mbox"><button class="x" onclick="closeMod()">✕</button>
- <div class="mrow">${igdb?`<img src="${safe(igdb)}" alt="">`:""}<div><h3>${esc(c.t)}</h3><div class="sub" style="text-align:left">${stTxt(id)}</div></div></div>
- ${fi.live?'<div class="warn">Ce jeu est en vente en ce moment : le site affiche déjà le prix des annonces. Ton prix saisi ne sert que de repère.</div>':""}
- <label>Prix de vente réussi (€, port inclus, version FR complète)<input id="mp_p" type="number" min="1" step="1" value="${mp?mp.p:""}" placeholder="ex : 120" onkeydown="if(event.key==='Enter')saveMan(${id})"></label>
- <div class="mhint">Le jeu apparaît ensuite dans la liste (« ✍ VENDU »). Dès qu'une annonce FR est trouvée par la collecte, c'est son prix qui s'affiche à la place. Enregistré dans ce navigateur seulement (voir ⚙ Filtres pour exporter).</div>
- <div class="mbtn"><button onclick="saveMan(${id})">Enregistrer</button>${mp?`<button class="sec2" onclick="delMan(${id})">Supprimer mon prix</button>`:""}<button class="sec2" onclick="goGame(${id})">Voir dans la liste</button></div></div>`;
- $("mod").style.display="flex";setTimeout(()=>{const i=$("mp_p");if(i)i.focus()},50)}
+ <h3>✍ Ajouter un prix de référence</h3>
+ <label>Console<select id="a_c" onchange="adC()" ${AD.fixed?"disabled":""}>${CONS.map(c=>`<option value="${esc(c.key)}" ${c.key==AD.c?"selected":""}>${esc(c.name)}</option>`).join("")}</select></label>
+ <label>Nom du jeu<input id="a_n" type="text" autocomplete="off" value="${esc(nm)}" ${AD.fixed?"readonly":""} oninput="adN()" placeholder="ex : Riven"></label>
+ <div id="a_s"></div><div id="a_st" class="sub" style="text-align:left"></div>
+ <label>Édition<select id="a_e" onchange="adFill()"><option value="">Standard (version normale)</option>${Object.keys(SPL).map(k=>`<option value="${k}">${esc(SPL[k])}</option>`).join("")}</select></label>
+ <label>Prix de vente réussi (€, port inclus, version FR complète)<input id="a_p" type="number" min="1" step="1" placeholder="ex : 120" onkeydown="if(event.key==='Enter')adSave()"></label>
+ <label id="a_il" style="display:none">Lien d'une image de pochette (facultatif, doit commencer par https://)<input id="a_i" type="text" placeholder="https://…"></label>
+ <div id="a_ex"></div>
+ <div class="mhint">Le jeu apparaît ensuite dans la liste avec ✍ VENDU. Dès qu'une annonce FR est trouvée par la collecte, son prix remplace le tien. Enregistré dans ce navigateur seulement (⚙ Filtres pour exporter).</div>
+ <div class="mbtn"><button onclick="adSave()">Enregistrer</button><button class="sec2" onclick="closeMod()">Annuler</button></div></div>`;
+ $("mod").style.display="flex";
+ loadOne(AD.c).then(()=>{adN(true)});
+ setTimeout(()=>{const i=$(AD.fixed?"a_p":"a_n");if(i)i.focus()},60)}
+function adC(){AD.c=$("a_c").value;AD.uid="";loadOne(AD.c).then(()=>adN())}
+function adN(keep){if(!AD.fixed&&!keep)AD.uid="";
+ const w=nrm($("a_n").value).split(" ").filter(Boolean),s=$("a_s");
+ if(!AD.uid&&w.length&&$("a_n").value.trim().length>=2){
+  const hits=pool(AD.c).filter(c=>{const n=" "+nrm(c.t)+" ";return w.every(x=>n.includes(x))})
+   .sort((a,b)=>(nrm(a.t).startsWith(w[0])?0:1)-(nrm(b.t).startsWith(w[0])?0:1)).slice(0,8);
+  s.innerHTML=hits.map(c=>`<div class="hit" onclick="adPick('${esc(c.uid)}')"><b>${esc(c.t)}</b></div>`).join("")}
+ else s.innerHTML="";
+ adStat()}
+function adPick(u){const g=findGame(u);if(!g)return;AD.uid=u;$("a_n").value=g.t;$("a_s").innerHTML="";adStat();adFill();$("a_p").focus()}
+function adStat(){const n=$("a_n").value.trim();
+ $("a_st").innerHTML=AD.uid?"✔ Jeu trouvé dans la liste : "+esc(findGame(AD.uid).t):(n.length>=2?"Aucun jeu choisi dans la liste : « "+esc(n)+" » sera ajouté comme jeu hors catalogue.":"");
+ $("a_il").style.display=(!AD.uid&&n.length>=2)?"flex":"none";adEx();adFill()}
+function adFill(){const u=AD.uid;if(!u)return;const ed=$("a_e").value,m=(ldMan()[cOf(u)]||{})[ed?iOf(u)+"|"+ed:iOf(u)];
+ if(m&&document.activeElement!==$("a_p"))$("a_p").value=m.p}
+function adEx(){const u=AD.uid,el=$("a_ex");if(!u){el.innerHTML="";return}
+ const mk=manKeys(u);
+ el.innerHTML=mk.length?'<div class="sub" style="text-align:left">Déjà saisi :</div>'+mk.map(x=>`<div class="mrow2">${x.ed?esc(SPL[x.ed]):"Standard"} : <b>${eur(x.p)}</b> (${esc(x.d)}) · <a href="#" onclick="delMan('${esc(u)}','${x.ed}');return false">supprimer</a></div>`).join(""):""}
+function adSave(){const v=Math.round(+$("a_p").value);if(!(v>0)){alert("Entre un prix en euros (nombre positif).");return}
+ const ed=$("a_e").value,c=AD.c;let uid=AD.uid,id;
+ if(!uid){const n=$("a_n").value.trim();if(n.length<2){alert("Tape le nom du jeu.");return}
+  const img=$("a_i").value.trim();if(img&&!/^https:\/\//.test(img)){alert("Le lien d'image doit commencer par https://");return}
+  const cu=ldCus();cu[c]=cu[c]||{};const nn=nrm(n),ex=Object.entries(cu[c]).find(([i,x])=>nrm(x.t)==nn);
+  id=ex?ex[0]:"c"+Date.now().toString(36);
+  cu[c][id]={t:n,img:img||(ex?ex[1].img:"")};svCus(cu);uid=c+":"+id}
+ else id=iOf(uid);
+ const o=ldMan();(o[c]=o[c]||{})[ed?id+"|"+ed:id]={p:v,d:today()};svMan(o);
+ closeMod();
+ if(!SEL.includes(c)){SEL=CONS.map(x=>x.key).filter(k=>SEL.includes(k)||k==c);jset(LSEL,SEL);drawCons()}
+ refresh().then(()=>goGame(uid,ed))}
+function delMan(u,ed){const c=cOf(u),id=iOf(u),o=ldMan();
+ if(o[c]){delete o[c][ed?id+"|"+ed:id];svMan(o)}
+ const left=Object.keys((o[c]||{})).some(k=>k.split("|")[0]==id);
+ if(!left){const cu=ldCus();if(cu[c]&&cu[c][id]){delete cu[c][id];svCus(cu)}}
+ closeMod();build()}
 function closeMod(){$("mod").style.display="none"}
-function saveMan(id){const v=Math.round(+$("mp_p").value);if(!(v>0)){alert("Entre un prix en euros (nombre positif).");return}
- const o=ldMan();(o[CK]=o[CK]||{})[id]={p:v,d:new Date().toISOString().slice(0,10)};svMan(o);closeMod();build();goGame(id)}
-function delMan(id){const o=ldMan();if(o[CK]){delete o[CK][id];svMan(o)}closeMod();build()}
-function goGame(id){closeMod();$("mp").checked=false;$("mp").onchange();
- const i=[...feed.children].findIndex(s=>s.dataset&&s.dataset.id==id);
- if(i<0){alert("Ce jeu n'est pas dans la liste affichée (prix minimum, « Au moins 2 annonces », introuvables décochés…).");return}
+function goGame(uid,ed){closeMod();$("mp").checked=false;$("mp").onchange();
+ const ch=[...feed.children];
+ let i=ch.findIndex(s=>s.dataset&&s.dataset.id==uid&&(!ed||s.dataset.ed==ed));
+ if(i<0)i=ch.findIndex(s=>s.dataset&&s.dataset.id==uid);
+ if(i<0){alert("Ce jeu est bien enregistré, mais il n'est pas dans la liste affichée (prix minimum, « Au moins 2 annonces », introuvables décochés…).");return}
  feed.scrollTo({top:i*feed.clientHeight})}
 $("mod").onclick=e=>{if(e.target.id=="mod")closeMod()};
+$("addb").onclick=()=>openAdd("");
+
+/* ---- recherche ---- */
 $("q").oninput=()=>{const w=nrm($("q").value).split(" ").filter(Boolean),r=$("res");
  if(!w.length||$("q").value.trim().length<2){r.style.display="none";return}
- const hits=(CAT.length?CAT:G).filter(c=>{const n=" "+nrm(c.t)+" ";return w.every(x=>n.includes(x))})
-  .sort((a,b)=>(nrm(a.t).startsWith(w[0])?0:1)-(nrm(b.t).startsWith(w[0])?0:1)).slice(0,15);
- r.innerHTML=hits.length?hits.map(c=>`<div class="hit" data-id="${c.id}" onclick="openGame(${c.id})"><b>${esc(c.t)}</b><span>${stTxt(c.id)}</span></div>`).join(""):'<div class="hit">Aucun jeu trouvé dans cette console.</div>';
+ let hits=[];SEL.forEach(k=>{hits=hits.concat(pool(k).filter(c=>{const n=" "+nrm(c.t)+" ";return w.every(x=>n.includes(x))}))});
+ hits=hits.sort((a,b)=>(nrm(a.t).startsWith(w[0])?0:1)-(nrm(b.t).startsWith(w[0])?0:1)).slice(0,15);
+ r.innerHTML=hits.map(c=>`<div class="hit" data-id="${esc(c.uid)}" onclick="openAdd('${esc(c.uid)}')"><div>${pill(c.c)} <b>${esc(c.t)}</b></div><span>${stTxt(c.uid)}</span></div>`).join("")
+  +`<div class="hit" onclick="openAdd('',$('q').value)"><b>➕ Mon jeu n'est pas dans la liste</b><span>L'ajouter à la main avec un prix de référence</span></div>`;
  r.style.display="block"};
-$("q").onkeydown=e=>{if(e.key=="Enter"){const h=$("res").querySelector(".hit[data-id]");if(h)openGame(h.dataset.id)}};
+$("q").onkeydown=e=>{if(e.key=="Enter"){const h=$("res").querySelector(".hit[data-id]");if(h)openAdd(h.dataset.id)}};
 document.addEventListener("click",e=>{if(!e.target.closest("#res,#q"))$("res").style.display="none"});
 document.addEventListener("keydown",e=>{if(e.key=="Escape")closeMod()});
-$("exp").onclick=()=>{const b=new Blob([JSON.stringify(ldMan(),null,1)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="mes-prix-vendus.json";a.click()};
-$("imp").onchange=e=>{const f=e.target.files[0];if(!f)return;f.text().then(t=>{try{const n=JSON.parse(t),o=ldMan();for(const k in n)o[k]=Object.assign(o[k]||{},n[k]);svMan(o);build();alert("Prix importés.")}catch(x){alert("Fichier invalide.")}})};
-function loadCat(key){const ok=r=>{if(!r.ok)throw 0;return r.json()};
- fetch(`data/${key}/catalog.json`,{cache:"no-store"}).then(ok).catch(()=>key==="ps2"?fetch("data/catalog.json",{cache:"no-store"}).then(ok):Promise.reject())
- .then(d=>{CAT=d.games||[];if(Object.keys(MAN()).length)build()}).catch(()=>{CAT=[]})}
+
+/* ---- export / import ---- */
+$("exp").onclick=()=>{const b=new Blob([JSON.stringify({man:ldMan(),custom:ldCus()},null,1)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="mes-prix-vendus.json";a.click()};
+$("imp").onchange=e=>{const f=e.target.files[0];if(!f)return;f.text().then(t=>{try{
+ const n=JSON.parse(t),nm=(n.man||n.custom)?(n.man||{}):n,nc=n.custom||{},o=ldMan(),cu=ldCus();
+ for(const k in nm)o[k]=Object.assign(o[k]||{},nm[k]);
+ for(const k in nc)cu[k]=Object.assign(cu[k]||{},nc[k]);
+ svMan(o);svCus(cu);build();alert("Prix importés.")}catch(x){alert("Fichier invalide.")}})};
+
+/* ---- défilement, filtres ---- */
 function step(){const h=feed.clientHeight;if(feed.scrollTop+h>=feed.scrollHeight-5)feed.scrollTo({top:0,behavior:"smooth"});else feed.scrollBy({top:h,behavior:"smooth"});
  if(document.body.classList.contains("train"))setTimeout(()=>{const c=feed.children[Math.round(feed.scrollTop/feed.clientHeight)];if(c)c.classList.add("rev")},$("sp").value*500)}
 function auto(on){clearInterval(tm);tm=null;$("ab").textContent=on?"⏸ Pause":"▶ Défilement auto";if(on)tm=setInterval(step,$("sp").value*1000)}
@@ -281,13 +396,24 @@ document.addEventListener("keydown",e=>{if(e.target.tagName==="SELECT"||e.target
  if(["ArrowUp","PageUp"].includes(e.key)){e.preventDefault();feed.scrollBy({top:-h,behavior:"smooth"})}
  if(tm)auto(true)});
 ["ms","ex","two","all"].forEach(i=>$(i).onchange=build);$("mn").oninput=()=>{$("mv").textContent=$("mn").value;build()};
-const SHOW=d=>{G=d.games;clean();GM=Object.fromEntries(G.map(g=>[g.id,g]));CUR=d.console||"";$("up").textContent=d.updated+" · "+d.catalog_total+" jeux au catalogue";build()};
-const EMPTY=()=>{G=[];GM={};$("up").textContent="-";build();$("feed").innerHTML='<div class="empty">Pas encore de données pour cette console : la collecte les traite à tour de rôle.</div>'};
-function loadConsole(key){CK=key;G=[];GM={};CAT=[];$("q").value="";$("res").style.display="none";loadCat(key);fetch(`data/${key}/latest.json`,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json()}).then(SHOW).catch(()=>{
- if(key==="ps2")fetch("data/latest.json",{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json()}).then(SHOW).catch(EMPTY);else EMPTY()})}
-$("console").onchange=()=>loadConsole($("console").value);
-fetch("data/consoles.json",{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json()}).catch(()=>[])
- .then(c=>c.some(x=>x.key==="ps2")?c:fetch("data/latest.json",{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json()}).then(d=>[{key:"ps2",name:"PlayStation 2",games:d.games.length},...c]).catch(()=>c))
+
+/* ---- consoles ---- */
+function upTxt(){const d=SEL.map(k=>DB[k]).filter(Boolean);if(!d.length){$("up").textContent="-";return}
+ const ds=d.map(x=>x.updated).filter(x=>x&&x!="-").sort(),tot=d.reduce((a,x)=>a+x.total,0);
+ $("up").textContent=(ds.length?ds[0]+(d.length>1?" (la plus ancienne)":""):"-")+" · "+tot+" jeux au catalogue"}
+function refresh(){$("feed").innerHTML='<div class="empty">Chargement…</div>';
+ return Promise.all(SEL.map(loadOne)).then(()=>{GM={};SEL.forEach(k=>DB[k].games.forEach(g=>GM[g.uid]=g));upTxt();build()})}
+function drawCons(){
+ $("cl").innerHTML='<div style="display:flex;gap:8px"><button type="button" onclick="selAll(1)">Tout cocher</button><button type="button" onclick="selAll(0)">Tout décocher</button></div>'
+  +CONS.map(c=>`<label><input type="checkbox" value="${esc(c.key)}" ${SEL.includes(c.key)?"checked":""} onchange="togCons()">${pill(c.key)} ${esc(c.name)}${c.games?" ("+c.games+")":""}</label>`).join("");
+ $("cs").textContent="🎮 "+(SEL.length?(SEL.length<=3?SEL.map(k=>SHORT[k]||k).join(" + "):SEL.length+" consoles"):"Aucune console")}
+function setSel(a){SEL=a;jset(LSEL,SEL);drawCons();refresh()}
+function togCons(){setSel([...document.querySelectorAll("#cl input:checked")].map(i=>i.value))}
+function selAll(on){setSel(on?CONS.map(c=>c.key):[])}
+
+fetch("data/consoles.json",{cache:"no-store"}).then(okj).catch(()=>[])
+ .then(c=>c.some(x=>x.key==="ps2")?c:fetch("data/latest.json",{cache:"no-store"}).then(okj).then(d=>[{key:"ps2",name:"PlayStation 2",games:d.games.length},...c]).catch(()=>c))
  .then(c=>{if(!c.length)c=[{key:"ps2",name:"PlayStation 2",games:0}];
-  $("console").innerHTML=c.map(x=>`<option value="${esc(x.key)}">${esc(x.name)}${x.games?" ("+x.games+")":""}</option>`).join("");loadConsole(c[0].key)});
+  CONS=c;const sv=ldSel().filter(k=>CONS.some(x=>x.key==k));
+  SEL=sv.length?sv:[CONS[0].key];drawCons();refresh()});
 </script></body></html>
