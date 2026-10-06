@@ -79,6 +79,12 @@ body.train .card:not(.rev)::after{content:"Clique l'image : quel prix ?";positio
 #a_s:empty{display:none}
 .mbtn button,.flt button{background:var(--acc);color:#111;border:0;border-radius:8px;padding:8px 14px;font-weight:700;cursor:pointer;font-size:14px}
 .mbtn .sec2,.flt button{background:var(--bg);color:var(--fg);border:1px solid var(--mut)}
+#feed.nlmode{scroll-snap-type:none}
+.nlh{position:sticky;top:0;background:var(--card);padding:6px 14px;font-weight:800;color:var(--acc);border-bottom:1px solid var(--line);z-index:2}
+.nlrow{display:flex;align-items:center;gap:10px;padding:8px 14px;border-bottom:1px solid var(--line);font-size:15px}
+.nlrow b{flex:1;font-weight:600}
+.nlrow button{background:#7a3cff;color:#fff;border:0;border-radius:8px;padding:6px 12px;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap}
+.nlintro{padding:12px 14px;font-size:14px;color:var(--mut)}
 #map{flex:1;min-height:0;padding:8px 12px;text-align:center;color:var(--fg)}#map svg{width:100%;height:100%;max-height:78vh}
 .empty{padding:30px;text-align:center;color:var(--mut)}
 @media(min-width:900px){
@@ -102,6 +108,7 @@ body.train .card:not(.rev)::after{content:"Clique l'image : quel prix ?";positio
   <details id="cd"><summary id="cs">🎮 Consoles</summary><div class="flt" id="cl"></div></details>
   <input id="q" type="search" placeholder="🔎 Chercher un jeu par nom…" autocomplete="off">
   <button id="addb" type="button">✍ Ajouter un prix de référence</button>
+  <button id="nlb" type="button" style="background:var(--bg);color:var(--fg);border:1px solid var(--mut);border-radius:8px;padding:7px 12px;font-weight:700;cursor:pointer;font-size:14px">📋 Jeux à compléter</button>
   <button id="ab">▶ Défilement auto</button>
   <label><input type="checkbox" id="tr"> 🎓 Entraînement</label>
   <details><summary>⚙ Filtres</summary><div class="flt">
@@ -110,6 +117,7 @@ body.train .card:not(.rev)::after{content:"Clique l'image : quel prix ?";positio
    <label><input type="checkbox" id="two"> Au moins 2 annonces</label>
    <label><input type="checkbox" id="all"> Inclure les jeux sans version FR</label>
    <label><input type="checkbox" id="ms" checked> Montrer les introuvables</label>
+   <label><input type="checkbox" id="mo"> 🚫 Introuvables seulement (pas en vente)</label>
    <label><input type="checkbox" id="ex"> 🔒 Exclus seulement</label>
    <label><input type="checkbox" id="mp"> Vue carte</label>
    <button id="exp" type="button">⬇ Exporter mes prix saisis</button>
@@ -184,7 +192,22 @@ function cover(g,photo){
  return `<div class="cover${photo?" photo":""}" onclick="this.parentNode.classList.toggle('rev')" style="background-color:${col(g.uid)}">${src?`<img src="${safe(src)}" alt="" loading="lazy" data-f="${igdb}" onerror="if(this.dataset.f&&this.src!==this.dataset.f){this.src=this.dataset.f;this.parentNode.classList.remove('photo');this.parentNode.querySelector('.cap').textContent='Jaquette IGDB : peut être US/autre, pas forcément la PAL FR'}else{this.remove()}">`:esc(g.t)}${src?`<div class="cap">${cap}</div>`:""}</div>`}
 const byLang=(a,b)=>a.lang.localeCompare(b.lang);
 
+let NL=false;
+function buildNL(){const f=$("feed"),man=ldMan();let L=[];
+ SEL.forEach(key=>{const d=DB[key];if(!d)return;
+  const has=new Set(d.games.filter(g=>ents(g).some(e=>e.cond=="complet"&&(e.n||e.last))).map(g=>String(g.id)));
+  const mids=new Set(Object.keys(man[key]||{}).map(k=>k.split("|")[0]));
+  d.cat.forEach(c=>{const id=String(c.id);if(!has.has(id)&&!mids.has(id))L.push(c)})});
+ L.sort((a,b)=>a.t.localeCompare(b.t,"fr",{numeric:true,sensitivity:"base"}));
+ $("d1").textContent=L.length;$("d2").textContent="-";$("d3").textContent="-";
+ if(!SEL.length){f.innerHTML='<div class="empty">Coche au moins une console dans « 🎮 Consoles ».</div>';return}
+ let h=`<div class="nlintro">📋 ${L.length} jeu${L.length>1?"x":""} du catalogue sans aucun prix (ni annonce, ni prix saisi) · ordre alphabétique. Clique sur « ✍ Prix » pour saisir un prix de vente réussi : le jeu passera alors dans la liste normale.</div>`,last="";
+ L.forEach(c=>{const ch=(nrm(c.t)[0]||"#").toUpperCase(),lt=/[A-Z]/.test(ch)?ch:"0-9";
+  if(lt!==last){h+=`<div class="nlh">${lt}</div>`;last=lt}
+  h+=`<div class="nlrow">${pill(c.c)}<b>${esc(c.t)}</b><button type="button" onclick="openAdd('${esc(c.uid)}')">✍ Prix</button></div>`});
+ f.innerHTML=h}
 function build(){
+ if(NL){buildNL();return}
  const min=+$("mn").value,all=$("all").checked;
  let rows=[],miss=[];
  const man=ldMan(),cus=ldCus(),base=[];
@@ -218,7 +241,8 @@ function build(){
  if($("ex").checked){rows=rows.filter(r=>r.g.x);miss=miss.filter(m=>m.g.x)}
  if($("two").checked)rows=rows.filter(r=>r.n>=2);
  rows=rows.filter(r=>r.min>=min).sort((a,b)=>b.min-a.min);
- miss=$("ms").checked?miss.filter(m=>m.last>=min).sort((a,b)=>b.last-a.last):[];
+ if($("mo").checked)rows=[];
+ miss=($("ms").checked||$("mo").checked)?miss.filter(m=>m.last>=min).sort((a,b)=>b.last-a.last):[];
  const f=$("feed");
  const avg=a=>a.length?a.reduce((x,y)=>x+y.min,0)/a.length:0;
  const k=Math.max(1,Math.ceil(rows.length*0.1));
@@ -347,6 +371,7 @@ function adSave(){const v=Math.round(+$("a_p").value);if(!(v>0)){alert("Entre un
  const o=ldMan();(o[c]=o[c]||{})[ed?id+"|"+ed:id]={p:v,d:today()};svMan(o);
  closeMod();
  if(!SEL.includes(c)){SEL=CONS.map(x=>x.key).filter(k=>SEL.includes(k)||k==c);jset(LSEL,SEL);drawCons()}
+ if(NL){const st=feed.scrollTop;build();feed.scrollTop=st;return}
  refresh().then(()=>goGame(uid,ed))}
 function delMan(u,ed){const c=cOf(u),id=iOf(u),o=ldMan();
  if(o[c]){delete o[c][ed?id+"|"+ed:id];svMan(o)}
@@ -362,6 +387,9 @@ function goGame(uid,ed){closeMod();$("mp").checked=false;$("mp").onchange();
  feed.scrollTo({top:i*feed.clientHeight})}
 $("mod").onclick=e=>{if(e.target.id=="mod")closeMod()};
 $("addb").onclick=()=>openAdd("");
+$("nlb").onclick=()=>{NL=!NL;$("nlb").textContent=NL?"↩ Retour aux fiches":"📋 Jeux à compléter";$("feed").classList.toggle("nlmode",NL);
+ if(NL){$("mp").checked=false;$("mp").onchange()}
+ build();$("feed").scrollTop=0};
 
 /* ---- recherche ---- */
 $("q").oninput=()=>{const w=nrm($("q").value).split(" ").filter(Boolean),r=$("res");
@@ -395,7 +423,7 @@ document.addEventListener("keydown",e=>{if(e.target.tagName==="SELECT"||e.target
  if(["ArrowDown","PageDown"," "].includes(e.key)){e.preventDefault();feed.scrollBy({top:h,behavior:"smooth"})}
  if(["ArrowUp","PageUp"].includes(e.key)){e.preventDefault();feed.scrollBy({top:-h,behavior:"smooth"})}
  if(tm)auto(true)});
-["ms","ex","two","all"].forEach(i=>$(i).onchange=build);$("mn").oninput=()=>{$("mv").textContent=$("mn").value;build()};
+["ms","mo","ex","two","all"].forEach(i=>$(i).onchange=build);$("mn").oninput=()=>{$("mv").textContent=$("mn").value;build()};
 
 /* ---- consoles ---- */
 function upTxt(){const d=SEL.map(k=>DB[k]).filter(Boolean);if(!d.length){$("up").textContent="-";return}
