@@ -135,6 +135,11 @@ function ldMan(){try{return JSON.parse(localStorage.getItem(LS)||"{}")}catch(e){
 function svMan(o){try{localStorage.setItem(LS,JSON.stringify(o))}catch(e){alert("Impossible d'enregistrer dans ce navigateur.")}}
 const MAN=()=>ldMan()[CK]||{};
 const nrm=s=>String(s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g," ").trim();
+// Filet de sécurité : un prix >= 200 € et >= 30 x la médiane des autres versions du même jeu est une erreur de collecte : on l'ignore.
+function clean(){G.forEach(g=>{const ents=Object.values(g.k||{});
+ ents.forEach(e=>{const v=Math.max(e.min||0,e.last||0);if(v<200)return;
+  const o=ents.filter(x=>x!==e).map(x=>x.ref||x.last||0).filter(x=>x>0).sort((a,b)=>a-b);
+  if(o.length>=2&&v>=30*o[o.length>>1]){e.n=0;e.min=0;e.ref=0;e.last=0;e.top=null}})})}
 function cover(g,photo){
  const igdb=g.cover?IMG+g.cover+".jpg":"",src=photo||igdb;
  const cap=photo?"📷 Photo de l'annonce la moins chère (la vraie boîte)":"Jaquette IGDB : peut être US/autre, pas forcément la PAL FR";
@@ -276,7 +281,7 @@ document.addEventListener("keydown",e=>{if(e.target.tagName==="SELECT"||e.target
  if(["ArrowUp","PageUp"].includes(e.key)){e.preventDefault();feed.scrollBy({top:-h,behavior:"smooth"})}
  if(tm)auto(true)});
 ["ms","ex","two","all"].forEach(i=>$(i).onchange=build);$("mn").oninput=()=>{$("mv").textContent=$("mn").value;build()};
-const SHOW=d=>{G=d.games;GM=Object.fromEntries(G.map(g=>[g.id,g]));CUR=d.console||"";$("up").textContent=d.updated+" · "+d.catalog_total+" jeux au catalogue";build()};
+const SHOW=d=>{G=d.games;clean();GM=Object.fromEntries(G.map(g=>[g.id,g]));CUR=d.console||"";$("up").textContent=d.updated+" · "+d.catalog_total+" jeux au catalogue";build()};
 const EMPTY=()=>{G=[];GM={};$("up").textContent="-";build();$("feed").innerHTML='<div class="empty">Pas encore de données pour cette console : la collecte les traite à tour de rôle.</div>'};
 function loadConsole(key){CK=key;G=[];GM={};CAT=[];$("q").value="";$("res").style.display="none";loadCat(key);fetch(`data/${key}/latest.json`,{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json()}).then(SHOW).catch(()=>{
  if(key==="ps2")fetch("data/latest.json",{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json()}).then(SHOW).catch(EMPTY);else EMPTY()})}
