@@ -304,6 +304,24 @@ def run_console(cfg, games, tok, budget):
     gt = {g["id"]: toks(g["t"]) for g in games}
     # suites : jeux dont le nom contient strictement tous les mots de celui-ci
     supers = {gid: [t2 for g2, t2 in gt.items() if g2 != gid and t < t2] for gid, t in gt.items()}
+    # Annonce qui contient AUSSI le nom d'un autre jeu plus long (ex. « Vandal Hearts II ... Suikoden 2 » : démo en bonus) :
+    # elle appartient à l'autre jeu, pas à celui-ci.
+    df = {}
+    for t in gt.values():
+        for w in t:
+            df[w] = df.get(w, 0) + 1
+    byrare = {}
+    for gid, t in gt.items():
+        if t:
+            byrare.setdefault(min(t, key=lambda w: (df[w], w)), []).append(gid)
+    def other_game(gid, tt):
+        t = gt[gid]
+        for w in tt:
+            for g2 in byrare.get(w, ()):
+                t2 = gt[g2]
+                if g2 != gid and len(t2) > len(t) and t2 <= tt and not t <= t2:
+                    return True
+        return False
     flag = f"{D}/reset_{RESET_ONCE[key]}.flag" if key in RESET_ONCE else None
     fresh = is_fresh(key)                                 # première collecte après remise à zéro ?
     if fresh:
@@ -316,7 +334,7 @@ def run_console(cfg, games, tok, budget):
     todo.sort(key=lambda g: (-hval.get(g["id"], 0), (sinfo.get(str(g["id"])) or [""])[0]))   # valeur d'abord, puis les plus anciens
     print(f"{cfg['name']} : {len(todo)} jeux à chercher sur {len(games)}")
     seen, rows, searched = set(), [], set()
-    state = {"calls": 0, "errors": 0, "stop": False}
+    state = {"calls": 0, "errors": 0, "stop": False, "amb": 0}
 
     def scan(g, m):
         if state["stop"] or state["calls"] >= budget:
@@ -339,6 +357,9 @@ def run_console(cfg, games, tok, budget):
             tt = toks(title)
             if iid in seen or not gt[gid] <= tt or any(sp <= tt for sp in supers[gid]):
                 continue
+            if other_game(gid, tt):
+                state["amb"] += 1
+                continue                  # le titre contient le nom d'un autre jeu (démo/bonus) : on ne l'attribue pas à celui-ci
             country = (it.get("itemLocation") or {}).get("country")
             if (country and country not in EUROPE) or CJK.search(title):
                 continue                  # vendeur hors Europe ou titre asiatique : on ignore
@@ -375,7 +396,8 @@ def run_console(cfg, games, tok, budget):
         if (g["id"], OTHER_MARKETS[0] if OTHER_MARKETS else MAIN_MARKET) in searched:
             fxd[str(g["id"])] = TODAY
     save(f"{D}/fx.json", fxd)
-    print(f"{cfg['name']} : {state['calls']} appels eBay, {len(rows)} annonces retenues")
+    print(f"{cfg['name']} : {state['calls']} appels eBay, {len(rows)} annonces retenues, "
+          f"{state['amb']} écartées (titre contenant le nom d'un autre jeu)")
 
     # Garde-fou : prix aberrant (>= 500 € et >= 40 fois la médiane des autres annonces du même jeu) = ignoré
     bygame = {}
