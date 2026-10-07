@@ -216,6 +216,7 @@ body.raffle .card:not(.rev) .hp{visibility:hidden}
    <label><input type="checkbox" id="ms" checked> Montrer les introuvables</label>
    <label><input type="checkbox" id="mo"> 🚫 Introuvables seulement (pas en vente)</label>
    <label><input type="checkbox" id="ex"> 🔒 Exclus seulement</label>
+   <label><input type="checkbox" id="fm"> 🕵 Méconnus seulement</label>
    <label><input type="checkbox" id="mp"> Vue carte</label>
    <div id="tset" style="display:flex;flex-direction:column;gap:8px"></div>
    <button id="exp" type="button">⬇ Exporter mes prix saisis</button>
@@ -286,9 +287,14 @@ function clean(games){games.forEach(g=>{const es=Object.values(g.k||{});
   const o=es.filter(x=>x!==e).map(x=>x.ref||x.last||0).filter(x=>x>0).sort((a,b)=>a-b);
   if(o.length>=2&&v>=30*o[o.length>>1]){e.n=0;e.min=0;e.ref=0;e.last=0;e.top=null;e.imgs=null}})})}
 
+// Notoriété : on compare le nombre de notes + d'abonnés IGDB aux autres jeux de la même console (40 % les moins connus = « méconnu »)
+function fame(games){const v=games.filter(g=>"r" in g).map(g=>(g.r||0)+(g.f||0)).sort((a,b)=>a-b);if(v.length<20)return;
+ const lo=v[Math.floor(v.length*.4)],hi=v[Math.floor(v.length*.75)];
+ games.forEach(g=>{if(!("r" in g))return;const p=(g.r||0)+(g.f||0);g.fame=(p<lo||p===0)?0:(p>=hi?2:1)})}
+const fmBadge=g=>g.fame===0?' <span class="badge" style="background:#1f9d55" title="Peu de notes et d\'abonnés sur IGDB, comparé aux autres jeux de la console">🕵 Méconnu</span>':g.fame===2?' <span class="badge" style="background:#555" title="Jeu très connu (beaucoup de notes et d\'abonnés IGDB)">Très connu</span>':g.fame===1?' <span class="badge" style="background:#3b6ea5" title="Notoriété moyenne (IGDB)">Connu</span>':"";
 function getLatest(key){if(LAT[key])return LAT[key];
  const f=fetch(`data/${key}/latest.json`,{cache:"no-store"}).then(okj).catch(()=>key==="ps2"?fetch("data/latest.json",{cache:"no-store"}).then(okj):Promise.reject()).catch(()=>({games:[],updated:"-",catalog_total:0}));
- return LAT[key]=f.then(l=>{const games=l.games||[];games.forEach(g=>{g.c=key;g.uid=key+":"+g.id});clean(games);LD[key]=l;return l})}
+ return LAT[key]=f.then(l=>{const games=l.games||[];games.forEach(g=>{g.c=key;g.uid=key+":"+g.id});clean(games);fame(games);LD[key]=l;return l})}
 function loadOne(key){if(DB[key])return DB[key].p;
  const nm=(CONS.find(c=>c.key==key)||{}).name||key;
  const C=fetch(`data/${key}/catalog.json`,{cache:"no-store"}).then(okj).catch(()=>key==="ps2"?fetch("data/catalog.json",{cache:"no-store"}).then(okj):Promise.reject()).catch(()=>({games:[]}));
@@ -356,7 +362,7 @@ function cardA(r,i,N){
  const pbox=`<div class="price hp">${hdr}<div class="prow"><a class="pmain" href="${safe(r.top[0][1])}" target="_blank" rel="noopener" title="Voir l'annonce"><span class="pv">${eur(r.min)}</span>${R.length?`<span class="wi${R.length>1?" red":""}" title="${esc(R.join(" | "))}">⚠</span>`:""}</a>${others?`<div class="pothers">${others}</div>`:""}</div>${strip}${R.length?`<div class="pwarn">${R.map(x=>"⚠ "+esc(x)).join(" · ")}</div>`:""}</div>`;
  return `${covBox(r.g,chip(r.min))}
  <div class="info">${conBar(r.g.c,"#"+(i+1)+" / "+N,r.ver)}
- <h2 class="gt">${esc(r.g.t)}${exBadge(r.g)}</h2>
+ <h2 class="gt">${esc(r.g.t)}${exBadge(r.g)}${fmBadge(r.g)}</h2>
  ${W.length?`<div class="hp" style="display:contents">${W.join("")}</div>`:""}
  <div class="verdict hp"><span class="vt">${vtxt(r.min)}</span><span class="vr">${r.q}</span>${r.n<=3?'<span class="badge">RARE : '+r.n+' annonce'+(r.n>1?'s':'')+'</span>':''}</div>
  ${pbox}${xcBlock(r.g)}${eds}
@@ -365,7 +371,7 @@ function cardB(m){const isM=m.src=="manual",edl=m.ed?SPL[m.ed]:"";
  const badges=(edl?'<span class="badge" style="background:#ff7a00;color:#111">ÉDITION : '+esc(edl)+'</span>':'')+(isM?'<span class="badge" style="background:#7a3cff">✍ VENDU (prix saisi par toi)</span>':'<span class="badge" style="background:#555">INTROUVABLE</span>');
  return `${covBox(m.g,chip(m.last))}
  <div class="info">${conBar(m.g.c,"Introuvable en ligne",m.ver)}
- <h2 class="gt">${esc(m.g.t)}${exBadge(m.g)}</h2>
+ <h2 class="gt">${esc(m.g.t)}${exBadge(m.g)}${fmBadge(m.g)}</h2>
  <div class="verdict">${badges}<span class="vt hp">${vtxt(m.last)}</span></div>
  <div class="price hp"><div class="ph1">${isM?"Prix de vente réussi saisi le "+esc(m.date):"Dernier prix vu le "+esc(m.date)}${CART.has(m.g.c)?" (cartouche seule)":""}${uncLine(m.unc)}${edl?" · édition spéciale : ne pas comparer à la standard":""}</div><div class="prow"><span class="pv">${eur(m.last)}</span></div></div>
  ${xcBlock(m.g)}
@@ -406,6 +412,7 @@ function build(){
    if(x&&!live.some(l=>l.lang=="FR"&&l.sp==ed))miss.push({g,last:x.p,date:x.d,ver:"FR",src:"manual",ed,unc:null})});
  });
  if($("ex").checked){rows=rows.filter(r=>r.g.x);miss=miss.filter(m=>m.g.x)}
+ if($("fm").checked){rows=rows.filter(r=>r.g.fame===0);miss=miss.filter(m=>m.g.fame===0)}
  if($("two").checked)rows=rows.filter(r=>r.n>=2);
  rows=rows.filter(r=>r.min>=min).sort((a,b)=>b.min-a.min);
  if($("mo").checked)rows=[];
@@ -579,7 +586,7 @@ document.addEventListener("keydown",e=>{if(e.target.tagName==="SELECT"||e.target
  if(["ArrowDown","PageDown"," "].includes(e.key)){e.preventDefault();feed.scrollBy({top:h,behavior:"smooth"})}
  if(["ArrowUp","PageUp"].includes(e.key)){e.preventDefault();feed.scrollBy({top:-h,behavior:"smooth"})}
  if(tm)auto(true)});
-["ms","mo","ex","two","all"].forEach(i=>$(i).onchange=build);let mnT=null;$("mn").oninput=()=>{$("mv").textContent=$("mn").value;clearTimeout(mnT);mnT=setTimeout(build,250)};
+["ms","mo","ex","fm","two","all"].forEach(i=>$(i).onchange=build);let mnT=null;$("mn").oninput=()=>{$("mv").textContent=$("mn").value;clearTimeout(mnT);mnT=setTimeout(build,250)};
 
 /* ---- consoles ---- */
 function upTxt(){const d=SEL.map(k=>DB[k]).filter(Boolean);if(!d.length){$("up").textContent="-";return}
