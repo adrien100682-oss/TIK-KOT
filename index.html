@@ -187,12 +187,14 @@ body.raffle .card:not(.rev) .hp{visibility:hidden}
 .edc{flex-direction:row;gap:8px;align-items:baseline;padding:5px 10px}
 .edc>b{font-size:clamp(14px,1.2vw,17px)}
 
-/* ---- v6 : photos sur TOUTE la hauteur, le reste pour les infos ---- */
+/* ---- v7 : deux blocs photo identiques sur toute la hauteur, fond flouté (pas de bandes noires), infos en haut ---- */
+.c-cov .bg,.c-ph .bg{position:absolute;inset:-24px;background-size:cover;background-position:center;filter:blur(22px) brightness(.55);z-index:0}
+.c-cov img,.c-ph img{position:relative;z-index:1;object-fit:contain;background:transparent}
+.tl,.cap{z-index:2}
 @media(min-width:900px){
- .card{padding:6px 1vw;column-gap:1vw}
- .c-cov{height:calc(var(--ch,800px) - 12px);aspect-ratio:3/4.2;max-width:32vw}
- .c-ph{height:calc(var(--ch,800px) - 12px);width:clamp(220px,24vw,540px)}
- .info{max-width:none;justify-self:stretch;max-height:100%}
+ .card{padding:6px 1vw;column-gap:1vw;align-items:start}
+ .c-cov,.c-ph{height:calc(var(--ch,800px) - 12px);width:min(calc((var(--ch,800px) - 12px) * .714),28vw);aspect-ratio:auto;max-width:none}
+ .info{max-width:none;justify-self:stretch;align-self:start;max-height:100%}
 }
 </style></head><body>
 <header>
@@ -304,11 +306,11 @@ const cname=c=>(DB[c]&&DB[c].name)||(CONS.find(x=>x.key==c)||{}).name||c;
 /* ---- morceaux de fiche ---- */
 function covBox(g,extra){
  const igdb=g.cover?IMG+g.cover+".jpg":"",src=g.img||igdb;
- return `<div class="c-cov" onclick="this.closest('.card').classList.toggle('rev')" style="background-color:${col(g.uid)}">${src?`<img src="${safe(src)}" alt="" loading="lazy" data-f="${igdb}" onerror="if(this.dataset.f&&this.src!==this.dataset.f){this.src=this.dataset.f}else{this.remove()}">`:`<span style="padding:10px">${esc(g.t)}</span>`}${extra||""}${src?`<div class="cap">${g.img?"Image fournie par toi":"Jaquette officielle (IGDB) : peut être US/autre, pas forcément la PAL FR"}</div>`:""}</div>`}
+ return `<div class="c-cov" onclick="this.closest('.card').classList.toggle('rev')" style="background-color:${col(g.uid)}">${src?`<div class="bg" style="background-image:url('${safe(src)}')"></div><img src="${safe(src)}" alt="" loading="lazy" data-f="${igdb}" onerror="if(this.dataset.f&&this.src!==this.dataset.f){this.src=this.dataset.f}else{this.remove()}">`:`<span style="padding:10px">${esc(g.t)}</span>`}${extra||""}${src?`<div class="cap">${g.img?"Image fournie par toi":"Jaquette officielle (IGDB) : peut être US/autre, pas forcément la PAL FR"}</div>`:""}</div>`}
 function phBox(imgs){if(!imgs||!imgs.length)return "";
- return `<div class="c-ph" data-ph="${esc(JSON.stringify(imgs))}" data-i="0" onclick="ph(this,1)"><img src="${safe(imgs[0])}" alt=""><div class="cap pc">📷 Photo 1/${imgs.length} de l'annonce la moins chère${imgs.length>1?" · clique pour la suivante":""}</div></div>`}
+ return `<div class="c-ph" data-ph="${esc(JSON.stringify(imgs))}" data-i="0" onclick="ph(this,1)"><div class="bg" style="background-image:url('${safe(imgs[0])}')"></div><img src="${safe(imgs[0])}" alt=""><div class="cap pc">📷 Photo 1/${imgs.length} de l'annonce la moins chère${imgs.length>1?" · clique pour la suivante":""}</div></div>`}
 function ph(box,d){let L;try{L=JSON.parse(box.dataset.ph)}catch(e){return}const n=L.length;if(n<2)return;
- const i=((+box.dataset.i||0)+d+n)%n;box.dataset.i=i;box.querySelector("img").src=L[i];box.querySelector(".pc").textContent="📷 Photo "+(i+1)+"/"+n+" de l'annonce la moins chère · clique pour la suivante"}
+ const i=((+box.dataset.i||0)+d+n)%n;box.dataset.i=i;box.querySelector("img").src=L[i];box.querySelector(".bg").style.backgroundImage="url('"+L[i]+"')";box.querySelector(".pc").textContent="📷 Photo "+(i+1)+"/"+n+" de l'annonce la moins chère · clique pour la suivante"}
 setInterval(()=>{if(document.hidden||NL)return;const c=feed.children[Math.round(feed.scrollTop/Math.max(1,feed.clientHeight))],b=c&&c.querySelector&&c.querySelector(".c-ph");if(b)ph(b,1)},2500);
 const conBar=(c,rk,l)=>`<div class="conbar" style="background:${ccol(c)}">${flag(l||"FR",true)}<span>${esc(cname(c))}</span>${l&&l!="FR"?`<span class="nf">⚠ VERSION ${esc((NAMES[l]||l).toUpperCase())}</span>`:""}${rk?`<span class="rk">${rk}</span>`:""}</div>`;
 const verRow=(l,extra)=>`<div class="verrow">${flag(l,true)}<b>Version ${NAMES[l]||l}</b>${extra||""}</div>`;
