@@ -186,6 +186,14 @@ body.raffle .card:not(.rev) .hp{visibility:hidden}
 .ed{padding:6px 8px;flex-direction:row;align-items:center;gap:8px;flex-wrap:wrap}
 .edc{flex-direction:row;gap:8px;align-items:baseline;padding:5px 10px}
 .edc>b{font-size:clamp(14px,1.2vw,17px)}
+
+/* ---- v5 : photos sur toute la hauteur, le reste pour les infos ---- */
+@media(min-width:900px){
+ .card{padding:12px 1.2vw;column-gap:1.2vw}
+ .c-cov{height:calc(var(--ch,800px) - 24px);aspect-ratio:3/4.2;max-width:31vw}
+ .c-ph{height:calc(var(--ch,800px) - 24px);width:clamp(220px,23vw,520px)}
+ .info{max-width:none;justify-self:stretch;max-height:100%}
+}
 </style></head><body>
 <header>
  <div class="bar">
@@ -421,7 +429,7 @@ function build(){
  f.innerHTML=ITEMS.map((it,k)=>`<section class="card${it.cls}" data-k="${k}" data-id="${esc(it.id)}" data-ed="${it.ed}" style="${it.st}"></section>`).join("");
  [...f.children].forEach(sec=>OBS.observe(sec));
 
- f.scrollTop=0;
+ f.scrollTop=0;setCH();
  if(RF.on){RF.deck=[];clearTimeout(RF.t);RF.t=setTimeout(rfNext,50)}
 }
 function drawMap(rows,medP,medN){
@@ -585,6 +593,8 @@ function setSel(a){SEL=a;jset(LSEL,SEL);drawCons();refresh()}
 function togCons(){setSel([...document.querySelectorAll("#cl input:checked")].map(i=>i.value))}
 function selAll(on){setSel(on?CONS.map(c=>c.key):[])}
 
+function setCH(){if(feed.clientHeight>50)document.documentElement.style.setProperty("--ch",feed.clientHeight+"px")}
+window.addEventListener("resize",setCH);setCH();
 drawTiers();
 fetch("data/consoles.json",{cache:"no-store"}).then(okj).catch(()=>[])
  .then(c=>c.some(x=>x.key==="ps2")?c:fetch("data/latest.json",{cache:"no-store"}).then(okj).then(d=>[{key:"ps2",name:"PlayStation 2",games:d.games.length},...c]).catch(()=>c))
