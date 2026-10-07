@@ -169,9 +169,9 @@ def has(t, words):
 
 BAD = [" lot ", " lots ", " bundle ", " pack ", " custom ", " repro ", " reproduction ", " copie ", " copy ", " backup ",
        " burned ", " grave ", " console ", " manette ", " controller ", " memory card ", " carte memoire ", " poster ",
-       " guide ", " soundtrack ", " ost ", " figurine ", " peluche ", " x2 ", " x3 ", " x4 ", " 2 jeux ", " 3 jeux "]
+       " guide ", " film ", " movie ", " soundtrack ", " ost ", " figurine ", " peluche ", " x2 ", " x3 ", " x4 ", " 2 jeux ", " 3 jeux "]
 # Jeux japonais / américains / importés : jamais comptés comme PAL
-NOT_PAL = [" ntsc ", " jap ", " japan ", " japon ", " japonais ", " japanese ", " jp ", " usa ", " us import ", " import ", " asia "]
+NOT_PAL = [" ntsc ", " nstc ", " ntcs ", " jap ", " japan ", " japon ", " japonais ", " japanese ", " jp ", " usa ", " us import ", " import ", " asia "]
 BOX_ONLY = [" boite seule ", " boitier seul ", " boite vide ", " case only ", " box only ", " empty case ", " sans jeu ",
             " jaquette seule ", " notice seule ", " cover only ", " manual only ", " nur ovp ", " nur hulle ", " cover seule "]
 DISC_ONLY = [" disque seul ", " cd seul ", " dvd seul ", " loose ", " disc only ", " game only ", " sans boite ",
@@ -403,7 +403,7 @@ def run_console(cfg, games, tok, budget):
             sp = special(title, g["t"])
             seen.add(iid)
             rows.append({"id": iid, "g": gid, "k": f"{lang}|{cond}" + (f"|{sp}" if sp else ""), "p": tot,
-                         "u": it.get("itemWebUrl"), "s": sure, "m": m, "i": photo(it), "im": photos(it)})
+                         "u": it.get("itemWebUrl"), "s": sure, "m": m, "i": photo(it), "im": photos(it), "ti": title[:120]})
         searched.add((gid, m))
 
     for g in todo:                        # 1) les jeux à renouveler sur eBay.fr
@@ -488,7 +488,7 @@ def run_console(cfg, games, tok, budget):
         h["s"] = (h["s"] + [[TODAY, ref, len(lst), gone.get(gk, 0)]])[-400:]
         if lst:
             h["now"] = {"n": len(lst), "ref": ref, "min": lst[0]["p"], "url": lst[0]["u"],
-                        "top": [[r["p"], r["u"], r.get("i") if j == 0 else None] for j, r in enumerate(lst[:3])],
+                        "top": [[r["p"], r["u"], r.get("i") if j == 0 else None, r.get("ti")] for j, r in enumerate(lst[:3])],
                         "sure": sum(1 for r in lst if r["s"]), "d": TODAY, "imgs": lst[0].get("im") or []}
         else:
             h.pop("now", None)
