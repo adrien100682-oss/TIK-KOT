@@ -17,7 +17,7 @@ CHEAP_MIN_ADS = 3       # il faut au moins 3 annonces pour être sûr qu'il est 
 CHEAP_RECHECK = 14      # jours entre deux contrôles d'un jeu bon marché
 LEFT_OK = 25           # une console est « terminée » s'il reste au plus 25 jeux non cherchés (requêtes en échec)
 UNSEEN_RECHECK = 6      # jours entre deux recherches d'un jeu jamais vu en vente (on continue de le chercher)
-RESET_ONCE = {"ps2": "v2"}     # repart de zéro UNE seule fois (efface l'ancien historique, pollué par d'anciennes erreurs de tri)
+RESET_ONCE = {"ps2": "v2", "gba": "v1"}     # repart de zéro UNE seule fois (efface l'ancien historique, pollué par d'anciennes erreurs de tri)
 CJK = re.compile(r"[\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]")                      # titres en japonais/chinois/coréen : ignorés
 
 # Consoles dans l'ordre de priorité. Chaque jour, le script traite celles qui sont "à renouveler" (selon "every"),
@@ -49,6 +49,9 @@ CONSOLES = [
 for c in CONSOLES:   # mots interdits = mots des autres consoles (sauf ceux contenus dans les nôtres)
     others = {w for o in CONSOLES if o is not c for w in o["need"]}
     c["_ban"] = [w for w in others if not any(w in n for n in c["need"])] + c.get("ban", [])
+CART_KEYS = {"nes", "snes", "n64", "gb", "gbc", "gba", "md", "ds", "3ds"}   # jeux sur cartouche : on suit le prix de la CARTOUCHE SEULE (« loose »)
+for c in CONSOLES:
+    c["cart"] = c["key"] in CART_KEYS
 ORDER = ["ps2", "ps1", "ps3", "x360", "wii", "ds", "psp", "ps4", "gc", "xbox", "xone", "switch", "3ds", "gba", "gbc", "gb",
          "n64", "snes", "nes", "md", "dc", "saturn"]
 EVERY = {"ps2": 2, "ps1": 2, "ps3": 3, "x360": 3, "wii": 3, "ds": 4, "psp": 4, "ps4": 4, "gc": 5, "xbox": 5, "xone": 7, "switch": 7}
@@ -165,6 +168,8 @@ BOX_ONLY = [" boite seule ", " boitier seul ", " boite vide ", " case only ", " 
 DISC_ONLY = [" disque seul ", " cd seul ", " dvd seul ", " loose ", " disc only ", " game only ", " sans boite ",
              " sans boitier ", " sans jaquette ", " sans etui ", " jeu seul ", " cd only ", " ohne hulle ", " ohne ovp ",
              " nur disc ", " nur spiel ", " senza custodia ", " sin caja "]
+LOOSE_CART = [" cartouche seule ", " cartouche seul ", " cartouche uniquement ", " cart only ", " cartridge only ", " module seul ",
+              " nur modul ", " nur cartridge ", " solo cartucho ", " solo cartuccia ", " en loose ", " cartridge "]
 INCOMPLETE = [" sans notice ", " sans manuel ", " no manual ", " ohne anleitung ", " notice manquante ", " sans livret "]
 NEW_WORDS = [" sealed ", " blister ", " scelle ", " brand new ", " neuf sous ", " factory sealed "]
 COMPLETE = [" complet ", " complete ", " cib ", " avec notice ", " avec boite ", " avec boitier ", " boite et notice ",
@@ -202,8 +207,9 @@ def classify(title, cond_id, cfg):
         return None
     if has(t, BOX_ONLY):
         return "boite"
-    if has(t, DISC_ONLY):
-        return "disque"
+    cart = cfg.get("cart")
+    if has(t, DISC_ONLY) or (cart and has(t, LOOSE_CART)):
+        return "loose" if cart else "disque"
     if has(t, INCOMPLETE):
         return None
     if cond_id in ("1000", "1500") or has(t, NEW_WORDS):
@@ -211,7 +217,8 @@ def classify(title, cond_id, cfg):
     if has(t, COMPLETE):
         return "complet"
     if cond_id in ("2750", "3000", "4000", "5000", "6000"):
-        return "incertain"       # occasion, mais rien n'indique si la boîte/la notice sont là
+        # occasion sans mention de boîte/notice : pour une cartouche on suppose « cartouche seule », sinon état incertain
+        return "loose" if cart else "incertain"
     return None
 
 def language(title, country):
@@ -428,7 +435,7 @@ def run_console(cfg, games, tok, budget):
     # Mémoire par jeu : bon marché (on le recontrôlera rarement) ou jamais vu (on continue de le chercher)
     by = {}
     for r in rows:
-        if r["k"].endswith("|complet"):
+        if r["k"].endswith("|" + ("loose" if cfg.get("cart") else "complet")):
             by.setdefault(r["g"], {}).setdefault(r["k"].split("|")[0], []).append(r["p"])
     def cheap(gid):
         langs = by.get(gid) or {}
