@@ -141,9 +141,9 @@ body.raffle .card:not(.rev) .hp{visibility:hidden}
  header{padding:8px 24px}
  .card{grid-template-columns:auto minmax(0,1fr) auto;grid-template-rows:1fr;grid-template-areas:"cov info ph";align-items:center;padding:12px 2vw}
  .card.nophoto{grid-template-columns:auto minmax(0,1fr);grid-template-areas:"cov info"}
- .c-cov{height:min(calc(100vh - 190px),680px);aspect-ratio:3/4.2;font-size:clamp(26px,3vw,46px)}
+ .c-cov{height:calc(var(--ch,800px) - 12px);aspect-ratio:3/4.2;font-size:clamp(26px,3vw,46px)}
  .c-cov img{object-fit:cover}
- .c-ph{height:min(calc(100vh - 190px),680px);width:clamp(240px,24vw,440px)}
+ .c-ph{height:calc(var(--ch,800px) - 12px);width:clamp(240px,24vw,440px)}
  .cap{font-size:12px}
  .info{max-height:100%;gap:1.1vh}
  .gt{font-size:clamp(28px,3vw,48px)}
@@ -187,11 +187,11 @@ body.raffle .card:not(.rev) .hp{visibility:hidden}
 .edc{flex-direction:row;gap:8px;align-items:baseline;padding:5px 10px}
 .edc>b{font-size:clamp(14px,1.2vw,17px)}
 
-/* ---- v5 : photos sur toute la hauteur, le reste pour les infos ---- */
+/* ---- v6 : photos sur TOUTE la hauteur, le reste pour les infos ---- */
 @media(min-width:900px){
- .card{padding:12px 1.2vw;column-gap:1.2vw}
- .c-cov{height:calc(var(--ch,800px) - 24px);aspect-ratio:3/4.2;max-width:31vw}
- .c-ph{height:calc(var(--ch,800px) - 24px);width:clamp(220px,23vw,520px)}
+ .card{padding:6px 1vw;column-gap:1vw}
+ .c-cov{height:calc(var(--ch,800px) - 12px);aspect-ratio:3/4.2;max-width:32vw}
+ .c-ph{height:calc(var(--ch,800px) - 12px);width:clamp(220px,24vw,540px)}
  .info{max-width:none;justify-self:stretch;max-height:100%}
 }
 </style></head><body>
