@@ -21,14 +21,15 @@ st.textContent=`#xo{display:none;position:fixed;inset:0;z-index:60;background:va
 #xo.gm{padding:8px}#xo.gm .w{max-width:none;height:calc(100vh - 16px);display:flex;flex-direction:column;gap:6px}#xo.gm h2{font-size:18px}
 #xo.gm #xb{flex:1;min-height:0;display:flex;flex-direction:column;gap:6px}
 #xo.gm .xs{margin:0;gap:18px;align-items:center;font-size:13px;color:var(--mut);flex:none;flex-wrap:wrap}#xo.gm .xs b{color:var(--fg);font-size:18px}
-#xo .xph{flex:1;min-height:0;display:flex;gap:8px}
-#xo .xp{flex:1;min-width:0;position:relative;overflow:hidden;border-radius:10px;background:#222;display:flex;align-items:center;justify-content:center}
+#xo .xph{flex:1;min-height:0;display:flex;gap:10px;justify-content:center}
+#xo .xp{flex:none;height:100%;aspect-ratio:5/7;max-width:48vw;position:relative;overflow:hidden;border-radius:10px;background:#222;display:flex;align-items:center;justify-content:center}
 #xo .xp .bg{position:absolute;inset:-20px;background-size:cover;background-position:center;filter:blur(20px) brightness(.5)}
 #xo .xp img{position:relative;width:100%;height:100%;object-fit:contain}
 #xo .cap2{position:absolute;left:0;right:0;bottom:0;background:#000b;color:#fff;font-size:12px;padding:4px 8px;z-index:2}#xo #gph{cursor:pointer}
 #xo .xn{flex:none;font-size:clamp(18px,3vh,28px);text-align:center}
 #xo.gm .xbt{flex:none;margin:0}#xo.gm .xbt button{height:clamp(54px,9vh,84px);font-size:clamp(28px,5vh,44px)}
 #xo #gr{flex:none;min-height:60px;display:flex;align-items:center;justify-content:center;gap:16px}#xo #gr .big{font-size:40px}#xo #gr .nx{margin:0}
+#xo.gm .xs,#xo.gm .xn,#xo.gm .xbt,#xo #gr{width:100%;max-width:960px;margin-left:auto;margin-right:auto}
 body.raffle .card:not(.rev) .conbar .rk,body.raffle .card:not(.rev) .conbar .nf,body.raffle .card:not(.rev) .gt .badge{visibility:hidden}
 body.raffle #feed{scrollbar-width:none}body.raffle #feed::-webkit-scrollbar{display:none}`;
 document.head.appendChild(st);
