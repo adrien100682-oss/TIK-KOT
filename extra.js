@@ -17,7 +17,11 @@ st.textContent=`#xo{display:none;position:fixed;inset:0;z-index:60;background:va
 #xo .inf2{flex:1;min-width:170px}#xo .pr{font-weight:800;font-size:17px;color:var(--acc);white-space:nowrap}
 #xo a.sb2{color:#fff;text-decoration:none;font-weight:800;font-size:13px;border-radius:8px;padding:8px 11px}#xo .act{display:flex;gap:6px;flex-wrap:wrap}
 #xo .no{background:#444;color:#fff;border:0;border-radius:8px;padding:8px 10px;font-weight:700;cursor:pointer}#xo .ok{background:#1f9d55;color:#fff;border:0;border-radius:8px;padding:8px 10px;font-weight:700;cursor:pointer}
-#xo pre{white-space:pre-wrap;font-family:inherit}`;
+#xo pre{white-space:pre-wrap;font-family:inherit}
+#xo .xgg{display:flex;flex-direction:column;max-width:min(820px,100%);height:calc(100vh - 205px);min-height:440px}
+#xo .xgg .xcv{flex:1;height:auto;min-height:0}#xo .xgg .xcv img{height:100%;width:auto;object-fit:contain}
+#xo .xgg .xn{font-size:clamp(22px,3.2vh,34px)}#xo .xgg .xbt button{height:clamp(64px,10vh,100px);font-size:clamp(30px,5vh,48px)}
+#xo .xgg #gr{min-height:96px;flex:none}`;
 document.head.appendChild(st);
 const mk=(id,t,bg)=>{const b=document.createElement("button");b.id=id;b.type="button";b.textContent=t;b.style.cssText="border:0;border-radius:8px;padding:7px 12px;font-weight:700;cursor:pointer;font-size:14px;color:#fff;background:"+bg;bar.insertBefore(b,ab);return b};
 const ov=document.createElement("div");ov.id="xo";document.body.appendChild(ov);
@@ -45,7 +49,7 @@ function game(){$("xt").textContent="🎨 Jeu des couleurs";
  const L=xpool(2).filter(r=>tierOf(r.min)),T=[...TI].sort((a,b)=>a.t-b.t);let cur=null,done=true,last=null;
  $("xb").innerHTML=`<div class="sub">Devine l'étiquette du jeu d'après son prix eBay le moins cher (consoles cochées dans 🎮 Consoles). Clavier : D C B A S, puis Espace pour le suivant.</div>
  <div class="xs"><div>Score<b id="g1"></b></div><div>Série<b id="g2"></b></div><div>Meilleure série<b id="g3"></b></div></div>
- <div class="xg"><div class="xcv" id="gcv"></div><div class="xn" id="gn"></div><div class="sub" id="gk"></div>
+ <div class="xg xgg"><div class="xcv" id="gcv"></div><div class="xn" id="gn"></div><div class="sub" id="gk"></div>
  <div class="xbt">${T.map(x=>`<button data-k="${x.k}" style="background:${x.c};color:${ink(x.c)}">${x.k}<small>dès ${x.t} €</small></button>`).join("")}</div><div id="gr" style="min-height:90px;margin-top:12px"></div></div>`;
  const stats=()=>{$("g1").textContent=S.ok+"/"+S.n;$("g2").textContent=S.st;$("g3").textContent=S.bs};
  const btns=()=>[...document.querySelectorAll("#xb .xbt button")];
