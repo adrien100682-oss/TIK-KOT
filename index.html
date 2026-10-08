@@ -647,4 +647,4 @@ fetch("data/consoles.json",{cache:"no-store"}).then(okj).catch(()=>[])
  .then(c=>{if(!c.length)c=[{key:"ps2",name:"PlayStation 2",games:0}];
   CONS=c;const sv=ldSel().filter(k=>CONS.some(x=>x.key==k));
   SEL=sv.length?sv:[CONS[0].key];drawCons();refresh()});
-</script></body></html>
+</script><script src="extra.js"></script></body></html>
