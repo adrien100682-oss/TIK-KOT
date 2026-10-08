@@ -28,7 +28,9 @@ st.textContent=`#xo{display:none;position:fixed;inset:0;z-index:60;background:va
 #xo .cap2{position:absolute;left:0;right:0;bottom:0;background:#000b;color:#fff;font-size:12px;padding:4px 8px;z-index:2}#xo #gph{cursor:pointer}
 #xo .xn{flex:none;font-size:clamp(18px,3vh,28px);text-align:center}
 #xo.gm .xbt{flex:none;margin:0}#xo.gm .xbt button{height:clamp(54px,9vh,84px);font-size:clamp(28px,5vh,44px)}
-#xo #gr{flex:none;min-height:60px;display:flex;align-items:center;justify-content:center;gap:16px}#xo #gr .big{font-size:40px}#xo #gr .nx{margin:0}`;
+#xo #gr{flex:none;min-height:60px;display:flex;align-items:center;justify-content:center;gap:16px}#xo #gr .big{font-size:40px}#xo #gr .nx{margin:0}
+body.raffle .card:not(.rev) .conbar .rk,body.raffle .card:not(.rev) .conbar .nf,body.raffle .card:not(.rev) .gt .badge{visibility:hidden}
+body.raffle #feed{scrollbar-width:none}body.raffle #feed::-webkit-scrollbar{display:none}`;
 document.head.appendChild(st);
 const mk=(id,t,bg)=>{const b=document.createElement("button");b.id=id;b.type="button";b.textContent=t;b.style.cssText="border:0;border-radius:8px;padding:7px 12px;font-weight:700;cursor:pointer;font-size:14px;color:#fff;background:"+bg;bar.insertBefore(b,ab);return b};
 const ov=document.createElement("div");ov.id="xo";document.body.appendChild(ov);
