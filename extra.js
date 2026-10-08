@@ -18,7 +18,7 @@ st.textContent=`#xo{display:none;position:fixed;inset:0;z-index:60;background:va
 #xo a.sb2{color:#fff;text-decoration:none;font-weight:800;font-size:13px;border-radius:8px;padding:8px 11px}#xo .act{display:flex;gap:6px;flex-wrap:wrap}
 #xo .no{background:#444;color:#fff;border:0;border-radius:8px;padding:8px 10px;font-weight:700;cursor:pointer}#xo .ok{background:#1f9d55;color:#fff;border:0;border-radius:8px;padding:8px 10px;font-weight:700;cursor:pointer}
 #xo pre{white-space:pre-wrap;font-family:inherit}
-#xo .xgg{display:flex;flex-direction:column;max-width:min(820px,100%);height:calc(100vh - 205px);min-height:440px}
+#xo .xgg{display:flex;flex-direction:column;max-width:100%;height:calc(100vh - 205px);min-height:440px}
 #xo .xgg .xcv{flex:1;height:auto;min-height:0}#xo .xgg .xcv img{height:100%;width:auto;object-fit:contain}
 #xo .xgg .xn{font-size:clamp(22px,3.2vh,34px)}#xo .xgg .xbt button{height:clamp(64px,10vh,100px);font-size:clamp(30px,5vh,48px)}
 #xo .xgg #gr{min-height:96px;flex:none}`;
