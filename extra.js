@@ -18,10 +18,17 @@ st.textContent=`#xo{display:none;position:fixed;inset:0;z-index:60;background:va
 #xo a.sb2{color:#fff;text-decoration:none;font-weight:800;font-size:13px;border-radius:8px;padding:8px 11px}#xo .act{display:flex;gap:6px;flex-wrap:wrap}
 #xo .no{background:#444;color:#fff;border:0;border-radius:8px;padding:8px 10px;font-weight:700;cursor:pointer}#xo .ok{background:#1f9d55;color:#fff;border:0;border-radius:8px;padding:8px 10px;font-weight:700;cursor:pointer}
 #xo pre{white-space:pre-wrap;font-family:inherit}
-#xo .xgg{display:flex;flex-direction:column;max-width:100%;height:calc(100vh - 205px);min-height:440px}
-#xo .xgg .xcv{flex:1;height:auto;min-height:0}#xo .xgg .xcv img{height:100%;width:auto;object-fit:contain}
-#xo .xgg .xn{font-size:clamp(22px,3.2vh,34px)}#xo .xgg .xbt button{height:clamp(64px,10vh,100px);font-size:clamp(30px,5vh,48px)}
-#xo .xgg #gr{min-height:96px;flex:none}`;
+#xo.gm{padding:8px}#xo.gm .w{max-width:none;height:calc(100vh - 16px);display:flex;flex-direction:column;gap:6px}#xo.gm h2{font-size:18px}
+#xo.gm #xb{flex:1;min-height:0;display:flex;flex-direction:column;gap:6px}
+#xo.gm .xs{margin:0;gap:18px;align-items:center;font-size:13px;color:var(--mut);flex:none;flex-wrap:wrap}#xo.gm .xs b{color:var(--fg);font-size:18px}
+#xo .xph{flex:1;min-height:0;display:flex;gap:8px}
+#xo .xp{flex:1;min-width:0;position:relative;overflow:hidden;border-radius:10px;background:#222;display:flex;align-items:center;justify-content:center}
+#xo .xp .bg{position:absolute;inset:-20px;background-size:cover;background-position:center;filter:blur(20px) brightness(.5)}
+#xo .xp img{position:relative;width:100%;height:100%;object-fit:contain}
+#xo .cap2{position:absolute;left:0;right:0;bottom:0;background:#000b;color:#fff;font-size:12px;padding:4px 8px;z-index:2}#xo #gph{cursor:pointer}
+#xo .xn{flex:none;font-size:clamp(18px,3vh,28px);text-align:center}
+#xo.gm .xbt{flex:none;margin:0}#xo.gm .xbt button{height:clamp(54px,9vh,84px);font-size:clamp(28px,5vh,44px)}
+#xo #gr{flex:none;min-height:60px;display:flex;align-items:center;justify-content:center;gap:16px}#xo #gr .big{font-size:40px}#xo #gr .nx{margin:0}`;
 document.head.appendChild(st);
 const mk=(id,t,bg)=>{const b=document.createElement("button");b.id=id;b.type="button";b.textContent=t;b.style.cssText="border:0;border-radius:8px;padding:7px 12px;font-weight:700;cursor:pointer;font-size:14px;color:#fff;background:"+bg;bar.insertBefore(b,ab);return b};
 const ov=document.createElement("div");ov.id="xo";document.body.appendChild(ov);
@@ -29,10 +36,10 @@ let MODE="",KEYH=null;
 const names=()=>SEL.length?SEL:CONS.map(c=>c.key);
 function xpool(minN){const L=[];names().forEach(k=>{const l=LD[k];if(!l)return;(l.games||[]).forEach(g=>{
  const e=ents(g).find(x=>x.cond==mcOf(k)&&x.lang=="FR"&&!x.sp&&x.n);if(!e||e.n<minN||!e.min)return;
- L.push({c:k,uid:g.uid,t:g.t,n:e.n,min:e.min,p:e.ref||e.min,cover:g.cover,fame:g.fame})})});return L}
+ L.push({c:k,uid:g.uid,t:g.t,n:e.n,min:e.min,p:e.ref||e.min,cover:g.cover,fame:g.fame,imgs:e.imgs&&e.imgs.length?e.imgs:(e.top&&e.top[0]&&e.top[0][2]?[e.top[0][2]]:[])})})});return L}
 function xopen(m){if(RF.on)rfStop();auto(false);MODE=m;
  ov.innerHTML='<div class="w"><div style="display:flex;justify-content:space-between;align-items:center"><h2 id="xt" style="margin:0;color:var(--acc)"></h2><button class="xb" id="xc">✕ Fermer</button></div><div id="xb"></div></div>';
- $("xc").onclick=xclose;ov.style.display="block";ov.scrollTop=0;KEYH=null;
+ $("xc").onclick=xclose;ov.classList.toggle("gm",m=="g");ov.style.display="block";ov.scrollTop=0;KEYH=null;
  if(!names().some(k=>LD[k])){$("xb").innerHTML='<div class="sub" style="padding:20px">Données pas encore chargées, réessaie dans un instant.</div>';return}
  m=="g"?game():sonde()}
 function xclose(){MODE="";KEYH=null;ov.style.display="none"}
@@ -46,21 +53,24 @@ mk("xsb","🔍 À sonder","#c26a00").onclick=()=>xopen("s");
 /* ---------- 🎨 jeu des couleurs ---------- */
 function game(){$("xt").textContent="🎨 Jeu des couleurs";
  let S={ok:0,n:0,st:0,bs:0};try{S=Object.assign(S,JSON.parse(localStorage.getItem("tikkot_couleurs")||"{}"))}catch(e){}
- const L=xpool(2).filter(r=>tierOf(r.min)),T=[...TI].sort((a,b)=>a.t-b.t);let cur=null,done=true,last=null;
- $("xb").innerHTML=`<div class="sub">Devine l'étiquette du jeu d'après son prix eBay le moins cher (consoles cochées dans 🎮 Consoles). Clavier : D C B A S, puis Espace pour le suivant.</div>
- <div class="xs"><div>Score<b id="g1"></b></div><div>Série<b id="g2"></b></div><div>Meilleure série<b id="g3"></b></div></div>
- <div class="xg xgg"><div class="xcv" id="gcv"></div><div class="xn" id="gn"></div><div class="sub" id="gk"></div>
- <div class="xbt">${T.map(x=>`<button data-k="${x.k}" style="background:${x.c};color:${ink(x.c)}">${x.k}<small>dès ${x.t} €</small></button>`).join("")}</div><div id="gr" style="min-height:90px;margin-top:12px"></div></div>`;
+ let L=xpool(2).filter(r=>tierOf(r.min));const W=L.filter(r=>r.imgs.length);if(W.length>=10)L=W;
+ const T=[...TI].sort((a,b)=>a.t-b.t);let cur=null,done=true,last=null,pi=0;
+ $("xb").innerHTML=`<div class="xs"><span>Score <b id="g1"></b></span><span>Série <b id="g2"></b></span><span>Record <b id="g3"></b></span><span>Touches D C B A S · Espace = suivant · clic sur la photo de l'annonce = photo suivante</span></div>
+ <div class="xph"><div class="xp" id="gcv"></div><div class="xp" id="gph"></div></div>
+ <div class="xn"><b id="gn"></b> <span class="sub" id="gk"></span></div>
+ <div class="xbt">${T.map(x=>`<button data-k="${x.k}" style="background:${x.c};color:${ink(x.c)}">${x.k}<small>dès ${x.t} €</small></button>`).join("")}</div><div id="gr"></div>`;
  const stats=()=>{$("g1").textContent=S.ok+"/"+S.n;$("g2").textContent=S.st;$("g3").textContent=S.bs};
  const btns=()=>[...document.querySelectorAll("#xb .xbt button")];
+ const pan=(src,cap)=>src?`<div class="bg" style="background-image:url('${safe(src)}')"></div><img src="${safe(src)}" alt=""><div class="cap2">${cap}</div>`:`<span class="sub">${cap}</span>`;
+ const showPh=()=>{const im=cur.imgs;$("gph").innerHTML=pan(im[pi]||"",im.length?"📷 Photo de l'annonce "+(pi+1)+"/"+im.length+(im.length>1?" · clique pour la suivante":""):"Pas de photo d'annonce")};
  function next(){if(!L.length){$("gn").textContent="Aucun jeu disponible (coche des consoles).";return}
-  let g;do{g=L[Math.floor(Math.random()*L.length)]}while(L.length>1&&g===last);last=cur=g;done=false;
-  const src=g.cover?IMG+g.cover+".jpg":"";
-  $("gcv").innerHTML=src?`<div class="bg" style="background-image:url('${safe(src)}')"></div><img src="${safe(src)}" alt="" onerror="this.remove()">`:`<span>${esc(g.t)}</span>`;
-  $("gn").textContent=g.t;$("gk").textContent=cname(g.c);$("gr").innerHTML="";btns().forEach(b=>b.disabled=false)}
+  let g;do{g=L[Math.floor(Math.random()*L.length)]}while(L.length>1&&g===last);last=cur=g;done=false;pi=0;
+  $("gcv").innerHTML=pan(g.cover?IMG+g.cover+".jpg":"","Jaquette officielle (IGDB)");showPh();
+  $("gn").textContent=g.t;$("gk").textContent="· "+cname(g.c);$("gr").innerHTML="";btns().forEach(b=>b.disabled=false)}
  function ans(k){if(done||!cur)return;done=true;const t=tierOf(cur.min),ok=t.k==k;S.n++;
   if(ok){S.ok++;S.st++;if(S.st>S.bs)S.bs=S.st}else S.st=0;jset("tikkot_couleurs",S);stats();btns().forEach(b=>b.disabled=true);
   $("gr").innerHTML=`<div class="big" style="color:${t.c}">${eur(cur.min)}</div><div>${ok?"✔ Bravo !":"✘ Raté"} : c'était <b style="color:${t.c}">${t.k}</b>${ok?"":" (tu avais choisi "+k+")"}</div><button class="nx" id="gnx">Suivant ▶</button>`;$("gnx").onclick=next}
+ $("gph").onclick=()=>{if(!cur||cur.imgs.length<2)return;pi=(pi+1)%cur.imgs.length;showPh()};
  $("xb").onclick=e=>{const b=e.target.closest("button[data-k]");if(b)ans(b.dataset.k)};
  KEYH=e=>{const k=e.key.toUpperCase();if(["D","C","B","A","S"].includes(k)&&!e.ctrlKey&&!e.metaKey)ans(k);else if((e.key===" "||e.key==="Enter")&&done)next()};
  stats();next()}
