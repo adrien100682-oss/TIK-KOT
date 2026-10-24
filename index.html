@@ -256,8 +256,8 @@ const days=d=>Math.max(1,Math.round((Date.now()-new Date(d))/864e5)+1);
 const today=()=>new Date().toISOString().slice(0,10);
 const NAMES={FR:"française",EN:"anglaise (UK)",DE:"allemande",IT:"italienne",ES:"espagnole"};
 const SPL={collector:"Collector / coffret",limitee:"Édition limitée / spéciale",budget:"Réédition budget (Platinum, Greatest Hits…)",presse:"Presse / promo / démo"};
-const SHORT={ps1:"PS1",ps2:"PS2",ps3:"PS3",ps4:"PS4",psp:"PSP",x360:"360",xbox:"XBOX",xone:"X ONE",wii:"WII",wiiu:"WII U",ds:"DS","3ds":"3DS",gc:"GC",switch:"SWITCH",n64:"N64",snes:"SNES",nes:"NES",md:"MD",sms:"SMS",dc:"DC",saturn:"SATURN",gba:"GBA",gbc:"GBC",gb:"GB"};
-const CCOL={ps1:"#7c8aa5",ps2:"#2f6bff",ps3:"#1b2a8a",ps4:"#0a86d6",psp:"#0b7a75",x360:"#2ea043",xbox:"#5d8f12",xone:"#107c10",wii:"#2a9db5",wiiu:"#0b6fa4",ds:"#d94f7a","3ds":"#c0392b",gc:"#7b4fc9",switch:"#e60012",n64:"#d68910",snes:"#8e6cc6",nes:"#b03a2e",md:"#444",sms:"#1d4ed8",dc:"#f07f2d",saturn:"#556270",gba:"#5b3fa8",gbc:"#d35fb7",gb:"#7f8c3a"};
+const SHORT={ps1:"PS1",ps2:"PS2",ps3:"PS3",ps4:"PS4",psp:"PSP",x360:"360",xbox:"XBOX",xone:"X ONE",wii:"WII",wiiu:"WII U",ds:"DS","3ds":"3DS",gc:"GC",switch:"SWITCH",n64:"N64",snes:"SNES",nes:"NES",md:"MD",sms:"SMS",gg:"GG",dc:"DC",saturn:"SATURN",gba:"GBA",gbc:"GBC",gb:"GB"};
+const CCOL={ps1:"#7c8aa5",ps2:"#2f6bff",ps3:"#1b2a8a",ps4:"#0a86d6",psp:"#0b7a75",x360:"#2ea043",xbox:"#5d8f12",xone:"#107c10",wii:"#2a9db5",wiiu:"#0b6fa4",ds:"#d94f7a","3ds":"#c0392b",gc:"#7b4fc9",switch:"#e60012",n64:"#d68910",snes:"#8e6cc6",nes:"#b03a2e",md:"#444",sms:"#1d4ed8",gg:"#0e7490",dc:"#f07f2d",saturn:"#556270",gba:"#5b3fa8",gbc:"#d35fb7",gb:"#7f8c3a"};
 const ccol=c=>CCOL[c]||col(c);
 const pill=c=>`<span class="pill" style="background:${ccol(c)}">${esc(SHORT[c]||String(c).toUpperCase())}</span>`;
 const FLAG={FR:"linear-gradient(90deg,#0055a4 33%,#fff 33% 66%,#ef4135 66%)",IT:"linear-gradient(90deg,#009246 33%,#fff 33% 66%,#ce2b37 66%)",DE:"linear-gradient(180deg,#000 33%,#dd0000 33% 66%,#ffce00 66%)",ES:"linear-gradient(180deg,#aa151b 25%,#f1bf00 25% 75%,#aa151b 75%)"};
@@ -290,7 +290,7 @@ function resetT(){TI=DEF_T.map(x=>({...x}));jset(LTI,TI);drawTiers();build()}
 
 /* ---- état ---- */
 let CONS=[],SEL=[],DB={},GM={},LAT={},LD={},XC={},OBS=null,ITEMS=[],LASTM=null;
-const CART=new Set(["nes","snes","n64","gb","gbc","gba","md","sms","ds","3ds"]);   // jeux sur cartouche : on se base sur le prix de la cartouche seule
+const CART=new Set(["nes","snes","n64","gb","gbc","gba","md","sms","gg","ds","3ds"]);   // jeux sur cartouche : on se base sur le prix de la cartouche seule
 const mcOf=c=>CART.has(c)?"loose":"complet";
 const okj=r=>{if(!r.ok)throw 0;return r.json()};
 const mergeLoose=(a,b)=>{const live=[a,b].filter(x=>x.n>0),top=live.flatMap(x=>x.top||[[x.min,x.url,null]]).sort((x,y)=>x[0]-y[0]).slice(0,3),best=live.length?live.reduce((p,q)=>q.min<p.min?q:p):null,m={...a,cond:"loose"};
