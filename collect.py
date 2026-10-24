@@ -40,6 +40,7 @@ CONSOLES = [
     {"key": "nes", "name": "NES", "igdb": 18, "q": "nes", "need": [" nes ", " nintendo nes "], "every": 12},
     {"key": "md", "name": "Mega Drive", "igdb": 29, "q": "mega drive", "need": [" mega drive ", " megadrive ", " genesis "], "every": 12},
     {"key": "sms", "name": "Master System", "igdb": 64, "q": "master system", "need": [" master system ", " mastersystem ", " sms "], "every": 12},
+    {"key": "gg", "name": "Game Gear", "igdb": 35, "q": "game gear", "need": [" game gear ", " gamegear "], "every": 12},
     {"key": "dc", "name": "Dreamcast", "igdb": 23, "q": "dreamcast", "need": [" dreamcast "], "every": 12},
     {"key": "saturn", "name": "Saturn", "igdb": 32, "q": "saturn", "need": [" saturn ", " sega saturn "], "every": 12},
     {"key": "gba", "name": "Game Boy Advance", "igdb": 24, "q": "game boy advance", "need": [" gba ", " game boy advance ", " gameboy advance "], "every": 12},
@@ -52,11 +53,11 @@ CONSOLES = [
 for c in CONSOLES:   # mots interdits = mots des autres consoles (sauf ceux contenus dans les nôtres)
     others = {w for o in CONSOLES if o is not c for w in o["need"]}
     c["_ban"] = [w for w in others if not any(w in n for n in c["need"])] + c.get("ban", [])
-CART_KEYS = {"nes", "snes", "n64", "gb", "gbc", "gba", "md", "sms", "ds", "3ds"}   # jeux sur cartouche : on suit le prix de la CARTOUCHE SEULE (« loose »)
+CART_KEYS = {"nes", "snes", "n64", "gb", "gbc", "gba", "md", "sms", "gg", "ds", "3ds"}   # jeux sur cartouche : on suit le prix de la CARTOUCHE SEULE (« loose »)
 for c in CONSOLES:
     c["cart"] = c["key"] in CART_KEYS
 ORDER = ["ps2", "ps1", "ps3", "x360", "wii", "ds", "psp", "ps4", "gc", "xbox", "xone", "switch", "wiiu", "3ds", "gba", "gbc", "gb",
-         "n64", "snes", "nes", "md", "sms", "dc", "saturn"]
+         "n64", "snes", "nes", "md", "sms", "gg", "dc", "saturn"]
 EVERY = {"ps2": 2, "ps1": 2, "ps3": 3, "x360": 3, "wii": 3, "ds": 4, "psp": 4, "ps4": 4, "gc": 5, "xbox": 5, "xone": 7, "switch": 7}
 for c in CONSOLES:
     c["every"] = EVERY.get(c["key"], c["every"])
