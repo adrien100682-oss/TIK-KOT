@@ -7,7 +7,7 @@ OTHER_MARKETS = ["EBAY_BE", "EBAY_GB", "EBAY_DE", "EBAY_IT", "EBAY_ES"]   # comp
 MIN_VALUE = 50               # (autres pays) prix mini pour chercher un jeu
 FOREIGN_MAX = 60             # (autres pays) nombre max de jeux cherchés par pays
 GBP_EUR = 1.15               # taux approximatif livre -> euro
-MAX_CALLS = 4950             # budget d'appels eBay par jour (quota gratuit estimé à ~5000)
+MAX_CALLS = 4500             # budget d'appels eBay par jour (quota gratuit estimé à ~5000)
 DATA = "data"
 TODAY = datetime.date.today().isoformat()
 EUROPE = {"FR", "BE", "LU", "CH", "DE", "IT", "ES", "GB", "IE", "NL", "PT", "AT"}   # pays de vendeur acceptés
@@ -15,6 +15,7 @@ PRIORITY = ["ps2", "ps1", "ps3", "x360", "wii", "ds", "psp", "ps4"]   # consoles
 CHEAP_MAX = 10          # € : un jeu dont les annonces FR "complet" valent en moyenne moins que ça est jugé "bon marché"
 CHEAP_MIN_ADS = 3       # il faut au moins 3 annonces pour être sûr qu'il est bon marché
 CHEAP_RECHECK = 14      # jours entre deux contrôles d'un jeu bon marché
+PRIORITY_SHARE = 0.7    # au plus 70 % du budget du jour pour les consoles prioritaires : le reste est garanti aux autres consoles (Xbox One, Switch, Saturn, Dreamcast…)
 LEFT_OK = 25           # une console est « terminée » s'il reste au plus 25 jeux non cherchés (requêtes en échec)
 UNSEEN_RECHECK = 6      # jours entre deux recherches d'un jeu jamais vu en vente (on continue de le chercher)
 RESET_ONCE = {"ps2": "v2", "gba": "v1"}     # repart de zéro UNE seule fois (efface l'ancien historique, pollué par d'anciennes erreurs de tri)
@@ -33,10 +34,12 @@ CONSOLES = [
     {"key": "xone", "name": "Xbox One", "igdb": 49, "q": "xbox one", "need": [" xbox one ", " xone "], "every": 5},
     {"key": "switch", "name": "Nintendo Switch", "igdb": 130, "q": "switch", "need": [" switch ", " nintendo switch "], "every": 5, "ban": [" switch 2 "]},
     {"key": "wii", "name": "Wii", "igdb": 5, "q": "wii", "need": [" wii "], "every": 12, "ban": [" wii u ", " wiiu "]},
+    {"key": "wiiu", "name": "Wii U", "igdb": 41, "q": "wii u", "need": [" wii u ", " wiiu "], "every": 7},
     {"key": "n64", "name": "Nintendo 64", "igdb": 4, "q": "n64", "need": [" n64 ", " nintendo 64 "], "every": 12},
     {"key": "snes", "name": "Super Nintendo", "igdb": 19, "q": "super nintendo", "need": [" snes ", " super nintendo ", " super nes ", " super famicom "], "every": 12},
     {"key": "nes", "name": "NES", "igdb": 18, "q": "nes", "need": [" nes ", " nintendo nes "], "every": 12},
     {"key": "md", "name": "Mega Drive", "igdb": 29, "q": "mega drive", "need": [" mega drive ", " megadrive ", " genesis "], "every": 12},
+    {"key": "sms", "name": "Master System", "igdb": 64, "q": "master system", "need": [" master system ", " mastersystem ", " sms "], "every": 12},
     {"key": "dc", "name": "Dreamcast", "igdb": 23, "q": "dreamcast", "need": [" dreamcast "], "every": 12},
     {"key": "saturn", "name": "Saturn", "igdb": 32, "q": "saturn", "need": [" saturn ", " sega saturn "], "every": 12},
     {"key": "gba", "name": "Game Boy Advance", "igdb": 24, "q": "game boy advance", "need": [" gba ", " game boy advance ", " gameboy advance "], "every": 12},
@@ -49,11 +52,11 @@ CONSOLES = [
 for c in CONSOLES:   # mots interdits = mots des autres consoles (sauf ceux contenus dans les nôtres)
     others = {w for o in CONSOLES if o is not c for w in o["need"]}
     c["_ban"] = [w for w in others if not any(w in n for n in c["need"])] + c.get("ban", [])
-CART_KEYS = {"nes", "snes", "n64", "gb", "gbc", "gba", "md", "ds", "3ds"}   # jeux sur cartouche : on suit le prix de la CARTOUCHE SEULE (« loose »)
+CART_KEYS = {"nes", "snes", "n64", "gb", "gbc", "gba", "md", "sms", "ds", "3ds"}   # jeux sur cartouche : on suit le prix de la CARTOUCHE SEULE (« loose »)
 for c in CONSOLES:
     c["cart"] = c["key"] in CART_KEYS
-ORDER = ["ps2", "ps1", "ps3", "x360", "wii", "ds", "psp", "ps4", "gc", "xbox", "xone", "switch", "3ds", "gba", "gbc", "gb",
-         "n64", "snes", "nes", "md", "dc", "saturn"]
+ORDER = ["ps2", "ps1", "ps3", "x360", "wii", "ds", "psp", "ps4", "gc", "xbox", "xone", "switch", "wiiu", "3ds", "gba", "gbc", "gb",
+         "n64", "snes", "nes", "md", "sms", "dc", "saturn"]
 EVERY = {"ps2": 2, "ps1": 2, "ps3": 3, "x360": 3, "wii": 3, "ds": 4, "psp": 4, "ps4": 4, "gc": 5, "xbox": 5, "xone": 7, "switch": 7}
 for c in CONSOLES:
     c["every"] = EVERY.get(c["key"], c["every"])
@@ -178,7 +181,7 @@ DISC_ONLY = [" disque seul ", " cd seul ", " dvd seul ", " loose ", " disc only 
              " sans boitier ", " sans jaquette ", " sans etui ", " jeu seul ", " cd only ", " ohne hulle ", " ohne ovp ",
              " nur disc ", " nur spiel ", " senza custodia ", " sin caja "]
 LOOSE_CART = [" cartouche seule ", " cartouche seul ", " cartouche uniquement ", " cart only ", " cartridge only ", " module seul ",
-              " nur modul ", " nur cartridge ", " solo cartucho ", " solo cartuccia ", " en loose ", " cartridge "]
+              " nur modul ", " nur cartridge ", " solo cartucho ", " solo cartuccia ", " en loose "]
 INCOMPLETE = [" sans notice ", " sans manuel ", " no manual ", " ohne anleitung ", " notice manquante ", " sans livret "]
 NEW_WORDS = [" sealed ", " blister ", " scelle ", " brand new ", " neuf sous ", " factory sealed "]
 COMPLETE = [" complet ", " complete ", " cib ", " avec notice ", " avec boite ", " avec boitier ", " boite et notice ",
@@ -226,8 +229,8 @@ def classify(title, cond_id, cfg):
     if has(t, COMPLETE):
         return "complet"
     if cond_id in ("2750", "3000", "4000", "5000", "6000"):
-        # occasion sans mention de boîte/notice : pour une cartouche on suppose « cartouche seule », sinon état incertain
-        return "loose" if cart else "incertain"
+        # occasion sans mention de boîte/notice : état incertain (pour une cartouche, le site la compte avec la cartouche seule mais l'indique à part)
+        return "incertain"
     return None
 
 def language(title, country):
@@ -444,7 +447,7 @@ def run_console(cfg, games, tok, budget):
     # Mémoire par jeu : bon marché (on le recontrôlera rarement) ou jamais vu (on continue de le chercher)
     by = {}
     for r in rows:
-        if r["k"].endswith("|" + ("loose" if cfg.get("cart") else "complet")):
+        if r["k"].count("|") == 1 and r["k"].split("|")[1] in (("loose", "incertain") if cfg.get("cart") else ("complet",)):
             by.setdefault(r["g"], {}).setdefault(r["k"].split("|")[0], []).append(r["p"])
     def cheap(gid):
         langs = by.get(gid) or {}
@@ -538,11 +541,18 @@ def main():
                    key=lambda c: (c["key"] not in PRIORITY, state.get(c["key"]) or "0000-00-00",   # prioritaires d'abord ; les plus anciennes (ou jamais faites) en tête
                                   PRIORITY.index(c["key"]) if c["key"] in PRIORITY else 99))
     have_ebay = bool(os.environ.get("EBAY_APP_ID") and os.environ.get("EBAY_CERT_ID"))
-    tok, used, ran = (ebay_token() if have_ebay else None), 0, 0
+    tok, used, ran, used_prio = (ebay_token() if have_ebay else None), 0, 0, 0
     for cfg in order:
+        prio = cfg["key"] in PRIORITY
+        room = MAX_CALLS - used
+        if prio:
+            room = min(room, int(MAX_CALLS * PRIORITY_SHARE) - used_prio)
         if MAX_CALLS - used < 100:
             print("Budget d'appels du jour épuisé : les autres consoles attendront.")
             break
+        if room < 100:
+            print(f"{cfg['name']} : part du budget des consoles prioritaires épuisée, on passe aux autres consoles.")
+            continue
         D = f"{DATA}/{cfg['key']}"
         os.makedirs(D, exist_ok=True)
         cat = load(f"{D}/catalog.json") or (load(f"{DATA}/catalog.json") if cfg["key"] == "ps2" else None)
@@ -556,8 +566,10 @@ def main():
         if not have_ebay:
             print("Clés eBay absentes : seul le catalogue a été mis à jour.")
             break
-        calls, stop, left = run_console(cfg, cat["games"], tok, MAX_CALLS - used)
+        calls, stop, left = run_console(cfg, cat["games"], tok, room)
         used += calls
+        if prio:
+            used_prio += calls
         ran += 1
         if left <= LEFT_OK and not stop:
             state[cfg["key"]] = TODAY             # console terminée : prochaine fois dans "every" jours
