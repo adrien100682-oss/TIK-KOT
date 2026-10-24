@@ -256,8 +256,8 @@ const days=d=>Math.max(1,Math.round((Date.now()-new Date(d))/864e5)+1);
 const today=()=>new Date().toISOString().slice(0,10);
 const NAMES={FR:"française",EN:"anglaise (UK)",DE:"allemande",IT:"italienne",ES:"espagnole"};
 const SPL={collector:"Collector / coffret",limitee:"Édition limitée / spéciale",budget:"Réédition budget (Platinum, Greatest Hits…)",presse:"Presse / promo / démo"};
-const SHORT={ps1:"PS1",ps2:"PS2",ps3:"PS3",ps4:"PS4",psp:"PSP",x360:"360",xbox:"XBOX",xone:"X ONE",wii:"WII",ds:"DS","3ds":"3DS",gc:"GC",switch:"SWITCH",n64:"N64",snes:"SNES",nes:"NES",md:"MD",dc:"DC",saturn:"SATURN",gba:"GBA",gbc:"GBC",gb:"GB"};
-const CCOL={ps1:"#7c8aa5",ps2:"#2f6bff",ps3:"#1b2a8a",ps4:"#0a86d6",psp:"#0b7a75",x360:"#2ea043",xbox:"#5d8f12",xone:"#107c10",wii:"#2a9db5",ds:"#d94f7a","3ds":"#c0392b",gc:"#7b4fc9",switch:"#e60012",n64:"#d68910",snes:"#8e6cc6",nes:"#b03a2e",md:"#444",dc:"#f07f2d",saturn:"#556270",gba:"#5b3fa8",gbc:"#d35fb7",gb:"#7f8c3a"};
+const SHORT={ps1:"PS1",ps2:"PS2",ps3:"PS3",ps4:"PS4",psp:"PSP",x360:"360",xbox:"XBOX",xone:"X ONE",wii:"WII",wiiu:"WII U",ds:"DS","3ds":"3DS",gc:"GC",switch:"SWITCH",n64:"N64",snes:"SNES",nes:"NES",md:"MD",sms:"SMS",dc:"DC",saturn:"SATURN",gba:"GBA",gbc:"GBC",gb:"GB"};
+const CCOL={ps1:"#7c8aa5",ps2:"#2f6bff",ps3:"#1b2a8a",ps4:"#0a86d6",psp:"#0b7a75",x360:"#2ea043",xbox:"#5d8f12",xone:"#107c10",wii:"#2a9db5",wiiu:"#0b6fa4",ds:"#d94f7a","3ds":"#c0392b",gc:"#7b4fc9",switch:"#e60012",n64:"#d68910",snes:"#8e6cc6",nes:"#b03a2e",md:"#444",sms:"#1d4ed8",dc:"#f07f2d",saturn:"#556270",gba:"#5b3fa8",gbc:"#d35fb7",gb:"#7f8c3a"};
 const ccol=c=>CCOL[c]||col(c);
 const pill=c=>`<span class="pill" style="background:${ccol(c)}">${esc(SHORT[c]||String(c).toUpperCase())}</span>`;
 const FLAG={FR:"linear-gradient(90deg,#0055a4 33%,#fff 33% 66%,#ef4135 66%)",IT:"linear-gradient(90deg,#009246 33%,#fff 33% 66%,#ce2b37 66%)",DE:"linear-gradient(180deg,#000 33%,#dd0000 33% 66%,#ffce00 66%)",ES:"linear-gradient(180deg,#aa151b 25%,#f1bf00 25% 75%,#aa151b 75%)"};
@@ -290,10 +290,21 @@ function resetT(){TI=DEF_T.map(x=>({...x}));jset(LTI,TI);drawTiers();build()}
 
 /* ---- état ---- */
 let CONS=[],SEL=[],DB={},GM={},LAT={},LD={},XC={},OBS=null,ITEMS=[],LASTM=null;
-const CART=new Set(["nes","snes","n64","gb","gbc","gba","md","ds","3ds"]);   // jeux sur cartouche : on se base sur le prix de la cartouche seule
+const CART=new Set(["nes","snes","n64","gb","gbc","gba","md","sms","ds","3ds"]);   // jeux sur cartouche : on se base sur le prix de la cartouche seule
 const mcOf=c=>CART.has(c)?"loose":"complet";
 const okj=r=>{if(!r.ok)throw 0;return r.json()};
-const ents=g=>Object.entries(g.k||{}).map(([k,e])=>{const p=k.split("|");return {lang:p[0],cond:p[1],sp:p[2]||"",...e}});
+const mergeLoose=(a,b)=>{const live=[a,b].filter(x=>x.n>0),top=live.flatMap(x=>x.top||[[x.min,x.url,null]]).sort((x,y)=>x[0]-y[0]).slice(0,3),best=live.length?live.reduce((p,q)=>q.min<p.min?q:p):null,m={...a,cond:"loose"};
+ m.nx=(a.nx||0)+(b.nx||0);m.nu=(a.nu||0)+(b.nu||0);m.n=live.reduce((t,x)=>t+x.n,0);m.min=best?best.min:undefined;m.top=top.length?top:a.top;m.url=best?best.url:a.url;
+ m.ref=top.length?Math.round(top.reduce((t,x)=>t+x[0],0)/top.length*100)/100:(a.ref||b.ref);m.imgs=best?best.imgs:a.imgs;m.sure=live.reduce((t,x)=>t+(x.sure||0),0);
+ const ls=[a,b].filter(x=>x.last);m.last=ls.length?Math.max(...ls.map(x=>x.last)):a.last;m.date=[a.date,b.date].filter(Boolean).sort().pop()||a.date;
+ m.sold30=(a.sold30||0)+(b.sold30||0);m.since=[a.since,b.since].filter(Boolean).sort()[0]||a.since;return m};
+const ents=g=>{const E=Object.entries(g.k||{}).map(([k,e])=>{const p=k.split("|");return {lang:p[0],cond:p[1],sp:p[2]||"",...e}});
+ if(!CART.has(g.c))return E;
+ const out=[],pend={};
+ E.forEach(e=>{if(e.cond!="loose"&&e.cond!="incertain"){out.push(e);return}
+  const x={...e,nx:e.cond=="loose"?(e.n||0):0,nu:e.cond=="incertain"?(e.n||0):0},k=e.lang+"|"+e.sp;
+  pend[k]=pend[k]?mergeLoose(pend[k],x):{...x,cond:"loose"}});
+ return out.concat(Object.values(pend))};
 
 // Filet de sécurité : un prix >= 200 € et >= 30 x la médiane des autres versions du même jeu = erreur de collecte, ignoré.
 function clean(games){games.forEach(g=>{const es=Object.values(g.k||{});
@@ -384,7 +395,7 @@ function cardA(r,i,N){
   return `<div class="sc${me?" me":""}${o?"":" no"}" title="${esc(NAMES[l])}">${flag(l,true)}<b>${o?eur(o.min):"—"}</b><small>${o?o.n+" ann."+(me?" ★":""):(r.g.fx?"aucune":"non vérifié")}</small></div>`}).join("")}</div>`;
  const eds=r.specs.length?`<div class="ed hp" title="Prix à ne PAS comparer à la version standard"><span>💿</span>${r.specs.map(s=>`<span class="edc"><b>${esc(SS[s.sp]||s.sp)}</b><span>dès <b>${eur(s.min)}</b> · ${s.n} ann.</span></span>`).join("")}</div>`:"";
  const others=r.top.slice(1).map((t,j)=>`<a class="po" href="${safe(t[1])}" target="_blank" rel="noopener">${["🥈","🥉"][j]} ${eur(t[0])} ↗</a>`).join("");
- const hdr=`<div class="ph1">${r.cart?"🥇 Cartouche seule, la moins chère":"🥇 La moins chère"} · port inclus · <b>${r.n} annonce${r.n>1?"s":""} en ligne</b>${uncLine(r.unc)}${r.full?` · complet dès <b>${eur(r.full.min)}</b> (${r.full.n})`:""}</div>`;
+ const hdr=`<div class="ph1">${r.cart?"🥇 Cartouche seule, la moins chère":"🥇 La moins chère"} · port inclus · <b>${r.n} annonce${r.n>1?"s":""} en ligne</b>${uncLine(r.unc)}${r.cart?` · <span title="Annonces qui disent « cartouche seule » ou « loose »">${r.nx} annoncée${r.nx>1?"s":""} « seule »</span> · <span title="Occasion sans mention de boîte ni de notice : probablement une cartouche seule">${r.nu} non précisée${r.nu>1?"s":""}</span>`:""}${r.full?` · <b>complet</b> dès <b>${eur(r.full.min)}</b> (${r.full.n})`:(r.cart?" · aucun complet en vente":"")}</div>`;
  const mx=Math.max(1,Math.round(r.min*BG()));
  const tline=r.top[0][3]?`<a class="ti" href="${safe(r.top[0][1])}" target="_blank" rel="noopener" title="${esc(r.top[0][3])}">📝 Annonce : ${esc(r.top[0][3])}</a>`:"";
  const pbox=`<div class="price hp">${hdr}<div class="prow"><div class="srch">${searchBtns(shortTitle(r.g.t),mx)}</div><a class="pmain" href="${safe(r.top[0][1])}" target="_blank" rel="noopener" title="Voir l'annonce"><span class="pv">${eur(r.min)}</span>${R.length?`<span class="wi${R.length>1?" red":""}" title="${esc(R.join(" | "))}">⚠</span>`:""}</a>${others?`<div class="pothers">${others}</div>`:"<div></div>"}</div>${tline}${strip}${R.length?`<div class="pwarn">${R.map(x=>"⚠ "+esc(x)).join(" · ")}</div>`:""}</div>`;
@@ -429,7 +440,7 @@ function build(){
   if(e){
    const top=e.top||[[e.min,e.url]];
    const imgs=e.imgs&&e.imgs.length?e.imgs:(top[0]&&top[0][2]?[top[0][2]]:[]);
-   rows.push({g,cart:mcd=="loose",full:mcd=="loose"?(E.filter(x=>x.cond=="complet"&&x.lang=="FR"&&!x.sp&&x.n)[0]||null):null,n:e.n,ref:e.ref,min:e.min,top,imgs,sold:e.sold30||0,since:e.since,sure:e.sure,ver:e.lang,spOnly,unc,
+   rows.push({g,cart:mcd=="loose",nx:e.nx||0,nu:e.nu||0,full:mcd=="loose"?(E.filter(x=>x.cond=="complet"&&x.lang=="FR"&&!x.sp&&x.n)[0]||null):null,n:e.n,ref:e.ref,min:e.min,top,imgs,sold:e.sold30||0,since:e.since,sure:e.sure,ver:e.lang,spOnly,unc,
     frSeen:L.some(x=>x.lang=="FR"),specs:live.filter(x=>x.sp&&x!==e).sort(byLang),others:std.filter(x=>x!==e).sort(byLang),man:ms});
   }else{
    const m=L.filter(x=>x.last&&!x.sp&&(all||x.lang=="FR")).sort((a,b)=>b.last-a.last)[0];
@@ -647,4 +658,4 @@ fetch("data/consoles.json",{cache:"no-store"}).then(okj).catch(()=>[])
  .then(c=>{if(!c.length)c=[{key:"ps2",name:"PlayStation 2",games:0}];
   CONS=c;const sv=ldSel().filter(k=>CONS.some(x=>x.key==k));
   SEL=sv.length?sv:[CONS[0].key];drawCons();refresh()});
-</script><script src="extra.js"></script></body></html>
+</script></body></html>
