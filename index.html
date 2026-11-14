@@ -220,7 +220,7 @@ table.cmp{width:100%;border-collapse:collapse;background:var(--card);border-radi
 .gp{position:absolute;right:-5px;top:-5px;font-size:14px;font-weight:800;background:#fff6a8;color:#3a2c00;border-radius:3px;transform:rotate(5deg);padding:1px 7px;box-shadow:0 1px 3px #0007}.gp.lot{background:#d6f5d6;color:#145214;font-size:11px}
 .gck{position:absolute;left:4px;top:4px;background:#2ea043;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
 .gv{font-size:11px;text-align:center;font-weight:700;line-height:1.2}.gc .gn{color:#666}.gw{color:#2ea043}.gl{color:#e5383b}.gn{color:var(--mut)}
-.gbot{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-top:12px;position:sticky;bottom:0;background:#12142bee;padding:8px 0;z-index:5}
+.gbot{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-top:12px;position:sticky;bottom:0;background:#0b0820f2;border-top:2px solid #000;padding:8px 0;z-index:5}
 .gbar{height:8px;background:var(--line);border-radius:99px;overflow:hidden;flex:1 1 100%}.gbar>div{height:100%;width:100%;background:var(--acc)}
 .gbtn{background:var(--acc);color:#111;border:0;border-radius:10px;padding:10px 18px;font-weight:800;font-size:15px;cursor:pointer}.gbtn[disabled]{opacity:.4;cursor:not-allowed}.gbtn.sec{background:var(--card);color:var(--fg);border:1px solid var(--mut)}
 .gbox{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:12px}.gbox h2{margin:0}.gbox table{width:100%;border-collapse:collapse;font-size:14px}.gbox td,.gbox th{padding:4px 8px;border-bottom:1px solid var(--line);text-align:left}
@@ -284,17 +284,8 @@ table.cmp{width:100%;border-collapse:collapse;background:var(--card);border-radi
 /* menus */
 .gmenu{max-width:900px;margin:0 auto;min-height:calc(100vh - 40px);display:flex;flex-direction:column;justify-content:center;gap:22px}
 .gmhead{text-align:center}.gtag{color:var(--mut);margin-top:12px;font-size:14px}
-.gmbody{display:flex;flex-wrap:wrap;gap:30px;align-items:center;justify-content:center}.gmhero{display:flex;flex-direction:column;gap:10px;align-items:stretch;width:240px;flex:none}.gmhero .gprev{width:auto}
-.gmbtns{display:flex;flex-direction:column;gap:12px;width:min(360px,100%)}
 .gmb1,.gmb2{font:700 12px "Press Start 2P",ui-monospace,monospace;padding:16px 14px;border-radius:12px;cursor:pointer;border:3px solid #0006;text-align:left;box-shadow:0 5px 0 #0008;transition:transform .08s}
 .gmb1{background:var(--acc);color:#111;font-size:16px}.gmb2{background:var(--card);color:var(--fg);border-color:var(--line)}.gmb1:hover,.gmb2:hover{transform:translateY(-2px)}.gmb1:active,.gmb2:active{transform:translateY(3px);box-shadow:0 2px 0 #0008}
-.ged{max-width:1000px;margin:0 auto;display:flex;flex-direction:column;gap:12px}.gedb{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start}
-.gtabs2{display:flex;flex-wrap:wrap;gap:4px}.gtab2{font:700 10px "Press Start 2P",ui-monospace,monospace;padding:11px 12px;border-radius:10px 10px 0 0;background:var(--card);color:var(--mut);border:2px solid var(--line);border-bottom:0;cursor:pointer}.gtab2.on{background:var(--acc);color:#111;border-color:var(--acc)}
-.gpane{background:var(--card);border:2px solid var(--line);border-radius:0 12px 12px 12px;padding:14px;min-height:300px}
-.gtiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
-.gti{background:#ffffff12;border:2px solid var(--line);border-radius:10px;padding:14px 4px 5px;cursor:pointer;color:var(--fg);font-size:11px;display:flex;flex-direction:column;align-items:center;gap:3px;position:relative}.gti svg{width:54px;height:90px;overflow:visible}.gti.on{border-color:var(--acc);background:#ffb02026}.gti:hover{background:#ffffff22}
-.gti.lock{cursor:not-allowed}.gti.lock svg{filter:grayscale(1) brightness(.45)}.gti .lk{position:absolute;top:40px;left:0;right:0;text-align:center;font-weight:800;font-size:12px;color:#fff;text-shadow:0 1px 3px #000}
-.gswl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0 4px}.gswl b{min-width:80px;font-size:13px}.gswl .sw{width:34px;height:34px}
 #ghold{display:none;position:fixed;z-index:70;flex-direction:column;gap:6px;background:#f4efe4;color:#222;border-radius:14px;padding:10px;box-shadow:0 18px 50px #000b,0 0 0 3px #ffb020;pointer-events:none;transform-origin:50% 60%}
 #ghold.in{animation:ghin .22s cubic-bezier(.2,1.4,.4,1)}@keyframes ghin{from{transform:scale(.5) rotate(-8deg);opacity:0}to{transform:none;opacity:1}}
 .ghi{flex:1;min-height:0;position:relative;display:flex;align-items:center;justify-content:center;background:#0002;border-radius:8px;perspective:700px}
@@ -305,7 +296,141 @@ table.cmp{width:100%;border-collapse:collapse;background:var(--card);border-radi
 .gzo{display:none;position:absolute;right:3px;bottom:3px;background:#000a;color:#fff;border-radius:50%;width:26px;height:26px;align-items:center;justify-content:center;font-size:13px}
 @media(hover:none){.gzo{display:flex}#ghold{pointer-events:auto}}
 .deal .gc{animation:gdeal .32s backwards cubic-bezier(.2,1.3,.4,1)}@keyframes gdeal{from{opacity:0;transform:translateY(-26px) rotate(-6deg) scale(.8)}}
-</style></head><body>
+/* menu et vestiaire */
+.gbounce{display:inline-block;animation:gbnc 2.6s ease-in-out infinite}@keyframes gbnc{50%{transform:translateY(-6px) rotate(-1deg)}}
+.gtag{font:700 10px "Press Start 2P",ui-monospace,monospace;letter-spacing:2px}
+.gmscene{position:relative;height:230px;border-radius:16px;overflow:hidden;border:3px solid var(--line);box-shadow:0 8px 0 #0006}.gmscene .gin{position:absolute;inset:0}
+.gmme{position:absolute;left:50%;bottom:6px;margin-left:-48px;width:96px;height:160px;z-index:5;animation:gidle2 2.2s ease-in-out infinite}.gmme svg{width:96px;height:160px;overflow:visible}@keyframes gidle2{50%{transform:translateY(-4px)}}
+.gmrow{display:flex;flex-wrap:wrap;gap:14px;align-items:stretch}.gmrow .gmb1{flex:1 1 260px;font-size:22px;text-align:center;padding:26px 14px}.gmgrid{flex:1 1 380px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.gar{display:inline-block;animation:gar .7s ease-in-out infinite}@keyframes gar{50%{transform:translateX(6px)}}
+.gmfoot{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;background:#0b0d22;border:3px solid var(--line);border-radius:14px;padding:12px 14px}.gmrec{font:700 9px "Press Start 2P",ui-monospace,monospace;line-height:1.8;text-align:right;color:var(--acc)}.gmrec small{font:400 12px system-ui;color:var(--mut)}
+.gmb2.sm{padding:11px 12px;font-size:10px}
+.gves{max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.gvh{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}.gvx{display:flex;gap:10px;align-items:center;flex:1 1 260px;max-width:420px;font-size:12px;color:var(--mut)}.gvx b{color:var(--fg)}
+.gvl{font:700 12px "Press Start 2P",ui-monospace,monospace;background:var(--acc);color:#111;padding:9px 10px;border-radius:8px;box-shadow:0 4px 0 #0007;white-space:nowrap}
+.gvb{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}.gvr{flex:1 1 440px;min-width:0}
+.gvstage{flex:0 0 280px;margin:0 auto;background:linear-gradient(#242a66,#0b0d22);border:3px solid var(--line);border-radius:18px;position:relative;padding:46px 12px 14px;display:flex;flex-direction:column;align-items:center;gap:10px;overflow:hidden;box-shadow:0 8px 0 #0006}
+.gvspot{position:absolute;top:0;left:50%;width:300px;height:380px;margin-left:-150px;background:linear-gradient(#fff6,#fff0 85%);clip-path:polygon(42% 0,58% 0,100% 100%,0 100%);pointer-events:none}
+.gvchar{width:180px;height:300px;position:relative;z-index:1;animation:gidle2 2.4s ease-in-out infinite}.gvchar svg{width:180px;height:300px;overflow:visible}
+.gvped{width:210px;height:28px;border-radius:50%;background:radial-gradient(#ffb020,#7a3cff 70%);margin-top:-24px;box-shadow:0 0 34px #7a3cff}
+.gvname{min-height:26px;font:700 9px "Press Start 2P",ui-monospace,monospace;color:var(--acc);text-align:center;line-height:1.5}
+.gvtabs{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:10px}
+.gvtab{font:700 8px "Press Start 2P",ui-monospace,monospace;display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 2px 8px;border-radius:12px;background:var(--card);color:var(--mut);border:3px solid var(--line);cursor:pointer;box-shadow:0 4px 0 #0007;transition:transform .1s}
+.gvtab span{font-size:22px}.gvtab small{font:400 10px system-ui}.gvtab:hover{transform:translateY(-2px)}.gvtab.on{background:var(--acc);color:#111;border-color:#fff;transform:translateY(-4px)}
+.gvgrid{background:#0b0d22;border:3px solid var(--line);border-radius:14px;padding:14px;min-height:340px}
+.gtiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(108px,1fr));gap:12px 10px;padding-top:6px}
+.gti{--rc:#9aa3b5;background:linear-gradient(#ffffff14,#0000),#151938;border:3px solid var(--rc);border-radius:12px;padding:6px 4px 6px;cursor:pointer;color:var(--fg);display:flex;flex-direction:column;align-items:center;gap:3px;position:relative;box-shadow:inset 0 -34px 30px -26px var(--rc),0 4px 0 #0007;transition:transform .1s}
+.gti.unc{--rc:#3ecf6e}.gti.rar{--rc:#4aa3ff}.gti.epi{--rc:#b56bff}.gti.leg{--rc:#ffc530}
+.gti:hover{transform:translateY(-4px) scale(1.04)}.gti.on{outline:3px solid #fff;outline-offset:2px}
+.gtic{display:block;width:100%;height:92px;overflow:hidden;position:relative}.gtic svg{width:54px;height:90px;overflow:visible;display:block;margin:2px auto 0}.gtic.head svg{width:112px;height:187px;margin:20px auto 0}
+.gti .nm{font-size:11px;font-weight:700;line-height:1.15;min-height:2.3em;display:flex;align-items:center;text-align:center}.gti .ra{font:700 6px "Press Start 2P",ui-monospace,monospace;color:var(--rc);letter-spacing:.5px}
+.gti .eq{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#fff;color:#111;font:700 7px "Press Start 2P",ui-monospace,monospace;padding:4px 6px;border-radius:5px;white-space:nowrap;z-index:2}
+.gti.lock .gtic svg{filter:brightness(.25) saturate(.3)}.gti.lock{cursor:not-allowed}
+.gti .lk{position:absolute;top:34px;left:0;right:0;text-align:center;font-weight:800;font-size:12px;color:#fff;text-shadow:0 1px 3px #000}.gti .lk i{display:block;height:5px;background:#fff3;border-radius:3px;margin:4px 14px 0}.gti .lk b{display:block;height:100%;background:var(--acc);border-radius:3px}
+.shake{animation:gshk .3s}@keyframes gshk{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.gswl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:14px 0 4px}.gswl b{min-width:96px;font:700 8px "Press Start 2P",ui-monospace,monospace;color:var(--mut)}.gswl .sw{width:34px;height:34px;box-shadow:0 3px 0 #0007}
+/* ---- direction artistique : pixel art rétro sombre ---- */
+#gm{--bg:#0e0f14;--card:#1a1c24;--fg:#e6e2d6;--mut:#9a968a;--line:#3a3d4a;--acc:#d9a441;background:repeating-linear-gradient(#ffffff05 0 1px,transparent 1px 3px),#0e0f14}
+#gm svg[shape-rendering]{image-rendering:pixelated}
+.gtitle,.gtitle.big{color:var(--acc);text-shadow:3px 3px 0 #5a1f1f;letter-spacing:2px}.gtitle.big{text-shadow:5px 5px 0 #5a1f1f}.gbounce{animation:none}
+.gmb1,.gmb2,.gbtn,.gx,.gvtab,.gvl{border-radius:2px;box-shadow:4px 4px 0 #000}.gmb1,.gmb2,.gvtab{border:3px solid #000}.gmb2,.gvtab{background:var(--card);outline:1px solid var(--line);outline-offset:-5px}
+.gmb1:hover,.gmb2:hover,.gvtab:hover{transform:translate(-1px,-1px)}.gmb1:active,.gmb2:active{transform:translate(3px,3px);box-shadow:1px 1px 0 #000}
+.gbtn{font-weight:800;border:2px solid #000}.gbtn.sec{background:var(--card);color:var(--fg);border:2px solid #000;outline:1px solid var(--line);outline-offset:-4px}.gx{border:2px solid #000;background:var(--card);font:700 9px "Press Start 2P",ui-monospace,monospace;padding:9px 10px}
+.gvtab.on{background:var(--acc);color:#111;border-color:#000;outline-color:#0004;transform:translate(-2px,-2px)}.gvtab{padding:14px 2px 10px}
+.gmscene,.gmfoot,.gvgrid,.gvstage,.gsc,.gstall,.gxp,.gbub,.gsq,.gport{border-radius:2px}.gmscene,.gsc,.gvstage,.gvgrid,.gmfoot{border:3px solid #000;box-shadow:4px 4px 0 #000}
+.gmfoot,.gvgrid{background:#14161d}.gbar{border-radius:0;height:10px;background:#000;border:1px solid var(--line)}.gbar>div{border-radius:0}
+.gmrec{color:var(--acc)}.gtag{color:var(--mut)}
+/* scène */
+.gsky{background:linear-gradient(#5f7f96,#a9bcc0)}.gsun{border-radius:0;width:32px;height:32px;background:#e8d9a0;box-shadow:0 0 0 4px #e8d9a033,0 0 0 8px #e8d9a01a}.gmoon{border-radius:0;background:#c9c4b5;box-shadow:none;width:20px;height:20px}
+.gcl{border-radius:0;height:12px;background:#d8dde099}.gcl::before{border-radius:0;top:-8px;height:8px;left:20%;width:50%}
+.gstars{background-image:linear-gradient(#fff,#fff),linear-gradient(#fff,#fff),linear-gradient(#fff,#fff),linear-gradient(#fff,#fff);background-size:2px 2px,2px 2px,2px 2px,2px 2px;background-repeat:repeat;background-size:210px 140px;background-image:radial-gradient(1px 1px at 20px 30px,#fff 99%,transparent),radial-gradient(1px 1px at 90px 80px,#fff 99%,transparent),radial-gradient(1px 1px at 150px 20px,#fff 99%,transparent),radial-gradient(1px 1px at 60px 110px,#fff 99%,transparent),radial-gradient(1px 1px at 180px 95px,#fff 99%,transparent)}
+.ggr{background:linear-gradient(#4a5644 0 10%,#5e584e 10%)}.ggr::after{inset:10% 0 0 0;background-image:linear-gradient(#0000002e,#0000002e),linear-gradient(#ffffff12,#ffffff12);background-size:4px 4px,4px 4px;background-position:0 0,14px 10px;background-repeat:repeat;background-size:28px 20px,36px 24px;-webkit-mask:none}
+.ggr::after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='24' shape-rendering='crispEdges'%3E%3Crect x='3' y='4' width='4' height='2' fill='%23000' opacity='.18'/%3E%3Crect x='19' y='14' width='4' height='2' fill='%23000' opacity='.18'/%3E%3Crect x='12' y='9' width='2' height='2' fill='%23fff' opacity='.08'/%3E%3Crect x='27' y='2' width='2' height='2' fill='%23fff' opacity='.08'/%3E%3C/svg%3E");background-size:32px 24px}
+.gbun{opacity:.75;filter:saturate(.55) brightness(.85)}
+.gent,.gend{border-radius:0;border:2px solid #000}.gent{background:#c9c4b5;color:#16161c}.gend{background:#7a2a2a;color:#e6e2d6;box-shadow:3px 3px 0 #000}
+.gsg .num{border-radius:0;background:#16161c;color:#e6e2d6;border:2px solid #000;outline:1px solid #c9c4b5;outline-offset:-3px;font:700 9px "Press Start 2P",ui-monospace,monospace;width:26px;height:24px;line-height:20px;box-shadow:2px 2px 0 #0008}
+.aw{border-radius:0;background:repeating-linear-gradient(90deg,var(--c) 0 16px,#c9c4b5 16px 32px);box-shadow:0 4px 0 #0005;border:2px solid #000;border-bottom-width:4px}.aw::before,.aw::after{background:#3a3d4a;top:32px}
+.tb{border-radius:0;background:#4a3a28;border-top:4px solid #6b5538;box-shadow:inset 0 -6px 0 #0003;border-left:2px solid #000;border-right:2px solid #000;border-bottom:2px solid #000}.tb i{border-radius:0;border:1px solid #000;border-left:4px solid #0006;height:24px;width:22px;margin-top:-18px}
+.gst.car .tb{background:repeating-linear-gradient(90deg,#6b2424 0 8px,#8a7f72 8px 16px)}
+.gst.cur .aw{outline:3px solid var(--acc)}.gst.packed .tb::after{content:"";width:46px;height:22px;margin-top:-24px;background:#8a6f4a;border:2px solid #000;box-shadow:inset -22px 0 0 #7a6040}
+.gbub{border:2px solid #000;box-shadow:3px 3px 0 #0008;background:#e6e2d6}.gbub::after{border-top-color:#000}
+.gfog{background:linear-gradient(90deg,transparent 0,#141821f7 130px);color:#9a968a;text-shadow:3px 3px 0 #000}
+.ghud,.ghud2{border-radius:0;border:2px solid #000;background:#0e0f14e6}.ghud2{color:var(--acc)}.gtoast{border-radius:0;border:2px solid #000}
+.gdk{background:radial-gradient(circle at 50% 50%,#e8d9a01f 0,transparent 70px,transparent 100px,rgba(3,4,12,.94) 200px)}
+/* marche en pixel art : pas de rotation, des pas saccadés */
+@keyframes lga{0%,49%{transform:translateY(0)}50%,100%{transform:translateY(-1px)}}@keyframes lgb{0%,49%{transform:translateY(-1px)}50%,100%{transform:translateY(0)}}
+.walking .l1{animation:lga .36s steps(1) infinite}.walking .l2{animation:lgb .36s steps(1) infinite}.walking .gcw{animation:bob .36s steps(2) infinite}
+.gsel{animation:gidle 1.6s steps(2) infinite}.gmme,.gvchar{animation:gidle2 1.4s steps(2) infinite}
+/* étal, cartes */
+.gstall{background:#2e261d;border:3px solid #000;border-top:6px solid #5a4630;box-shadow:4px 4px 0 #000}.gport{background:#14161d;border:2px solid #000}.gsq{border:2px solid #000}
+.gc{border-radius:2px;background:#d8d2c2;border:2px solid #000;box-shadow:3px 3px 0 #0008}.gi{border-radius:0;background:#0003}.gc.on{border-color:#000;box-shadow:0 0 0 3px #5a9a62,3px 3px 0 3px #0008}
+.gp{border-radius:0;border:1px solid #000;background:#e8d9a0;font-family:"Press Start 2P",ui-monospace,monospace;font-size:10px;padding:4px 6px;transform:rotate(3deg)}.gp.lot{background:#b9d6b9;font-size:8px}.ghi .gp{font-size:14px}
+.gck{border-radius:0;background:#5a9a62;border:2px solid #000}.gzo{border-radius:0}.gw{color:#6fbf7a}.gl{color:#d9605a}.gc .gw{color:#2f7a3c}.gc .gl{color:#a8322c}
+#ghold{border-radius:2px;background:#d8d2c2;box-shadow:8px 8px 0 #000a,0 0 0 3px #000,0 0 0 6px #d9a441}.ghi,.ghi img{border-radius:0}
+/* vestiaire */
+.gvstage{background:linear-gradient(#1a1c24 0 72%,#14161d 72%);padding-top:40px}.gvspot{display:none}.gvped{border-radius:0;width:150px;height:10px;margin-top:-6px;background:#3a3d4a;box-shadow:0 4px 0 #000,inset 0 3px 0 #5a5e6e}
+.gti{--rc:#8a8a84;border-radius:2px;background:#1a1c24;border:3px solid #000;outline:2px solid var(--rc);outline-offset:-5px;box-shadow:inset 0 -26px 22px -22px var(--rc),4px 4px 0 #000}
+.gti.unc{--rc:#5a9a62}.gti.rar{--rc:#4f7fb5}.gti.epi{--rc:#8a62b5}.gti.leg{--rc:#d9a441}.gti:hover{transform:translate(-2px,-2px)}.gti.on{outline:3px solid #e6e2d6;outline-offset:-6px}
+.gti .eq{border-radius:0;border:2px solid #000;background:var(--acc)}.gti .lk i{border-radius:0;background:#000;border:1px solid #3a3d4a}.gti .lk b{border-radius:0}.gti.lock .gtic svg{filter:brightness(.2) saturate(0)}
+.plk{display:inline-block;width:10px;height:8px;background:#c9c4b5;margin:0 6px -1px 0;position:relative;border:0!important;border-radius:0!important}.plk::before{content:"";position:absolute;left:2px;top:-5px;width:6px;height:5px;border:2px solid #c9c4b5;border-bottom:0;box-sizing:border-box}
+.gti .lk .plk{height:8px;margin:0 6px -1px 0;background:#c9c4b5}
+.sw,.gswl .sw{border-radius:2px;border:2px solid #000;box-shadow:3px 3px 0 #000}.sw.on{border-color:#000;box-shadow:0 0 0 3px var(--acc),3px 3px 0 3px #000}
+.gres .gcw svg,.gch2 svg{width:60px;height:100px}
+/* ---- direction artistique : aventure cinématique des années 90 (aplats, violets et turquoise, animation image par image) + cartes animées ---- */
+#gm{--bg:#0b0820;--card:#171033;--fg:#e8e4f8;--mut:#9a90c8;--line:#3a2f6a;--acc:#f0c050;--cy:#4fd6d0;--mg:#e0508a;background:repeating-linear-gradient(#ffffff06 0 1px,transparent 1px 3px),radial-gradient(900px 500px at 20% 0%,#2a1458 0,transparent 70%),radial-gradient(900px 600px at 90% 100%,#0f3a4a 0,transparent 70%),#0b0820;background-size:auto,200% 200%,200% 200%,auto;animation:gbgm 28s ease-in-out infinite alternate}
+@keyframes gbgm{from{background-position:0 0,0% 0%,100% 100%,0 0}to{background-position:0 0,70% 40%,30% 60%,0 0}}
+.gtitle,.gtitle.big{font-style:italic;background:linear-gradient(#ffe890 0 42%,#f08a4a 56%,#e0508a);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none;filter:drop-shadow(3px 3px 0 #3a1f7a);transform:skewX(-6deg);display:inline-block}.gtitle.big{filter:drop-shadow(5px 5px 0 #3a1f7a)}
+.gmb1{background:linear-gradient(#f0c050,#f08a4a);color:#12101c}.gmb2:hover,.gvtab:hover{color:var(--cy);outline-color:var(--cy)}.gvtab.on{background:var(--cy);color:#0b0820}.gvl{background:var(--cy);color:#0b0820}
+.gbar>div{background:linear-gradient(90deg,var(--mg),var(--acc))}.gmfoot,.gvgrid{background:#120c2c}.gmrec{color:var(--cy)}.gtag{color:var(--cy)}
+/* scène, format cinéma */
+.gsc,.gmscene{height:340px}.gmscene{height:250px}.gsc::before,.gsc::after,.gmscene::before,.gmscene::after{content:"";position:absolute;left:0;right:0;height:24px;background:#000;z-index:3;pointer-events:none}.gsc::before,.gmscene::before{top:0}.gsc::after,.gmscene::after{bottom:0}
+.ghud,.ghud2{top:2px;z-index:4;border:0;background:none;padding:5px 6px;font-size:9px}.ghud{color:var(--cy)}.gtoast{top:34px;border-color:var(--mg)}
+.gsky{background:linear-gradient(#2f6f9a,#8fd0c8)}.gsun{border-radius:50%;width:56px;height:56px;background:#f08a4a;box-shadow:none}.gmoon{border-radius:50%;background:#d8d0f0;width:22px;height:22px;box-shadow:none}
+.gcl{height:4px;background:#ffffff40}.gcl::before{top:7px;height:3px;left:28%;width:62%;background:#ffffff26}
+.gfar{position:absolute;left:0;right:0;bottom:41%;height:128px;background-repeat:repeat-x;background-position:left bottom;background-size:384px 128px;will-change:transform;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='32' shape-rendering='crispEdges' fill='%231c1646'%3E%3Crect x='0' y='14' width='10' height='18'/%3E%3Crect x='10' y='6' width='8' height='26'/%3E%3Crect x='13' y='1' width='1' height='5'/%3E%3Crect x='18' y='18' width='12' height='14'/%3E%3Crect x='30' y='9' width='7' height='23'/%3E%3Crect x='37' y='20' width='11' height='12'/%3E%3Crect x='48' y='3' width='9' height='29'/%3E%3Crect x='57' y='16' width='10' height='16'/%3E%3Crect x='67' y='11' width='6' height='21'/%3E%3Crect x='73' y='22' width='12' height='10'/%3E%3Crect x='85' y='8' width='8' height='24'/%3E%3Crect x='88' y='4' width='1' height='4'/%3E%3Crect x='93' y='17' width='3' height='15'/%3E%3C/svg%3E")}
+.ggr{background:linear-gradient(#1f4f5a 0 8%,#231f44 8%)}.gbun{opacity:.9;filter:none}
+.aw{background:repeating-linear-gradient(90deg,var(--c) 0 16px,#d8d0f0 16px 32px)}.aw::before,.aw::after{background:#141033}.tb{background:#3a2a5a;border-top-color:#5a4a8a}
+.gst.car .tb{background:repeating-linear-gradient(90deg,#8c2040 0 8px,#3a2f6a 8px 16px)}.gst.packed .tb::after{background:#5a4a8a;box-shadow:inset -22px 0 0 #3a2f6a}
+.gsg .num{background:#0b0820;color:var(--cy);outline-color:var(--cy)}.gbub,.gsq{background:#e8e4f8;color:#12101c}.gfog{background:linear-gradient(90deg,transparent 0,#0b0820f7 130px);color:#5a4fa0}
+.gend{background:#b0304a}.gent{background:#0b0820;color:var(--cy);border-color:var(--cy)}.gsel svg{transform:scaleX(-1)}.gdim{background:#1a0a30}
+.gdk{background:radial-gradient(circle at 50% 50%,#f0c0501f 0,transparent 70px,transparent 100px,rgba(6,3,20,.95) 200px)}.gtl{background:linear-gradient(90deg,#f0c050cc,transparent)}
+/* marche image par image, membres articulés */
+@keyframes wT{0%{transform:rotate(-28deg)}12.5%{transform:rotate(-18deg)}25%{transform:rotate(-6deg)}37.5%{transform:rotate(8deg)}50%{transform:rotate(20deg)}62.5%{transform:rotate(14deg)}75%{transform:rotate(-6deg)}87.5%{transform:rotate(-22deg)}100%{transform:rotate(-28deg)}}
+@keyframes wS{0%{transform:rotate(4deg)}12.5%{transform:rotate(8deg)}25%{transform:rotate(4deg)}37.5%{transform:rotate(2deg)}50%{transform:rotate(10deg)}62.5%{transform:rotate(48deg)}75%{transform:rotate(52deg)}87.5%{transform:rotate(22deg)}100%{transform:rotate(4deg)}}
+@keyframes wA{0%{transform:rotate(20deg)}12.5%{transform:rotate(13deg)}25%{transform:rotate(4deg)}37.5%{transform:rotate(-6deg)}50%{transform:rotate(-14deg)}62.5%{transform:rotate(-10deg)}75%{transform:rotate(4deg)}87.5%{transform:rotate(15deg)}100%{transform:rotate(20deg)}}
+.walking .tA{animation:wT .6s steps(1) infinite}.walking .sA{animation:wS .6s steps(1) infinite}.walking .tB{animation:wT .6s steps(1) -.3s infinite}.walking .sB{animation:wS .6s steps(1) -.3s infinite}
+.walking .aA{animation:wA .6s steps(1) infinite}.walking .aB{animation:wA .6s steps(1) -.3s infinite}.walking .eA,.walking .eB{transform:rotate(-20deg)}.walking .gcw{animation:bob .3s steps(2) infinite}
+/* étal : cartes distribuées une par une, qui flottent, s'inclinent sous la souris et se soulèvent quand on les prend */
+.ggrid{gap:16px 10px;padding:10px 4px 4px}
+.gc,.gc:hover,.gc.on{background:none;border:0;box-shadow:none;padding:0;transform:rotate(var(--r,0deg))}
+.gc{animation:gsway 3.4s ease-in-out infinite;animation-delay:var(--sd,0s);transition:none}
+.deal .gc{animation:gdeal .5s cubic-bezier(.2,1.25,.35,1) backwards,gsway 3.4s ease-in-out infinite}
+@keyframes gdeal{0%{opacity:0;transform:translate(-55vw,-70px) rotate(-34deg) scale(.5)}55%{opacity:1}100%{transform:rotate(var(--r,0deg))}}
+@keyframes gsway{0%,100%{transform:rotate(var(--r,0deg)) translateY(0)}50%{transform:rotate(calc(var(--r,0deg) + .9deg)) translateY(-3px)}}
+.gci{background:#e8e0d0;color:#1a1438;border:2px solid #000;border-radius:4px;padding:5px;display:flex;flex-direction:column;gap:3px;box-shadow:4px 5px 0 #0009;transition:transform .16s cubic-bezier(.3,1.6,.5,1),box-shadow .16s;position:relative}
+.gc.on .gci{transform:translateY(-14px);box-shadow:0 0 0 3px var(--cy),6px 16px 0 #0008}.gc.off{opacity:.38;cursor:not-allowed;animation:none}.gc.fin{cursor:default}
+.gck{display:none}.gc.on .gck{display:flex;background:var(--cy);color:#0b0820}.gp{background:#f0c050}
+.gc.pend .gv{visibility:hidden}.gc.pend .gci{filter:brightness(.55)}.gc.pop .gci{animation:gpop .32s cubic-bezier(.3,1.6,.5,1)}
+@keyframes gpop{0%{transform:translateY(-14px) scale(1)}45%{transform:translateY(-24px) scale(1.16) rotate(-3deg)}100%{transform:translateY(-14px) scale(1)}}
+.gstall{background:linear-gradient(#241a4a,#150f30);border-top:6px solid #5a4a8a}.gstall.rise{animation:grise .36s cubic-bezier(.2,1.2,.4,1)}@keyframes grise{from{transform:translateY(70px);opacity:0}}
+.gsh.drop{animation:gdrop .45s cubic-bezier(.3,1.5,.5,1)}@keyframes gdrop{from{transform:translateY(-44px) rotate(-4deg);opacity:0}}.gport{background:#0b0820}
+/* résultat : compteur de revente, tampon */
+.gtotw{font:700 13px "Press Start 2P",ui-monospace,monospace;color:var(--acc);display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-bottom:10px}.gtotw b{color:#fff;font-size:22px}
+.gstamp{opacity:0;font-size:11px;padding:8px 10px;border:3px solid;transform:rotate(-5deg)}.gstamp.ok{color:var(--cy)}.gstamp.ko{color:var(--mg)}.gstamp.slam{opacity:1;animation:gslam .36s cubic-bezier(.2,1.4,.4,1)}
+@keyframes gslam{from{transform:scale(3.4) rotate(-18deg);opacity:0}to{transform:rotate(-5deg);opacity:1}}
+.gmsg2{opacity:0;transition:opacity .4s;line-height:1.5}.gmsg2.show{opacity:1}.gres{cursor:pointer;align-items:flex-start}
+#gm.shk{animation:gshk2 .32s}@keyframes gshk2{20%{transform:translate(-6px,3px)}40%{transform:translate(5px,-4px)}60%{transform:translate(-4px,-2px)}80%{transform:translate(3px,3px)}}
+/* intertitre */
+.gcine{position:fixed;inset:0;z-index:80;background:#000;display:flex;align-items:center;justify-content:center;text-align:center;transition:opacity .45s;cursor:pointer}.gcine.out{opacity:0}
+.gcine .c1{font:italic 700 clamp(16px,3vw,30px) "Press Start 2P",ui-monospace,monospace;color:#f0c050}.gcine .c1 span{display:inline-block;overflow:hidden;white-space:nowrap;max-width:0;vertical-align:bottom;animation:gtype .8s steps(16) .15s forwards}@keyframes gtype{to{max-width:100%}}
+.gcine .c2{margin-top:18px;font:700 10px "Press Start 2P",ui-monospace,monospace;color:#4fd6d0;letter-spacing:3px;opacity:0;animation:gfade .5s 1s forwards}@keyframes gfade{to{opacity:1}}
+/* vestiaire */
+.gvstage{background:linear-gradient(#2a1458 0,#0f3a4a 72%,#120c2c 72%)}.gvped{background:#3a2f6a;box-shadow:0 4px 0 #000,inset 0 3px 0 #5a4fa0}
+.gti{--rc:#8a84b0;background:#171033}.gti.unc{--rc:#3fbf8a}.gti.rar{--rc:#4f9fe0}.gti.epi{--rc:#b060e0}.gti.leg{--rc:#f0c050}.gtic.head svg{margin-top:12px}
+#ghold{background:#e8e0d0;box-shadow:8px 8px 0 #000a,0 0 0 3px #000,0 0 0 6px #4fd6d0}
+.gsc .gscroll,.gsc .gsky,.gsc .gdim,.gmscene .gin,.gmscene .gsky{top:24px;bottom:24px}.gsc,.gmscene{background:#000}.gmscene{height:270px}
+</style></head>
+<body>
 <header>
  <div class="bar">
   <details id="cd"><summary id="cs">🎮 Consoles</summary><div class="flt" id="cl"></div></details>
@@ -749,10 +874,10 @@ function sAmbStart(){sAmbStop();const c=SND.ctx;if(!c||!SND.on)return;
  SND.t=setInterval(()=>{if(!G||G.rev)return;const f=G.f||0;
   if(f>.18&&f<.8){if(Math.random()<.5){const b=2600+Math.random()*1400;tone(b,.09,{w:"sine",v:.025,to:b*1.25});tone(b*1.1,.09,{w:"sine",v:.025,to:b*.9,t:.12})}}   // oiseaux en journée
   else if(Math.random()<.7)for(let i=0;i<3;i++)tone(4300,.03,{w:"sine",v:.01,t:i*.07})},1100)}                                                              // grillons à l'aube et au crépuscule
-function sToggle(){SND.on=!SND.on;try{localStorage.setItem("tikkot_snd",SND.on?"1":"0")}catch(e){}if(SND.on){sInit();if(G&&!G.rev)sAmbStart();SFX.pick()}else sAmbStop();const b=$("gsnd");if(b)b.textContent=SND.on?"🔊":"🔇"}
+function sToggle(){SND.on=!SND.on;try{localStorage.setItem("tikkot_snd",SND.on?"1":"0")}catch(e){}if(SND.on){sInit();if(G&&!G.rev)sAmbStart();SFX.pick()}else sAmbStop();const b=$("gsnd");if(b)b.textContent=SND.on?"SON":"MUET"}
 
 /* --- le chineur : apparence, XP et objets à débloquer --- */
-const GSK=["#ffdbb4","#f1c27d","#e0ac69","#c68642","#8d5524","#5c3a21"],GHC=["#2b1b10","#5a3825","#a0522d","#e6c35c","#d33f49","#2f6fdb","#bbbbbb","#7a3cff","#2ea043"],GSH=["#e5383b","#2f6bff","#2ea043","#ffb020","#9b5de5","#ff7ab6","#222222","#f4f4f4","#0ea5a5","#f97316"],GPA=["#2d3a5a","#3b3b3b","#6b4f2a","#1f6f6f","#7a1f1f","#c9c9c9"];
+const GSK=["#e8c39e","#d9a97a","#c08a5a","#a06a3c","#7a4a28","#4f301c"],GSD=["#c9a07c","#b88a5e","#9c6c42","#80522c","#5e381c","#3a2212"],GHC=["#1e1612","#4a3222","#7a4a2a","#b89b55","#8c3b3b","#3b5a8c","#9a9a9a","#5a3f8c","#3f6b47"],GSH=["#b0304a","#3a5fc0","#2f9a6a","#e0a030","#7a4fc0","#d0608a","#22243a","#d8d0f0","#2fa0a0","#e07030"],GPA=["#2a2f5a","#22243a","#5a4630","#1f5f6a","#5a1f3a","#8a8fa8"];
 // [nom, XP nécessaire]
 const GHS=[["Courts",0],["Longs",0],["Bouclés",0],["Chauve",0],["Queue de cheval",0],["Crête",40],["Piques",120]];
 const GHT=[["Aucun",0],["Casquette",0],["Bonnet",0],["Chapeau de paille",0],["Casque audio",30],["Bandana",80],["Tricorne de pirate",160],["Casque de chevalier",240],["Chapeau de sorcier",340],["Casque d'astronaute",460],["Couronne",800]];
@@ -770,91 +895,111 @@ function gLoadChar(){let c={};try{c=JSON.parse(localStorage.getItem("tikkot_char
  GCAT.forEach(([k,,L])=>{if(!L[c[k]]||L[c[k]][1]>x)c[k]=0});return c}
 let GC=gLoadChar();
 const gSaveChar=()=>{try{localStorage.setItem("tikkot_char",JSON.stringify(GC))}catch(e){}};
-function charSVG(c){const sk=GSK[c.skin]||GSK[1],hc=GHC[c.hc]||GHC[2],of=c.of|0,hat=c.hat|0,fa=c.fa|0,bk=c.bk|0,hs=c.hs|0;
- const OC={3:["#1f2430","#1f2430","#1f2430"],4:["#7a1f1f","#3b2a1a",sk],5:["#9aa4b2","#6b7482","#6b7482"],6:["#5b3fa8","#3d2a78",sk],7:["#f2f4f8","#dfe3ea","#dfe3ea"],8:["#8c97a6","#5f6977","#5f6977"],9:["#f2c230","#d9a514",sk]}[of];
- const sh=OC?OC[0]:(GSH[c.sh]||GSH[3]),pa=OC?OC[1]:(GPA[c.pa]||GPA[1]),hand=OC?OC[2]:sk,robot=of==8;let h='<ellipse cx="30" cy="96" rx="16" ry="4" fill="#0003"/>';
- // dans le dos
- if(bk==1)h+='<rect x="11" y="36" width="15" height="28" rx="5" fill="#7a5a3a"/><rect x="12" y="46" width="8" height="8" rx="2" fill="#5e4329"/>';
- if(bk==2)h+='<rect x="7" y="37" width="18" height="24" rx="7" fill="#3f4652"/><rect x="10" y="45" width="6" height="2" fill="#fff"/><rect x="12" y="43" width="2" height="6" fill="#fff"/><circle cx="12" cy="54" r="1.6" fill="#e5383b"/><circle cx="16" cy="56" r="1.6" fill="#ffb020"/>';
- if(bk==3)h+='<path d="M19 36 L8 88 L52 88 L41 36Z" fill="#c1272d"/><path d="M19 36 L8 88 L16 88 L24 36Z" fill="#8f1c21"/>';
- if(bk==4)h+='<g transform="rotate(20 46 36)"><rect x="44" y="2" width="4" height="32" fill="#cfd6df"/><rect x="45" y="2" width="1.5" height="32" fill="#fff"/><rect x="39" y="33" width="14" height="3" fill="#b8892b"/><rect x="44.5" y="36" width="3" height="7" fill="#5e4329"/></g>';
- if(bk==5)h+='<rect x="8" y="38" width="9" height="22" rx="3" fill="#7d8794"/><rect x="43" y="38" width="9" height="22" rx="3" fill="#7d8794"/><path d="M9 60 L12.5 72 L16 60Z" fill="#ff8a1f"/><path d="M44 60 L47.5 72 L51 60Z" fill="#ff8a1f"/><path d="M11 60 L12.5 66 L14 60Z" fill="#ffe27a"/><path d="M46 60 L47.5 66 L49 60Z" fill="#ffe27a"/>';
- if(bk==6)h+='<path d="M20 40 L2 28 L6 40 L1 44 L7 48 L3 54 L20 54Z" fill="#fff" stroke="#cfd6df"/><path d="M40 40 L58 28 L54 40 L59 44 L53 48 L57 54 L40 54Z" fill="#fff" stroke="#cfd6df"/>';
- if(of==1)h+=`<circle cx="30" cy="22" r="15" fill="${sh}"/><circle cx="30" cy="22" r="15" fill="#0003"/>`;
- if(hs==4&&!robot)h+=`<ellipse cx="45" cy="25" rx="4.5" ry="10" fill="${hc}"/>`;
- // jambes, bras, corps
- const shoe=of==7?"#b9c0cc":of==9?"#8a6a00":"#222";
- h+=`<rect class="cl l1" x="22" y="62" width="7" height="30" rx="2" fill="${pa}"/><rect class="cl l2" x="31" y="62" width="7" height="30" rx="2" fill="${pa}"/><rect class="cl l1" x="21" y="88" width="9" height="6" rx="2" fill="${shoe}"/><rect class="cl l2" x="30" y="88" width="9" height="6" rx="2" fill="${shoe}"/>`;
- h+=`<rect class="cl l2" x="12" y="36" width="8" height="24" rx="4" fill="${sh}"/><rect class="cl l1" x="40" y="36" width="8" height="24" rx="4" fill="${sh}"/><circle cx="16" cy="61" r="4" fill="${hand}"/><circle cx="44" cy="61" r="4" fill="${hand}"/>`;
- h+=`<rect x="19" y="34" width="22" height="32" rx="${robot?2:7}" fill="${sh}"/>`;
- if(of==1)h+='<rect x="24" y="53" width="12" height="8" rx="3" fill="#0003"/><path d="M27 35 V43 M33 35 V43" stroke="#fff" stroke-width="1.2"/>';
- if(of==2)h+='<rect x="19" y="40" width="22" height="4" fill="#fffc"/><rect x="19" y="48" width="22" height="4" fill="#fffc"/><rect x="19" y="56" width="22" height="4" fill="#fffc"/>';
- if(of==3)h+='<rect x="19" y="52" width="22" height="4" fill="#c1272d"/><path d="M19 36 L41 50 M41 36 L19 50" stroke="#3a4152" stroke-width="1.5"/>';
- if(of==4)h+='<rect x="27" y="34" width="6" height="32" fill="#f4f4f4"/><circle cx="24" cy="42" r="1.4" fill="#f2c230"/><circle cx="24" cy="48" r="1.4" fill="#f2c230"/><circle cx="36" cy="42" r="1.4" fill="#f2c230"/><circle cx="36" cy="48" r="1.4" fill="#f2c230"/><rect x="19" y="55" width="22" height="4" fill="#222"/><rect x="28" y="54.5" width="4" height="5" fill="#f2c230"/>';
- if(of==5)h+='<circle cx="16" cy="38" r="5.5" fill="#b8c1cd"/><circle cx="44" cy="38" r="5.5" fill="#b8c1cd"/><path d="M30 36 V64 M21 46 H39 M22 56 H38" stroke="#6b7482" stroke-width="1.3" fill="none"/>';
- if(of==6)h+='<path d="M19 42 L13 88 L47 88 L41 42Z" fill="#5b3fa8"/><rect x="19" y="52" width="22" height="3" fill="#f2c230"/><circle cx="22" cy="68" r="1.4" fill="#ffe27a"/><circle cx="36" cy="76" r="1.4" fill="#ffe27a"/><circle cx="28" cy="82" r="1.2" fill="#ffe27a"/><circle cx="40" cy="62" r="1.2" fill="#ffe27a"/>';
- if(of==7)h+='<rect x="24" y="42" width="12" height="9" rx="2" fill="#2f6bff"/><circle cx="27" cy="46.5" r="1.5" fill="#e5383b"/><circle cx="32" cy="46.5" r="1.5" fill="#ffe27a"/><rect x="19" y="58" width="22" height="3" fill="#b9c0cc"/>';
- if(robot)h+='<circle cx="30" cy="46" r="4" fill="#4ade80"/><circle cx="22" cy="38" r="1.2" fill="#444"/><circle cx="38" cy="38" r="1.2" fill="#444"/><circle cx="22" cy="62" r="1.2" fill="#444"/><circle cx="38" cy="62" r="1.2" fill="#444"/>';
- if(of==9)h+='<path d="M24 40 l1.5 3 3 1.5 -3 1.5 -1.5 3 -1.5 -3 -3 -1.5 3 -1.5Z" fill="#fff"/><path d="M36 54 l1 2 2 1 -2 1 -1 2 -1 -2 -2 -1 2 -1Z" fill="#fff"/>';
+// Sprite de profil, membres articulés (cuisse/tibia, bras/avant-bras) animés image par image, en aplats de couleur
+function charSVG(c){const sk=GSK[c.skin]||GSK[1],skd=GSD[c.skin]||GSD[1],hc=GHC[c.hc]||GHC[1],of=c.of|0,hat=c.hat|0,fa=c.fa|0,bk=c.bk|0,hs=c.hs|0,robot=of==8;
+ const OC={3:["#22243a","#22243a","#22243a"],4:["#8c2040","#3a2c40",sk],5:["#8a93a8","#5e6680","#5e6680"],6:["#5a3fa0","#3d2a78",sk],7:["#d0d4e0","#a9aec0","#a9aec0"],8:["#7d87a0","#565f78","#565f78"],9:["#e0b030","#a88014",sk]}[of];
+ const sh=OC?OC[0]:(GSH[c.sh]||GSH[1]),pa=OC?OC[1]:(GPA[c.pa]||GPA[0]),hand=OC?OC[2]:sk,shoe=of==7?"#8a8fa8":of==9?"#6b560e":"#12101c",bare=of==0||of==2,D="#00000059";
+ const r=(x,y,w,h,f)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${f}"/>`,fore=bare?sk:sh;let o=r(6,39,12,1,"#0007");
+ // derrière le corps
+ if(bk==1)o+=r(5,11,3,8,"#6b5030")+r(5,11,1,8,"#3a2c20")+r(6,13,1,2,"#8a6f4a");
+ if(bk==2)o+=r(5,12,3,6,"#3a3f58")+r(6,14,1,1,"#e0508a")+r(6,16,1,1,"#4fd6d0");
+ if(bk==3)o+=r(6,10,3,6,"#8c2040")+r(5,16,4,8,"#8c2040")+r(4,24,5,9,"#8c2040")+r(4,24,1,9,"#5a1430")+r(5,16,1,8,"#5a1430");
+ if(bk==4)o+=r(6,7,1,15,"#c9cde0")+r(5,6,3,1,"#f0c050")+r(6,3,1,3,"#4a3222");
+ if(bk==5)o+=r(5,11,3,9,"#7d87a0")+r(5,11,1,9,"#565f78")+r(6,20,1,3,"#f08a4a")+r(6,23,1,1,"#f0c050");
+ if(bk==6)o+=r(4,10,4,3,"#e0dcf0")+r(2,9,3,3,"#e0dcf0")+r(1,8,2,2,"#e0dcf0")+r(3,13,4,3,"#c9c4e0")+r(4,16,3,2,"#c9c4e0");
+ if(of==7)o+=r(6,11,2,8,"#a9aec0");
+ if(of==1)o+=r(7,8,3,3,sh)+r(7,8,3,3,D);
+ if(!robot&&hs==1)o+=r(8,4,2,9,hc);
+ if(!robot&&hs==4)o+=r(7,5,2,2,hc)+r(6,6,2,5,hc);
+ // bras et jambe du fond (plus sombres)
+ o+=`<g class="aB" style="transform-origin:11px 12px">${r(10,11,2,7,sh)}<g class="eB" style="transform-origin:11px 18px">${r(10,18,2,5,fore)+r(10,23,2,2,hand)+r(10,18,2,7,D)}</g>${r(10,11,2,7,D)}</g>`;
+ o+=`<g class="tB" style="transform-origin:11px 22px">${r(9,22,4,8,pa)+r(9,22,4,8,D)}<g class="sB" style="transform-origin:11px 30px">${r(9,30,3,7,pa)+r(9,37,5,2,shoe)+r(9,30,3,7,D)}</g></g>`;
+ o+=`<g class="tA" style="transform-origin:11px 22px">${r(9,22,4,8,pa)}<g class="sA" style="transform-origin:11px 30px">${r(9,30,3,7,pa)+r(9,30,1,7,"#0003")+r(9,37,5,2,shoe)}</g></g>`;
+ if(of==6)o+=r(8,22,6,14,"#5a3fa0")+r(8,22,1,14,"#3d2a78")+r(11,26,1,1,"#f0c050")+r(9,31,1,1,"#f0c050")+r(12,33,1,1,"#f0c050");
+ if(of==4)o+=r(8,22,5,5,"#8c2040")+r(8,22,1,5,"#5a1430");
+ // torse
+ o+=r(8,10,6,12,sh)+r(8,10,1,12,"#0000004d")+r(13,10,1,12,"#ffffff1f")+r(8,21,6,1,"#0006");
+ if(of==1)o+=r(11,17,3,3,"#0004")+r(13,10,1,4,"#d8d0f0");
+ if(of==2)o+=r(8,12,6,1,"#ffffff66")+r(8,15,6,1,"#ffffff66")+r(8,18,6,1,"#ffffff66");
+ if(of==3)o+=r(8,19,6,1,"#b0304a")+r(13,19,2,1,"#b0304a");
+ if(of==4)o+=r(13,10,1,11,"#d8d0f0")+r(12,12,1,1,"#f0c050")+r(12,15,1,1,"#f0c050")+r(12,18,1,1,"#f0c050")+r(8,20,6,1,"#12101c");
+ if(of==5)o+=r(8,15,6,1,"#5e6680")+r(12,11,1,3,"#c5cce0")+r(8,18,6,1,"#5e6680");
+ if(of==6)o+=r(8,20,6,1,"#f0c050");
+ if(of==7)o+=r(12,13,2,3,"#3b5a9c")+r(13,13,1,1,"#e0508a")+r(8,19,6,1,"#8a8fa8");
+ if(robot)o+=r(11,14,2,2,"#3ecf6e")+r(8,10,1,1,"#3a3f58")+r(13,10,1,1,"#3a3f58")+r(8,20,1,1,"#3a3f58")+r(13,20,1,1,"#3a3f58");
+ if(of==9)o+=r(10,12,1,1,"#fff2b0")+r(12,16,1,1,"#fff2b0")+r(9,18,1,1,"#fff2b0");
+ o+=r(10,9,3,1,robot?"#565f78":skd);
  // tête
- if(robot)h+='<rect x="18" y="10" width="24" height="24" rx="4" fill="#aeb7c4"/><rect x="22" y="19" width="6" height="5" fill="#22d3ee"/><rect x="32" y="19" width="6" height="5" fill="#22d3ee"/><path d="M24 29 H36 M27 27.5 V30.5 M30 27.5 V30.5 M33 27.5 V30.5" stroke="#5f6977" stroke-width="1.2"/><rect x="29" y="4" width="2" height="6" fill="#5f6977"/><circle cx="30" cy="3.5" r="2.2" fill="#e5383b"/>';
- else{h+=`<circle cx="30" cy="22" r="12" fill="${sk}"/><circle cx="26" cy="23" r="1.7" fill="#222"/><circle cx="34" cy="23" r="1.7" fill="#222"/><path d="M26 28 Q30 31 34 28" stroke="#222" stroke-width="1.4" fill="none" stroke-linecap="round"/>`;
-  if(fa==3)h+=`<path d="M18.5 23 Q19 36 30 36 Q41 36 41.5 23 Q37 30 30 30 Q23 30 18.5 23Z" fill="${hc}"/><path d="M27 31 Q30 33 33 31" stroke="#222" stroke-width="1.2" fill="none"/>`;
-  if(of==3)h+='<path d="M18.2 24 H41.8 Q41 34 30 34 Q19 34 18.2 24Z" fill="#1f2430"/>';
-  const top=`<path d="M18 21 Q18 8 30 8 Q42 8 42 21 Q36 14 30 14 Q24 14 18 21Z" fill="${hc}"/>`;
-  if(hs==0||hs==4)h+=top;
-  if(hs==1)h+=top+`<rect x="16" y="16" width="5" height="24" rx="2.5" fill="${hc}"/><rect x="39" y="16" width="5" height="24" rx="2.5" fill="${hc}"/>`;
-  if(hs==2)h+=[[20,14],[26,9],[34,9],[40,14],[18,21],[42,21],[30,8]].map(q=>`<circle cx="${q[0]}" cy="${q[1]}" r="5.5" fill="${hc}"/>`).join("");
-  if(hs==5)h+=`<path d="M26 14 L27 -2 L30 2 L33 -2 L34 14Z" fill="${hc}"/><path d="M22 14 Q30 9 38 14 Q30 12 22 14Z" fill="${hc}"/>`;
-  if(hs==6)h+=`<path d="M18 21 L15 8 L23 12 L24 1 L30 10 L36 1 L37 12 L45 8 L42 21 Q36 14 30 14 Q24 14 18 21Z" fill="${hc}"/>`;
-  if(fa==1)h+='<circle cx="26" cy="23" r="4.3" fill="none" stroke="#111" stroke-width="1.5"/><circle cx="34" cy="23" r="4.3" fill="none" stroke="#111" stroke-width="1.5"/>';
-  if(fa==2)h+=`<path d="M23 27.5 Q26.5 25 30 27 Q33.5 25 37 27.5 Q33.5 30.5 30 28.5 Q26.5 30.5 23 27.5Z" fill="${hc}"/>`;
-  if(fa==4)h+='<rect x="20" y="20" width="9" height="6" fill="#111"/><rect x="31" y="20" width="9" height="6" fill="#111"/><rect x="29" y="21" width="2" height="2" fill="#111"/><rect x="21" y="21" width="2" height="2" fill="#fff"/><rect x="32" y="21" width="2" height="2" fill="#fff"/><rect x="17" y="21" width="3" height="2" fill="#111"/><rect x="40" y="21" width="3" height="2" fill="#111"/>';
-  if(fa==5)h+='<path d="M18 16 L42 26" stroke="#111" stroke-width="1.3"/><ellipse cx="26" cy="23" rx="4.2" ry="3.6" fill="#111"/>';
-  if(fa==6)h+='<rect x="17" y="20" width="26" height="3" fill="#333"/><rect x="19" y="17" width="22" height="10" rx="3" fill="#1c1f26"/><rect x="22" y="20" width="16" height="3" rx="1.5" fill="#22d3ee"/>'}
+ if(robot)o+=r(9,2,6,7,"#9aa3b8")+r(9,2,1,7,"#7d87a0")+r(12,4,2,2,"#4fd6d0")+r(12,7,3,1,"#565f78")+r(11,0,1,2,"#565f78")+r(11,-1,1,1,"#e0508a");
+ else{o+=r(9,3,5,6,sk)+r(9,3,1,6,skd)+r(14,5,1,2,sk)+r(12,5,1,1,"#12101c")+r(12,8,2,1,skd)+r(10,5,1,2,skd);
+  if(fa==3)o+=r(11,7,3,2,hc)+r(10,8,3,2,hc);
+  if(of==3)o+=r(10,6,5,3,"#22243a");
+  if(hs==0||hs==1||hs==4)o+=r(9,2,5,2,hc)+r(8,3,2,4,hc);
+  if(hs==2)o+=r(8,1,6,3,hc)+r(7,2,2,6,hc)+r(13,2,1,2,hc);
+  if(hs==5)o+=r(10,0,3,3,hc)+r(11,-1,2,1,hc);
+  if(hs==6)o+=r(9,2,5,2,hc)+r(8,3,2,3,hc)+r(9,1,1,1,hc)+r(11,0,1,2,hc)+r(13,1,1,1,hc);
+  if(fa==1)o+=r(9,5,3,1,"#12101c")+r(12,4,3,3,"#12101c")+r(12,5,2,1,"#9fd6e0");
+  if(fa==2)o+=r(12,7,3,1,hc);
+  if(fa==4)o+=r(9,5,3,1,"#0c0a14")+r(11,4,4,2,"#0c0a14")+r(12,6,2,1,"#0c0a14");
+  if(fa==5)o+=r(9,4,5,1,"#12101c")+r(12,5,2,1,"#0c0a14");
+  if(fa==6)o+=r(9,5,3,1,"#3a3f58")+r(11,3,5,4,"#1c1a2c")+r(15,4,1,2,"#4fd6d0")}
  // sur la tête
- if(hat==1)h+='<path d="M17 17 Q17 4 30 4 Q43 4 43 17Z" fill="#1d4ed8"/><rect x="30" y="15" width="22" height="4" rx="2" fill="#1d4ed8"/>';
- if(hat==2)h+='<path d="M17 17 Q17 3 30 3 Q43 3 43 17Z" fill="#d33f49"/><rect x="16" y="14" width="28" height="5" rx="2" fill="#a52a35"/><circle cx="30" cy="2" r="3.5" fill="#fff"/>';
- if(hat==3)h+='<ellipse cx="30" cy="14" rx="21" ry="4.5" fill="#e6c35c"/><path d="M19 14 Q19 2 30 2 Q41 2 41 14Z" fill="#f0d27a"/><rect x="19" y="11" width="22" height="3" fill="#b8892b"/>';
- if(hat==4)h+='<path d="M17 22 Q17 5 30 5 Q43 5 43 22" stroke="#222" stroke-width="3" fill="none"/><rect x="13" y="17" width="6" height="11" rx="3" fill="#2ea043"/><rect x="41" y="17" width="6" height="11" rx="3" fill="#2ea043"/><path d="M15 27 Q16 33 23 32" stroke="#222" stroke-width="1.5" fill="none"/>';
- if(hat==5)h+='<path d="M18 13 Q30 9 42 13 L42 18 Q30 14 18 18Z" fill="#c1272d"/><path d="M42 14 L50 11 L48 16 L52 19 L42 18Z" fill="#c1272d"/>';
- if(hat==6)h+='<path d="M10 15 Q30 -6 50 15 Q30 9 10 15Z" fill="#1c1f26"/><path d="M10 15 Q30 9 50 15" stroke="#f2c230" stroke-width="1.6" fill="none"/><circle cx="30" cy="7" r="2.6" fill="#f4f4f4"/>';
- if(hat==7)h+='<path d="M17 28 V15 Q17 4 30 4 Q43 4 43 15 V28 H38 V19 H22 V28Z" fill="#9aa4b2"/><rect x="22" y="19" width="16" height="2" fill="#6b7482"/><path d="M30 4 Q40 -6 44 4 Q38 0 30 4Z" fill="#c1272d"/>';
- if(hat==8)h+='<path d="M30 -12 L43 12 H17Z" fill="#5b3fa8"/><ellipse cx="30" cy="13" rx="20" ry="4" fill="#3d2a78"/><path d="M30 -2 l1.2 2.6 2.8.4 -2 2 .5 2.8 -2.5 -1.3 -2.5 1.3 .5 -2.8 -2 -2 2.8 -.4Z" fill="#ffe27a"/>';
- if(hat==9)h+='<circle cx="30" cy="21" r="16" fill="#bfe3ff55" stroke="#e8ecf2" stroke-width="3"/><path d="M20 12 Q24 8 29 8" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/>';
- if(hat==10)h+='<path d="M19 13 L19 3 L24.5 8 L30 1 L35.5 8 L41 3 L41 13Z" fill="#f2c230" stroke="#b8892b"/><circle cx="30" cy="9" r="1.8" fill="#e5383b"/><circle cx="23" cy="10" r="1.3" fill="#2f6bff"/><circle cx="37" cy="10" r="1.3" fill="#2ea043"/>';
- return `<svg viewBox="0 0 60 100" xmlns="http://www.w3.org/2000/svg">${h}</svg>`}
+ if(hat==1)o+=r(9,1,5,3,"#3a4fb0")+r(14,3,3,1,"#3a4fb0")+r(9,1,1,3,"#2a3a8c");
+ if(hat==2)o+=r(9,0,5,2,"#b0304a")+r(8,2,7,2,"#8c2040")+r(11,-1,2,1,"#e0dcf0");
+ if(hat==3)o+=r(9,0,5,3,"#e0c870")+r(9,2,5,1,"#8a6f2f")+r(6,3,11,1,"#c9b06a");
+ if(hat==4)o+=r(10,1,2,3,"#12101c")+r(9,4,3,4,"#2fa0a0")+r(9,4,1,4,"#1f6f7a");
+ if(hat==5)o+=r(9,2,5,2,"#b0304a")+r(7,3,2,1,"#b0304a")+r(6,4,2,1,"#b0304a");
+ if(hat==6)o+=r(10,0,3,1,"#12101c")+r(8,1,7,2,"#12101c")+r(6,3,11,1,"#12101c")+r(6,3,1,1,"#f0c050")+r(16,3,1,1,"#f0c050");
+ if(hat==7)o+=r(9,1,6,8,"#8a93a8")+r(9,1,1,8,"#5e6680")+r(12,5,3,1,"#12101c")+r(10,-1,3,2,"#b0304a")+r(8,0,2,3,"#b0304a");
+ if(hat==8)o+=r(11,-3,2,2,"#5a3fa0")+r(10,-1,4,2,"#5a3fa0")+r(9,1,6,2,"#5a3fa0")+r(6,3,11,1,"#3d2a78")+r(11,0,1,1,"#f0c050");
+ if(hat==9)o+='<rect x="8" y="1" width="8" height="9" fill="#9fd6e0" opacity=".28"/>'+r(8,1,8,1,"#e0e4f0")+r(8,9,8,1,"#e0e4f0")+r(8,1,1,9,"#e0e4f0")+r(15,1,1,9,"#e0e4f0");
+ if(hat==10)o+=r(9,1,5,2,"#f0c050")+r(9,0,1,1,"#f0c050")+r(11,0,1,1,"#f0c050")+r(13,0,1,1,"#f0c050")+r(11,2,1,1,"#b0304a");
+ // bras du premier plan
+ o+=`<g class="aA" style="transform-origin:11px 12px">${r(10,11,3,7,sh)+r(10,11,1,7,"#0003")}<g class="eA" style="transform-origin:11px 18px">${r(10,18,2,5,fore)+r(10,23,2,2,hand)}</g></g>`;
+ if(of==5)o+=r(8,9,5,3,"#a9b2c8")+r(8,11,5,1,"#5e6680");
+ return `<svg viewBox="0 -4 24 44" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">${o}</svg>`}
 const gNpc=()=>{const r=n=>Math.floor(Math.random()*n);return {skin:r(6),hs:r(5),hc:r(7),hat:any([0,0,0,1,2,3]),sh:r(10),pa:r(6),of:any([0,0,1,2]),fa:any([0,0,0,1,2,3]),bk:any([0,0,1])}};
-let GTAB="hs",GON=false;
-function gcSet(k,v){GC[k]=v;gSaveChar();SFX.pick();gmCustom()}
-function gcRand(){const r=n=>Math.floor(Math.random()*n),x=gXP(),pk=L=>any(L.map((it,i)=>it[1]<=x?i:-1).filter(i=>i>=0));GC={skin:r(6),hc:r(9),sh:r(10),pa:r(6),hs:pk(GHS),hat:pk(GHT),of:pk(GOF),fa:pk(GFA),bk:pk(GBK)};gSaveChar();SFX.pick();gmCustom()}
+let GTAB="of",GON=false;
 const gBest=()=>{try{return JSON.parse(localStorage.getItem(LB))||{}}catch(e){return {}}};
-const gXpBox=()=>{const x=gXP(),nx=gNext(x);return `<div class="gxp"><div><b>Niveau ${gLvl(x)}</b> · ⭐ ${x} XP</div><div class="gbar"><div style="width:${nx?Math.min(100,100*x/nx[1]):100}%"></div></div><span class="sub" style="text-align:left">${nx?`Prochain objet : <b>${nx[0]}</b> à ${nx[1]} XP`:"Tout est débloqué !"}</span></div>`};
+const gXpBar=()=>{const x=gXP(),nx=gNext(x);return `<div class="gvx"><span class="gvl">NIV ${gLvl(x)}</span><div style="flex:1;min-width:150px"><div class="gbar"><div style="width:${nx?Math.min(100,100*x/nx[1]):100}%"></div></div><small>${x} XP${nx?` · prochain objet : <b>${nx[0]}</b> à ${nx[1]} XP`:" · tout est débloqué !"}</small></div></div>`};
+// décor animé réutilisé par le menu
+function gBackdrop(){let dec="";for(let x=-20,i=2;x<1500;i++){dec+=i%3==1?gTree(x,i):gHouse(x,i);x+=118+((i*53)%70)}
+ const npc=Array.from({length:5},(_,i)=>{const d=26+Math.random()*22;return `<div class="gnpc walking${i%2?" rv lft":""}" style="animation-duration:${d.toFixed(1)}s;animation-delay:-${(Math.random()*d).toFixed(1)}s;bottom:${24+i*4}px"><div class="gfl"><div class="gcw">${charSVG(gNpc())}</div></div></div>`}).join("");
+ return `<div class="gmscene" style="--night:0;--torch:0"><div class="gsky" style="background:linear-gradient(#2a1458,#e0605a)"><div class="gsun" style="left:78%;top:52%"></div><div class="gcl" style="top:18px;width:110px;animation-duration:70s;animation-delay:-20s"></div><div class="gcl" style="top:52px;width:80px;animation-duration:95s;animation-delay:-60s"></div><div class="gcl" style="top:8px;width:140px;animation-duration:120s;animation-delay:-95s"></div></div>
+ <div class="gin" style="--w:1500px"><div class="gfar"></div><div class="ggr"></div>${dec}<div class="gbun"></div>${npc}<div class="gmme walking"><div class="gcw">${charSVG(GC)}</div></div></div></div>`}
 // menu principal
 function gmMenu(){ghHide();clearInterval(GT);GT=null;sAmbStop();G=null;const b=gBest();$("gm").style.display="block";
- $("gm").innerHTML=`<div class="gmenu"><div class="gmhead"><div class="gtitle big">LA BROCANTE</div><div class="gtag">Chasse aux pépites rétro · ${GPOOL.length} jeux en jeu</div></div>
- <div class="gmbody"><div class="gmhero"><div class="gprev">${charSVG(GC)}</div>${gXpBox()}</div>
- <div class="gmbtns"><button type="button" class="gmb1" onclick="gmBegin()">▶ JOUER</button><button type="button" class="gmb2" onclick="gmCustom()">👤 MON CHINEUR</button><button type="button" class="gmb2" onclick="gmHow()">❓ COMMENT JOUER</button>
- <button type="button" class="gmb2" onclick="sToggle();gmMenu()">${SND.on?"🔊 SON : OUI":"🔇 SON : NON"}</button><button type="button" class="gmb2" onclick="gmClose()">✕ QUITTER</button>
- <div class="sub" style="text-align:left">${b.stands?`🏆 Record : ${b.stands} brocante${b.stands>1?"s":""} réussie${b.stands>1?"s":""} · caisse max ${b.cash} €`:"Aucun record pour l'instant."}</div></div></div></div>`}
-function gmHow(){$("gm").innerHTML=`<div class="gmenu"><div class="gmhead"><div class="gtitle">COMMENT JOUER</div></div><div class="gpane" style="border-radius:12px;max-width:760px;margin:0 auto;line-height:1.5">
- <p>🎯 Tu pars avec <b>50 €</b>. Chaque brocante a un objectif de gain. Raté : la partie s'arrête.</p>
- <p>🗑 Les stands débordent de <b>jeux communs invendables</b>. Ton travail : repérer au milieu le <b>bon jeu méconnu</b> que le vendeur n'a pas reconnu.</p>
- <p>🧑‍🌾 Les vendeurs : le <b>vide-grenier</b> met des prix ronds au hasard · le <b>prix unique</b> vend tout pareil · le <b>malin</b> connaît les jeux célèbres mais pas les méconnus · le <b>rêveur</b> surcote tout ce qui est connu · le <b>lot indissociable</b> se prend en entier ou pas du tout.</p>
- <p>💶 Revente = cote − 10 % − ${GFRAIS} € de frais par jeu. En dessous de 4 €, un jeu est <b>invendable</b> : tout acheter ne rapporte rien.</p>
- <p>🌅 La journée passe : aube à la lampe torche, puis les vendeurs <b>remballent</b> le soir. Les stands se découvrent en marchant (← → ou clic). Tu ne sais rien d'un vendeur avant d'arriver devant lui : ni ses prix, ni ses consoles, ni s'il vend en lot.</p>
- <p>🤝 Certains vendeurs font un <b>prix de lot</b> dès 3 jeux.</p>
- <button type="button" class="gbtn" onclick="gmMenu()">↩ Retour</button></div></div>`}
-// éditeur de personnage : un onglet par catégorie, chaque choix est montré porté par ton chineur
-const GTABS=[["body","Corps"],["hs","Cheveux"],["hat","Tête"],["of","Tenue"],["fa","Visage"],["bk","Dos"]];
-function gmCustom(tab){if(tab)GTAB=tab;sInit();const x=gXP(),back=G&&G.rev;
+ $("gm").innerHTML=`<div class="gmenu"><div class="gmhead"><div class="gtitle big gbounce">LA BROCANTE</div><div class="gtag">CHASSE AUX PÉPITES RÉTRO</div></div>${gBackdrop()}
+ <div class="gmrow"><button type="button" class="gmb1" onclick="gmBegin()"><span class="gar">▶</span> JOUER</button>
+ <div class="gmgrid"><button type="button" class="gmb2" onclick="gmCustom()">VESTIAIRE</button><button type="button" class="gmb2" onclick="gmHow()">COMMENT JOUER</button>
+ <button type="button" class="gmb2" onclick="sToggle();gmMenu()">${SND.on?"SON : OUI":"SON : NON"}</button><button type="button" class="gmb2" onclick="gmClose()">✕ QUITTER</button></div></div>
+ <div class="gmfoot">${gXpBar()}<div class="gmrec">${b.stands?`RECORD : ${b.stands} BROCANTE${b.stands>1?"S":""} · ${b.cash} €`:"AUCUN RECORD"}<br><small>${GPOOL.length} jeux dans les bacs</small></div></div></div>`}
+function gmHow(){$("gm").innerHTML=`<div class="gmenu"><div class="gvh"><button type="button" class="gmb2 sm" onclick="gmMenu()">◀ RETOUR</button><div class="gtitle">COMMENT JOUER</div><span></span></div><div class="gvgrid" style="line-height:1.55;min-height:0">
+ <p>Tu pars avec <b>50 €</b>. Chaque brocante a un objectif de gain. Raté : la partie s'arrête.</p>
+ <p>Les stands débordent de <b>jeux communs invendables</b>. Ton travail : repérer au milieu le <b>bon jeu méconnu</b> que le vendeur n'a pas reconnu.</p>
+ <p>Les vendeurs : le <b>vide-grenier</b> met des prix ronds au hasard · le <b>prix unique</b> vend tout pareil · le <b>malin</b> connaît les jeux célèbres mais pas les méconnus · le <b>rêveur</b> surcote tout ce qui est connu · le <b>lot indissociable</b> se prend en entier ou pas du tout.</p>
+ <p>Revente = cote − 10 % − ${GFRAIS} € de frais par jeu. En dessous de 4 €, un jeu est <b>invendable</b> : tout acheter ne rapporte rien.</p>
+ <p>La journée passe : aube à la lampe torche, puis les vendeurs <b>remballent</b> le soir. Les stands se découvrent en marchant (← → ou clic). Tu ne sais rien d'un vendeur avant d'arriver devant lui : ni ses prix, ni ses consoles, ni s'il vend en lot.</p>
+ <p>Survole un jeu pour le prendre en main et voir ses photos. Certains vendeurs font un <b>prix de lot</b> dès 3 jeux.</p></div></div>`}
+// vestiaire : chaque objet a une rareté, s'essaie au survol sur ton chineur, et se débloque avec l'XP
+const GTABS=[["body","CORPS"],["hs","CHEVEUX"],["hat","TÊTE"],["of","TENUE"],["fa","VISAGE"],["bk","DOS"]],GLIST={hs:GHS,hat:GHT,of:GOF,fa:GFA,bk:GBK};
+const gRar=n=>n>=700?["LÉGENDAIRE","leg"]:n>=340?["ÉPIQUE","epi"]:n>=120?["RARE","rar"]:n>0?["PEU COMMUN","unc"]:["COMMUN","com"];
+function gmCustom(tab){if(tab)GTAB=tab;sInit();ghHide();const back=G&&G.rev;$("gm").style.display="block";
+ $("gm").innerHTML=`<div class="gves"><div class="gvh"><button type="button" class="gmb2 sm" onclick="${back?"gmDraw()":"gmMenu()"}">◀ RETOUR</button><div class="gtitle">VESTIAIRE</div>${gXpBar()}</div>
+ <div class="gvb"><div class="gvstage"><div class="gvspot"></div><div class="gvchar" id="gvp"></div><div class="gvped"></div><div class="gvname" id="gvn"></div><button type="button" class="gmb2 sm" onclick="gcRand()">AU HASARD</button></div>
+ <div class="gvr"><div class="gvtabs" id="gvt"></div><div class="gvgrid" id="gvg"></div></div></div></div>`;gvRefresh()}
+function gvRefresh(){if(!$("gvg"))return;const x=gXP();$("gvp").innerHTML=charSVG(GC);$("gvn").textContent="";
+ $("gvt").innerHTML=GTABS.map(([k,t])=>{const L=GLIST[k];return `<button type="button" class="gvtab${k==GTAB?" on":""}" onclick="gvTab('${k}')">${t}<small>${L?L.filter(i=>i[1]<=x).length+"/"+L.length:"&nbsp;"}</small></button>`}).join("");
  const sw=(k,L,lab)=>`<div class="gswl"><b>${lab}</b>${L.map((c,i)=>`<button type="button" class="sw${GC[k]==i?" on":""}" style="background:${c}" onclick="gcSet('${k}',${i})"></button>`).join("")}</div>`;
- const tiles=(k,L)=>`<div class="gtiles">${L.map(([t,need],i)=>{const lk=need>x;return `<button type="button" class="gti${GC[k]==i?" on":""}${lk?" lock":""}" ${lk?"disabled":`onclick="gcSet('${k}',${i})"`}>${charSVG({...GC,[k]:i})}${lk?`<span class="lk">🔒<br>${need} XP</span>`:""}<span>${t}</span></button>`}).join("")}</div>`;
- const pane={body:()=>sw("skin",GSK,"Peau")+sw("sh",GSH,"Haut")+sw("pa",GPA,"Pantalon"),hs:()=>tiles("hs",GHS)+sw("hc",GHC,"Couleur"),hat:()=>tiles("hat",GHT),of:()=>tiles("of",GOF)+sw("sh",GSH,"Haut")+sw("pa",GPA,"Pantalon"),fa:()=>tiles("fa",GFA),bk:()=>tiles("bk",GBK)}[GTAB]();
- $("gm").style.display="block";
- $("gm").innerHTML=`<div class="ged"><div class="gtop"><span class="gtitle">MON CHINEUR</span><span><button type="button" class="gbtn sec" onclick="gcRand()">🎲 Au hasard</button> <button type="button" class="gbtn" onclick="${back?"gmDraw()":"gmMenu()"}">✔ Terminé</button></span></div>
- <div class="gedb"><div class="gmhero"><div class="gprev">${charSVG(GC)}</div>${gXpBox()}</div>
- <div style="flex:1 1 420px;min-width:0"><div class="gtabs2">${GTABS.map(([k,t])=>`<button type="button" class="gtab2${k==GTAB?" on":""}" onclick="gmCustom('${k}')">${t}</button>`).join("")}</div><div class="gpane">${pane}</div></div></div></div>`}
+ const tiles=k=>`<div class="gtiles">${GLIST[k].map(([t,need],i)=>{const lk=need>x,[rn,rc]=gRar(need);
+  return `<button type="button" class="gti ${rc}${GC[k]==i?" on":""}${lk?" lock":""}" onmouseenter="gvTry('${k}',${i})" onmouseleave="gvTry()" onclick="gvPick('${k}',${i},this)">${GC[k]==i?'<span class="eq">ÉQUIPÉ</span>':""}<span class="gtic${k=="of"||k=="bk"?"":" head"}">${charSVG({...GC,[k]:i})}</span>${lk?`<span class="lk"><span class="plk"></span>${need} XP<i><b style="width:${Math.round(100*x/need)}%"></b></i></span>`:""}<span class="nm">${t}</span><span class="ra">${rn}</span></button>`}).join("")}</div>`;
+ $("gvg").innerHTML={body:()=>sw("skin",GSK,"PEAU")+sw("sh",GSH,"HAUT")+sw("pa",GPA,"PANTALON")+'<p class="sub" style="text-align:left;margin-top:16px">Les autres catégories changent la coiffure, la tête, la tenue, le visage et le dos. Survole un objet pour l\'essayer, même verrouillé.</p>',
+  hs:()=>tiles("hs")+sw("hc",GHC,"COULEUR"),hat:()=>tiles("hat"),of:()=>tiles("of")+sw("sh",GSH,"HAUT")+sw("pa",GPA,"PANTALON"),fa:()=>tiles("fa"),bk:()=>tiles("bk")}[GTAB]()}
+function gvTab(k){GTAB=k;SFX.arrive();gvRefresh()}
+function gvTry(k,i){const p=$("gvp"),n=$("gvn");if(!p)return;if(k==null){p.innerHTML=charSVG(GC);n.textContent="";return}const it=GLIST[k][i],lk=it[1]>gXP();p.innerHTML=charSVG({...GC,[k]:i});n.textContent=it[0]+(lk?" · verrouillé, "+it[1]+" XP":"")}
+function gvPick(k,i,el){const it=GLIST[k][i],x=gXP();if(it[1]>x){SFX.nope();el.classList.remove("shake");void el.offsetWidth;el.classList.add("shake");const n=$("gvn");if(n)n.textContent="Encore "+(it[1]-x)+" XP pour "+it[0];return}GC[k]=i;gSaveChar();SFX.pick();gvRefresh()}
+function gcSet(k,v){GC[k]=v;gSaveChar();SFX.pick();gvRefresh()}
+function gcRand(){const r=n=>Math.floor(Math.random()*n),x=gXP(),pk=L=>any(L.map((it,i)=>it[1]<=x?i:-1).filter(i=>i>=0));GC={skin:r(6),hc:r(9),sh:r(10),pa:r(6),hs:pk(GHS),hat:pk(GHT),of:pk(GOF),fa:pk(GFA),bk:pk(GBK)};gSaveChar();SFX.pick();gvRefresh()}
 function gmOpen(){GON=true;const P=gmPool();$("gm").style.display="block";
  if(P.length<40){$("gm").innerHTML=`<div class="gbox"><button class="gx" onclick="gmClose()" style="align-self:flex-end">✕ Fermer</button><div class="gtitle">LA BROCANTE</div><p>Pas assez de jeux avec des prix fiables (il en faut au moins 40, j'en ai ${P.length}). Coche d'autres consoles dans « 🎮 Consoles ».</p></div>`;return}
  GPOOL=P;gmMenu()}
@@ -926,56 +1071,59 @@ function gmStage(){const n=++G.stage;G.fee=gFee(n);G.base=G.cash;G.cash-=G.fee;G
  G.stands=stands;G.all=[];stands.forEach((st,k)=>st.items.forEach(it=>{it.i=G.all.length;it.st=k;G.all.push(it)}));
  // la pépite du jour : la meilleure affaire possible, si elle en vaut la peine
  {let best=null,bp=14;stands.forEach(st=>{if(st.kind=="l"){const pv=st.items.reduce((a,x)=>a+x.v,0)-st.p;if(pv>bp){bp=pv;best=[...st.items].sort((a,b)=>b.v-a.v)[0]}}else st.items.forEach(x=>{if(x.v-x.s>bp){bp=x.v-x.s;best=x}})});if(best)best.t="p"}
- G.tot=Math.round(30+G.all.length*1.8+N*4);G.end=Date.now()+G.tot*1000;G.name=n==1?"La brocante du coin":any(GNAME);
- gmDraw();clearInterval(GT);GT=setInterval(gmTick,200);sInit();sAmbStart()}
+ G.tot=Math.round(30+G.all.length*1.8+N*6);G.end=Date.now()+G.tot*1000;G.name=n==1?"La brocante du coin":any(GNAME);
+ gmDraw();clearInterval(GT);GT=setInterval(gmTick,200);sInit();sAmbStart();G.end+=1900;gCine("BROCANTE N° "+n,esc(G.name).toUpperCase()+" · 06:00",1900)}
 const gSpent=()=>gCost(G.sel);
 function gmTog(i){if(!G||G.rev)return;const st=G.stands[G.all[i].st];if(st.packed){SFX.nope();return}
- if(st.kind=="l"){const ids=st.items.map(x=>x.i);if(G.sel.has(i)){ids.forEach(j=>G.sel.delete(j));SFX.unpick()}else{const t=new Set(G.sel);ids.forEach(j=>t.add(j));if(gCost(t)<=G.cash){ids.forEach(j=>G.sel.add(j));SFX.pick()}else SFX.nope()}gmDraw();return}
- if(G.sel.has(i)){G.sel.delete(i);SFX.unpick()}else{const t=new Set(G.sel);t.add(i);if(gCost(t)<=G.cash){G.sel.add(i);SFX.pick()}else SFX.nope()}gmDraw()}
+ if(st.kind=="l"){const ids=st.items.map(x=>x.i);if(G.sel.has(i)){ids.forEach(j=>G.sel.delete(j));SFX.unpick()}else{const t=new Set(G.sel);ids.forEach(j=>t.add(j));if(gCost(t)<=G.cash){ids.forEach(j=>G.sel.add(j));SFX.pick()}else SFX.nope()}gmSync();return}
+ if(G.sel.has(i)){G.sel.delete(i);SFX.unpick()}else{const t=new Set(G.sel);t.add(i);if(gCost(t)<=G.cash){G.sel.add(i);SFX.pick()}else SFX.nope()}gmSync()}
 const gMiss=it=>G.stands[it.st].kind!="l"&&it.v-it.s>=Math.max(5,it.s);
 function gmCard(it){const g=it.r.g,st=G.stands[it.st],im=gImg(it.r),on=G.sel.has(it.i),lot=st.kind=="l";let cl="",foot="";
- if(!G.rev){let dis=st.packed&&!on;if(!on&&!dis){const t=new Set(G.sel);if(lot)st.items.forEach(x=>t.add(x.i));else t.add(it.i);dis=gCost(t)>G.cash}cl=(on?" on":"")+(dis?" off":"")}
+ if(!G.rev)cl=(on?" on":"")+(gDis(it,st)?" off":"");
  else{const pr=Math.round(it.v-(on?gPaid(it):it.s));
-  foot=`<div class="gv ${on?(pr>=0?"gw":"gl"):(gMiss(it)?"gl":"gn")}">${it.t=="p"?"💎 ":""}${it.v?"vaut ~"+it.v+" €":"invendable"}${on?"<br>"+(pr>=0?"✅ +":"❌ ")+pr+" €":(gMiss(it)?"<br>😖 ratée +"+Math.round(it.v-it.s)+" €":"")}</div>`;cl=" fin"+(on?" on":"")}
- return `<div class="gc${cl}" data-i="${it.i}" onclick="gmTog(${it.i})"><div class="gi">${im?`<img src="${safe(im)}" alt="" loading="lazy" onerror="this.remove()">`:""}<span class="gp${lot?" lot":""}">${lot?"lot":it.s+" €"}</span>${on?'<span class="gck">✓</span>':""}<span class="gzo" onclick="event.stopPropagation();ghTap(${it.i},this)">🔍</span></div><div class="tt">${esc(g.t)}</div><div class="cd">${pill(g.c)}${it.r.cart?" cartouche":""}</div>${foot}</div>`}
-const gLotTxt=st=>{if(!st.lot)return "";const B=st.items.filter(x=>G.sel.has(x.i)),sm=B.reduce((a,x)=>a+x.s,0);return " · 🤝 prix de lot dès 3 jeux (−20 % arrondi)"+(B.length>=3?` : ${sm} € → <b>${gLot(sm)} €</b>`:"")};
+  foot=`<div class="gv ${on?(pr>=0?"gw":"gl"):(gMiss(it)?"gl":"gn")}">${it.t=="p"?"PÉPITE · ":""}${it.v?"vaut ~"+it.v+" €":"invendable"}${on?"<br>"+(pr>=0?"+":"")+pr+" €":(gMiss(it)?"<br>ratée +"+Math.round(it.v-it.s)+" €":"")}</div>`;cl=" fin"+(on?" on":"")}
+ return `<div class="gc${cl}" data-i="${it.i}" data-v="${it.v}" style="--r:${((((it.i*37)%5)-2)*.7).toFixed(1)}deg;--sd:-${((it.i%8)*.4).toFixed(1)}s" onclick="gmTog(${it.i})"><div class="gci"><div class="gi">${im?`<img src="${safe(im)}" alt="" loading="lazy" onerror="this.remove()">`:""}<span class="gp${lot?" lot":""}">${lot?"lot":it.s+" €"}</span><span class="gck">✓</span><span class="gzo" onclick="event.stopPropagation();ghTap(${it.i},this)">+</span></div><div class="tt">${esc(g.t)}</div><div class="cd">${pill(g.c)}${it.r.cart?" cartouche":""}</div>${foot}</div></div>`}
+const gLotTxt=st=>{if(!st.lot)return "";const B=st.items.filter(x=>G.sel.has(x.i)),sm=B.reduce((a,x)=>a+x.s,0);return " · prix de lot dès 3 jeux (−20 % arrondi)"+(B.length>=3?` : ${sm} € → <b>${gLot(sm)} €</b>`:"")};
 const gCs=st=>st.cs.map(c=>esc(SHORT[c]||cname(c))).join(" et ");
 const gLab=(st,k)=>`Stand ${k+1} · jeux ${gCs(st)}`+(st.kind=="u"?` · tout à ${st.p} €`:st.kind=="l"?` · lot indissociable : ${st.p} € le tout`:"");
 const GW=150,GPAD=110,gX=k=>GPAD+k*GW+GW/2;
 function gToast(t){const e=$("gtoast");if(!e)return;e.textContent=t;e.style.display="block";clearTimeout(gToast.t);gToast.t=setTimeout(()=>{e.style.display="none"},3500)}
 function gmCur(k){ghHide();if(!G||G.rev||G.walking||k===G.cur||k<0||k>G.seen||k>=G.stands.length)return;const ch=$("gch");if(!ch)return;
- const x=gX(k),from=parseFloat(ch.style.left)||40,dur=Math.max(.4,Math.abs(x-from)/250);
+ const x=gX(k),from=parseFloat(ch.style.left)||40,dur=Math.max(.5,Math.abs(x-from)/150);
  G.walking=true;ch.classList.add("walking");ch.classList.toggle("lft",x<from);ch.style.transitionDuration=dur+"s";ch.style.left=x+"px";
  const sc=$("gscr");if(sc&&sc.scrollTo)sc.scrollTo({left:Math.max(0,x-sc.clientWidth/2),behavior:"smooth"});
- clearInterval(G.stepT);G.stepT=setInterval(SFX.step,230);gmFill();
+ clearInterval(G.stepT);G.stepT=setInterval(SFX.step,300);gmFill();
  setTimeout(()=>{if(!G)return;clearInterval(G.stepT);if(G.rev)return;G.cur=k;G.walking=false;G.seen=Math.max(G.seen,Math.min(G.stands.length-1,k+1));const c=$("gch");if(c)c.classList.remove("walking");SFX.arrive();gmFog();gmFill()},dur*1000+30)}
-// décor : maisons et arbres derrière les stands (les fenêtres s'allument quand il fait sombre)
-function gHouse(x,i){const c=["#e8c9a0","#d9b3a0","#c9d6e8","#e6dcc0","#cfd9c0"][i%5],r=["#a5523a","#7d4a3a","#5f6f8a","#8a5a3a"][i%4],w=84+(i%3)*14,hh=62+(i%4)*10;
- return `<svg class="gdec" style="left:${x}px" width="${w}" height="${hh+30}" viewBox="0 0 ${w} ${hh+30}"><path d="M-2 32 L${w/2} 2 L${w+2} 32Z" fill="${r}"/><rect x="4" y="30" width="${w-8}" height="${hh}" fill="${c}"/><rect x="${w/2-7}" y="${hh+4}" width="14" height="26" fill="#6b4f2a"/>
- <rect x="12" y="42" width="16" height="16" fill="#9fc4de"/><rect x="12" y="42" width="16" height="16" fill="#ffd96a" style="opacity:var(--night)"/><rect x="${w-28}" y="42" width="16" height="16" fill="#9fc4de"/><rect x="${w-28}" y="42" width="16" height="16" fill="#ffd96a" style="opacity:calc(var(--night)*${i%2?1:.2})"/></svg>`}
-function gTree(x,i){const s=70+(i%3)*18;return `<svg class="gdec" style="left:${x}px" width="${s}" height="${s+26}" viewBox="0 0 60 86"><rect x="26" y="50" width="8" height="36" fill="#6b4f2a"/><circle cx="30" cy="32" r="24" fill="#4f9d4a"/><circle cx="18" cy="42" r="15" fill="#5fae58"/><circle cx="43" cy="42" r="15" fill="#3f8a3c"/></svg>`}
-function gCar(col){return `<svg class="gcar" viewBox="0 0 150 84"><path d="M118 26 L146 4" stroke="${col}" stroke-width="8" stroke-linecap="round"/><path d="M118 26 L144 6" stroke="#0003" stroke-width="3" stroke-linecap="round"/>
- <path d="M6 62 Q6 44 22 42 L42 24 Q46 20 54 20 H104 Q112 20 116 26 L124 42 Q134 44 134 54 V62 Z" fill="${col}"/><path d="M46 26 H72 V42 H30Z" fill="#cfeeff"/><path d="M77 26 H104 L114 42 H77Z" fill="#cfeeff"/><rect x="118" y="44" width="14" height="14" rx="2" fill="#0004"/>
- <rect x="6" y="56" width="128" height="5" fill="#0002"/><circle cx="34" cy="64" r="11" fill="#1c1f26"/><circle cx="34" cy="64" r="5" fill="#9aa4b2"/><circle cx="106" cy="64" r="11" fill="#1c1f26"/><circle cx="106" cy="64" r="5" fill="#9aa4b2"/>
- <circle cx="9" cy="50" r="3.5" fill="#fff3a0"/><path d="M8 50 L-40 36 L-40 66Z" fill="#fff3a0" style="opacity:calc(var(--torch)*.55)"/></svg>`}
-function gmSkel(){const N=G.stands.length,W=GPAD+N*GW+260,cols=["#e5383b","#2f6bff","#2ea043","#ffb020","#9b5de5","#ff7ab6","#0ea5a5","#f97316"];let dec="";
- for(let x=6,i=G.stage;x<W;i++){dec+=i%3==1?gTree(x,i):gHouse(x,i);x+=96+((i*53)%70)}
- const st=G.stands.map((s,k)=>{const c=cols[(k*3+G.stage)%cols.length],bc=["#e5383b","#2f6bff","#2ea043","#ffb020","#9b5de5","#555"],th=[0,1,2,3].map(q=>`<i style="background:${bc[(k*2+q*3)%6]}"></i>`).join("");
+// décor en aplats : immeubles violets à fenêtres éclairées, arbres turquoise, voiture
+function gHouse(x,i){const c=["#2a2350","#33285f","#3a2f6a","#2a3560","#3d2a66"][i%5],hl=["#4a3f8a","#5548a0","#5a4fa0","#4a5a9a","#6048a0"][i%5],w=20+(i%4)*4,hh=20+((i*7)%5)*5,S=4,lit=["#f0c050","#e0708a","#4fd6d0"];let p="";
+ for(let y=4;y<hh-8;y+=6)for(let wx=3;wx<w-4;wx+=5){const k=(wx*3+y*5+i)%7;p+=`<rect x="${wx}" y="${y+6}" width="3" height="3" fill="#141033"/>`+(k<3?`<rect x="${wx}" y="${y+6}" width="3" height="3" fill="${lit[k]}" style="opacity:calc(.25 + var(--night)*.75)"/>`:"")}
+ return `<svg class="gdec" style="left:${x}px" width="${w*S}" height="${(hh+6)*S}" viewBox="0 0 ${w} ${hh+6}" shape-rendering="crispEdges"><rect x="0" y="6" width="${w}" height="${hh}" fill="${c}"/><rect x="0" y="6" width="2" height="${hh}" fill="${hl}"/><rect x="0" y="6" width="${w}" height="1" fill="${hl}"/><rect x="${i%2?3:w-7}" y="2" width="4" height="4" fill="${c}"/><rect x="${i%3?w-4:5}" y="0" width="1" height="6" fill="${c}"/>${p}<rect x="${Math.floor(w/2)-2}" y="${hh-1}" width="4" height="7" fill="#141033"/></svg>`}
+function gTree(x,i){const S=4,g=["#1f6f6a","#1a5f6a","#237a66"][i%3],h=["#2fa08a","#2a8f8f","#34a57a"][i%3];return `<svg class="gdec" style="left:${x}px" width="${18*S}" height="${26*S}" viewBox="0 0 18 26" shape-rendering="crispEdges"><rect x="8" y="14" width="2" height="12" fill="#1a1438"/><rect x="5" y="1" width="8" height="2" fill="${g}"/><rect x="3" y="3" width="12" height="4" fill="${g}"/><rect x="1" y="7" width="16" height="5" fill="${g}"/><rect x="4" y="12" width="10" height="2" fill="${g}"/><rect x="3" y="3" width="2" height="4" fill="${h}"/><rect x="1" y="7" width="2" height="5" fill="${h}"/><rect x="5" y="1" width="8" height="1" fill="${h}"/></svg>`}
+function gCar(col){return `<svg class="gcar" viewBox="0 0 38 21" shape-rendering="crispEdges"><rect x="30" y="1" width="2" height="6" fill="${col}"/><rect x="32" y="0" width="5" height="2" fill="${col}"/>
+ <rect x="10" y="5" width="20" height="6" fill="${col}"/><rect x="2" y="10" width="32" height="6" fill="${col}"/><rect x="10" y="5" width="20" height="1" fill="#ffffff33"/><rect x="2" y="10" width="32" height="1" fill="#ffffff26"/><rect x="2" y="14" width="32" height="2" fill="#0005"/><rect x="12" y="6" width="7" height="4" fill="#141033"/><rect x="21" y="6" width="7" height="4" fill="#141033"/><rect x="13" y="6" width="2" height="1" fill="#4fd6d055"/>
+ <rect x="30" y="11" width="3" height="3" fill="#0006"/><rect x="6" y="14" width="6" height="6" fill="#0c0a14"/><rect x="8" y="16" width="2" height="2" fill="#7d87a0"/><rect x="24" y="14" width="6" height="6" fill="#0c0a14"/><rect x="26" y="16" width="2" height="2" fill="#7d87a0"/>
+ <rect x="2" y="11" width="1" height="2" fill="#f0c050"/><path d="M2 12 L-12 8 L-12 17Z" fill="#f0c050" style="opacity:calc(var(--torch)*.45)"/></svg>`}
+// intertitre de cinéma au début de chaque brocante
+function gCine(l1,l2,ms){const e=document.createElement("div");e.className="gcine";e.innerHTML=`<div><div class="c1"><span>${l1}</span></div><div class="c2">${l2}</div></div>`;$("gm").appendChild(e);const kill=()=>{if(e.parentNode)e.remove()};e.onclick=kill;setTimeout(()=>e.classList.add("out"),ms-450);setTimeout(kill,ms)}
+function gmSkel(){const N=G.stands.length,W=GPAD+N*GW+260,cols=["#b0407a","#2fa0a0","#e08040","#6a4fb0","#3f9f6a","#c0a040","#8a3f9a","#3a6fb0"];let dec="";
+ for(let x=6,i=G.stage;x<W;i++){dec+=i%3==1?gTree(x,i):gHouse(x,i);x+=118+((i*53)%70)}
+ const st=G.stands.map((s,k)=>{const c=cols[(k*3+G.stage)%cols.length],bc=["#b0407a","#2fa0a0","#e08040","#6a4fb0","#3f9f6a","#22243a"],th=[0,1,2,3].map(q=>`<i style="background:${bc[(k*2+q*3)%6]}"></i>`).join("");
   const sign=`<span class="num">${k+1}</span>`;
   return `<div class="gst${s.car?" car":""}${s.packed?" packed":""}" id="gs${k}" style="left:${GPAD+k*GW+10}px" onclick="gmCur(${k})"><div class="gsg">${sign}</div>${s.car?gCar(c):`<div class="aw" style="--c:${c}"></div>`}<div class="gsel">${charSVG(s.npc)}</div><div class="tb">${th}</div><div class="bd" id="gb${k}"></div><div class="gbub">${esc(s.q)}</div></div>`}).join("");
  const npc=Array.from({length:4},(_,i)=>{const d=24+Math.random()*22;return `<div class="gnpc walking${i%2?" rv lft":""}" style="animation-duration:${d.toFixed(1)}s;animation-delay:-${(Math.random()*d).toFixed(1)}s;bottom:${34+i*4}px"><div class="gfl"><div class="gcw">${charSVG(gNpc())}</div></div></div>`}).join("");
  $("gm").innerHTML=`<div id="gtopw"></div>
  <div class="gsc" id="gsc"><div class="gsky" id="gsky"><div class="gstars"></div><div class="gsun" id="gsun"></div><div class="gmoon"></div><div class="gcl" style="top:22px;width:110px;animation-duration:70s;animation-delay:-20s"></div><div class="gcl" style="top:62px;width:80px;animation-duration:95s;animation-delay:-60s"></div><div class="gcl" style="top:8px;width:140px;animation-duration:120s;animation-delay:-95s"></div></div>
- <div class="gscroll" id="gscr"><div class="gin" id="gin"><div class="ggr"></div>${dec}<div class="gbun"></div><div class="gent">ENTRÉE →</div>${st}${npc}<div class="gfog" id="gfog">?</div>
+ <div class="gscroll" id="gscr"><div class="gin" id="gin"><div class="gfar" id="gfar"></div><div class="ggr"></div>${dec}<div class="gbun"></div><div class="gent">ENTRÉE →</div>${st}${npc}<div class="gfog" id="gfog">?</div>
  <div class="gch" id="gch" style="left:40px"><div class="gdk"></div><div class="gfl"><div class="gtl"></div><div class="gcw">${charSVG(GC)}</div></div></div></div></div>
  <div class="gdim"></div><div class="ghud" id="ghud"></div><div class="ghud2" id="ghud2"></div><div class="gtoast" id="gtoast"></div></div><div id="gpanel"></div><div id="gbotw"></div>`;
+ const scr=$("gscr");if(scr)scr.onscroll=()=>{const f=$("gfar");if(f)f.style.transform="translateX("+Math.round(scr.scrollLeft*.6)+"px)"};
  gmFog();gmSky(G.f||0)}
 // on ne voit que les stands déjà approchés : le suivant apparaît quand on arrive au précédent
 function gmFog(){const gin=$("gin");if(!gin)return;const N=G.stands.length,all=G.seen>=N-1,w=GPAD+(Math.min(G.seen,N-1)+1)*GW+(all?130:200);
  gin.style.width=w+"px";gin.style.setProperty("--w",w+"px");G.stands.forEach((s,k)=>{const e=$("gs"+k);if(e)e.style.display=k<=G.seen?"":"none"});
  const f=$("gfog");if(f){f.className=all?"gend":"gfog";f.style.left=(all?w-100:w-200)+"px";f.style.right=all?"auto":"0";f.textContent=all?"FIN":"?"}}
 // la journée : aube à la lampe torche, matin, midi, après-midi, puis remballage au coucher du soleil
-const SKY=[[0,"#0b1030","#27304f",1],[.12,"#3b3f73","#f7a66b",.5],[.22,"#7ec8f5","#cfeeff",0],[.7,"#6fbdf0","#cfeeff",0],[.85,"#f08a4b","#ffd08a",.2],[1,"#2a2350","#b5524a",.65]];
+const SKY=[[0,"#0b0820","#2a1450",1],[.12,"#2a1458","#e0605a",.5],[.22,"#2f6f9a","#8fd0c8",0],[.7,"#2a6090","#8fd0c8",0],[.85,"#6a2f7a","#f08a4a",.2],[1,"#140a30","#6a2a6a",.65]];
 const hx=h=>[1,3,5].map(i=>parseInt(h.substr(i,2),16)),mix=(a,b,t)=>{const A=hx(a),B=hx(b);return "rgb("+A.map((v,i)=>Math.round(v+(B[i]-v)*t)).join(",")+")"};
 function gmSky(f){f=Math.max(0,Math.min(1,f));let i=0;while(i<SKY.length-2&&f>SKY[i+1][0])i++;const a=SKY[i],b=SKY[i+1],t=(f-a[0])/((b[0]-a[0])||1),night=a[3]+(b[3]-a[3])*t;
  const sc=$("gsc"),sk=$("gsky"),su=$("gsun");if(!sc||!sk)return;sk.style.background=`linear-gradient(${mix(a[1],b[1],t)},${mix(a[2],b[2],t)})`;
@@ -985,30 +1133,46 @@ function gmSky(f){f=Math.max(0,Math.min(1,f));let i=0;while(i<SKY.length-2&&f>SK
 function gmTick(){if(!G||G.rev){clearInterval(GT);return}const left=G.end-Date.now(),f=1-left/(G.tot*1000),b=$("gbt");G.f=f;
  if(b)b.style.width=Math.max(0,left/(G.tot*10))+"%";const t=$("gtt");if(t)t.textContent=Math.max(0,Math.ceil(left/1000))+" s";
  gmSky(f);
- G.stands.forEach((st,k)=>{if(!st.packed&&f>=st.packF){st.packed=true;const e=$("gs"+k);if(e)e.classList.add("packed");SFX.pack();if(!G.warned){G.warned=true;gToast("🌇 Les vendeurs commencent à remballer !")}if(k===G.cur)gmFill()}});
+ G.stands.forEach((st,k)=>{if(!st.packed&&f>=st.packF){st.packed=true;const e=$("gs"+k);if(e)e.classList.add("packed");SFX.pack();if(!G.warned){G.warned=true;gToast("Les vendeurs commencent à remballer !")}if(k===G.cur)gmFill()}});
  if(left<=0)gmEnd(true)}
-function gmTop(){return `<div class="gtop"><div><span class="gtitle">LA BROCANTE</span> &nbsp;<b>${esc(G.name)}</b> <span class="sub">· n° ${G.stage}${G.fee?` · frais ${G.fee} €`:" · sans frais"}</span></div><span><button class="gx" id="gsnd" onclick="sToggle()" title="Son">${SND.on?"🔊":"🔇"}</button> <button class="gx" onclick="gmOver()">⏹ Arrêter</button></span></div>`}
+function gmTop(){return `<div class="gtop"><div><span class="gtitle">LA BROCANTE</span> &nbsp;<b>${esc(G.name)}</b> <span class="sub">· n° ${G.stage}${G.fee?` · frais ${G.fee} €`:" · sans frais"}</span></div><span><button class="gx" id="gsnd" onclick="sToggle()" title="Son">${SND.on?"SON":"MUET"}</button> <button class="gx" onclick="gmOver()">Arrêter</button></span></div>`}
 const gStallHead=(st,k,extra)=>`<div class="gsh"><div class="gport">${charSVG(st.npc)}</div><div style="flex:1;min-width:0">${extra}</div></div>`;
-function gmFill(){if(!$("gpanel"))return;const sp=gSpent(),n=G.sel.size,st=G.cur>=0?G.stands[G.cur]:null;
- $("gtopw").innerHTML=gmTop();const h2=$("ghud2");if(h2)h2.innerHTML=`💶 ${G.cash-sp} € <span>🎯 ${G.base+G.target} €</span>`;
- G.stands.forEach((s,k)=>{const c=s.items.filter(x=>G.sel.has(x.i)).length,b=$("gb"+k),e=$("gs"+k);if(b)b.textContent=c?"✓ "+c:"";if(e)e.classList.toggle("cur",k===G.cur&&!G.walking)});
- let p;
- if(G.walking)p='<div class="gstall gmsg">🚶 En route…</div>';
- else if(!st)p=`<div class="gstall gmsg">🔦 Il fait encore nuit. Approche-toi du premier vendeur : clique dessus ou appuie sur →.<br><small>🎯 Objectif : finir la journée avec <b>${G.base+G.target} €</b> en caisse.${G.stage==1?" Brocante d'entraînement : au moins deux bons jeux se cachent au milieu des jeux sans valeur.":""}</small></div>`;
- else{const lot=st.kind=="l",has=st.items.some(x=>G.sel.has(x.i));
-  p=`<div class="gstall">`+gStallHead(st,G.cur,`<div class="gsq">${esc(st.q)}</div><div class="gsi"><b>${gLab(st,G.cur)}</b> · ${st.items.length} jeux${gLotTxt(st)}${st.packed?" · 📦 <b>remballé</b> : tes achats sont gardés, mais tu ne peux plus rien changer ici":""}</div>`)
-   +(lot&&!st.packed?`<div style="margin-bottom:8px"><button class="gbtn" onclick="gmTog(${st.items[0].i})">${has?"↩ Reposer le lot":"🤝 Prendre tout le lot · "+st.p+" €"}</button></div>`:"")
-   +`<div class="ggrid">${st.items.map(gmCard).join("")}</div></div>`}
+const gHudTxt=()=>`CAISSE ${G.cash-gSpent()} € <span>OBJECTIF ${G.base+G.target} €</span>`;
+const gBot=()=>{const n=G.sel.size,sp=gSpent();return `<div class="gbot"><div class="gbar"><div id="gbt" style="width:${Math.max(0,(G.end-Date.now())/(G.tot*10))}%"></div></div><span><b id="gtt">${Math.max(0,Math.ceil((G.end-Date.now())/1000))} s</b> avant la fin de la journée · panier : <b>${n}</b> jeu${n>1?"x":""} (${sp} €)</span><span><button class="gbtn" ${n?"":"disabled"} title="${n?"":"Il faut acheter au moins un jeu"}" onclick="gmEnd()">Quitter la brocante</button></span></div>`};
+const gBadges=()=>G.stands.forEach((s,k)=>{const c=s.items.filter(x=>G.sel.has(x.i)).length,b=$("gb"+k),e=$("gs"+k);if(b)b.textContent=c?"✓ "+c:"";if(e)e.classList.toggle("cur",k===G.cur&&!G.walking)});
+const gInfoLine=(st,k)=>`<b>${gLab(st,k)}</b> · ${st.items.length} jeux${gLotTxt(st)}${st.packed?" · <b>remballé</b> : tes achats sont gardés, mais tu ne peux plus rien changer ici":""}`;
+const gLotBtn=st=>st.items.some(x=>G.sel.has(x.i))?"Reposer le lot":"Prendre tout le lot · "+st.p+" €";
+const gDis=(it,st)=>{const on=G.sel.has(it.i);if(st.packed&&!on)return true;if(on)return false;const t=new Set(G.sel);if(st.kind=="l")st.items.forEach(x=>t.add(x.i));else t.add(it.i);return gCost(t)>G.cash};
+// mise à jour sans tout redessiner : les cartes gardent leur mouvement et se soulèvent quand on les prend
+function gmSync(){if(!G||G.rev||!$("gpanel"))return;const st=G.cur>=0?G.stands[G.cur]:null,h2=$("ghud2");if(h2)h2.innerHTML=gHudTxt();gBadges();
+ if(st&&!G.walking){$("gpanel").querySelectorAll(".gc[data-i]").forEach(e=>{const it=G.all[+e.dataset.i];e.classList.toggle("on",G.sel.has(it.i));e.classList.toggle("off",gDis(it,st))});const lb=$("glotb"),li=$("gsinfo");if(lb)lb.textContent=gLotBtn(st);if(li)li.innerHTML=gInfoLine(st,G.cur)}
+ $("gbotw").innerHTML=gBot()}
+function gmFill(){if(!$("gpanel"))return;const st=G.cur>=0?G.stands[G.cur]:null;
+ $("gtopw").innerHTML=gmTop();const h2=$("ghud2");if(h2)h2.innerHTML=gHudTxt();gBadges();let p;
+ if(G.walking)p='<div class="gstall gmsg">En route…</div>';
+ else if(!st)p=`<div class="gstall gmsg">Il fait encore nuit. Approche-toi du premier vendeur : clique dessus ou appuie sur →.<br><small>Objectif : finir la journée avec <b>${G.base+G.target} €</b> en caisse.${G.stage==1?" Brocante d'entraînement : au moins deux bons jeux se cachent au milieu des jeux sans valeur.":""}</small></div>`;
+ else p=`<div class="gstall">`+gStallHead(st,G.cur,`<div class="gsq">${esc(st.q)}</div><div class="gsi" id="gsinfo">${gInfoLine(st,G.cur)}</div>`)
+   +(st.kind=="l"&&!st.packed?`<div style="margin-bottom:10px"><button class="gbtn" id="glotb" onclick="gmTog(${st.items[0].i})">${gLotBtn(st)}</button></div>`:"")
+   +`<div class="ggrid">${st.items.map(gmCard).join("")}</div></div>`;
  $("gpanel").innerHTML=p;
- if(st&&!G.walking&&G.dealK!==G.cur){G.dealK=G.cur;const gr=$("gpanel").querySelector(".ggrid");if(gr){gr.classList.add("deal");[...gr.children].forEach((e,j)=>e.style.animationDelay=(j*35)+"ms")}}
- $("gbotw").innerHTML=`<div class="gbot"><div class="gbar"><div id="gbt" style="width:${Math.max(0,(G.end-Date.now())/(G.tot*10))}%"></div></div><span>⏱ <b id="gtt">${Math.max(0,Math.ceil((G.end-Date.now())/1000))} s</b> avant la fin de la journée · panier : <b>${n}</b> jeu${n>1?"x":""} (${sp} €)</span><span><button class="gbtn" ${n?"":"disabled"} title="${n?"":"Il faut acheter au moins un jeu"}" onclick="gmEnd()">Quitter la brocante</button></span></div>`}
+ // arrivée devant un vendeur : l'étal tombe en place et les jeux sont distribués un par un
+ if(st&&!G.walking&&G.dealK!==G.cur){G.dealK=G.cur;const gr=$("gpanel").querySelector(".ggrid"),hd=$("gpanel").querySelector(".gsh"),sl=$("gpanel").querySelector(".gstall");if(sl)sl.classList.add("rise");if(hd)hd.classList.add("drop");
+  if(gr){gr.classList.add("deal");[...gr.children].forEach((e,j)=>{e.style.animationDelay=(160+j*45)+"ms,"+(e.style.getPropertyValue("--sd")||"0s");tone(520+j*26,.035,{w:"triangle",v:.03,t:.16+j*.045})})}}
+ $("gbotw").innerHTML=gBot()}
 function gmDraw(){if(G.rev){gmDrawRev();return}if(G.fresh||!$("gsc")){gmSkel();G.fresh=false}gmFill()}
-// résultat : on ne montre que ce qui compte (tes achats, la pépite, les affaires ratées)
+// résultat : on ne montre que ce qui compte (tes achats, la pépite, les affaires ratées), et la revente se compte carte par carte
 function gmDrawRev(){const nx=G.cash>=gFee(G.stage+1)+1;
  const blocks=G.stands.map((st,k)=>{const lot=st.kind=="l",N=st.items.filter(x=>G.sel.has(x.i)||x.t=="p"||gMiss(x)||(lot&&x.t=="g")),rest=st.items.length-N.length;
   return `<div class="gstall">`+gStallHead(st,k,`<div class="gsi"><b>${gLab(st,k)}</b> · vendeur ${GKN[st.kind]}${st.lot?" · faisait un prix de lot":""}</div><div class="gsi" style="opacity:.8">${N.length?"":"Rien à prendre ici. "}${rest>0?rest+" jeu"+(rest>1?"x":"")+" sans intérêt non affiché"+(rest>1?"s":""):""}</div>`)+(N.length?`<div class="ggrid">${N.map(gmCard).join("")}</div>`:"")+`</div>`}).join("");
- $("gm").innerHTML=gmTop()+`<div class="gres"><div class="gch2 ${G.ok?"jump":""}" style="${G.ok?"":"filter:grayscale(.7)"}"><div class="gcw">${charSVG(GC)}</div></div><div>${G.msg}</div></div>`+blocks
-  +`<div class="gbot"><span></span><span><button class="gbtn sec" onclick="gmCustom()">👤 Mon chineur</button> <button class="gbtn sec" onclick="gmOver()">Voir le bilan</button> ${G.ok&&nx?`<button class="gbtn" onclick="gmStage()">Brocante suivante (frais ${gFee(G.stage+1)} €)</button>`:`<button class="gbtn" onclick="gmOver()">Fin de partie</button>`}</span></div>`;$("gm").scrollTop=0}
+ $("gm").innerHTML=gmTop()+`<div class="gres"><div class="gch2 ${G.ok?"jump":""}"><div class="gcw">${charSVG(GC)}</div></div><div style="flex:1;min-width:0"><div class="gtotw">REVENTE <b id="gtot">${G.scored?G.gain:0} €</b><span id="gstamp" class="gstamp ${G.ok?"ok":"ko"}${G.scored?" slam":""}">${G.ok?"OBJECTIF ATTEINT":"OBJECTIF MANQUÉ"}</span></div><div id="gmsg" class="gmsg2${G.scored?" show":""}">${G.msg}</div></div></div>`+blocks
+  +`<div class="gbot"><span></span><span><button class="gbtn sec" onclick="gmCustom()">Vestiaire</button> <button class="gbtn sec" onclick="gmOver()">Voir le bilan</button> ${G.ok&&nx?`<button class="gbtn" onclick="gmStage()">Brocante suivante (frais ${gFee(G.stage+1)} €)</button>`:`<button class="gbtn" onclick="gmOver()">Fin de partie</button>`}</span></div>`;$("gm").scrollTop=0;
+ if(!G.scored)gmScore()}
+function gmScore(){const gm=$("gm"),cards=[...gm.querySelectorAll(".gstall .gc.on")],tot=$("gtot");let k=0,sum=0;
+ const fin=()=>{clearInterval(G.scT);if(G.scored)return;G.scored=true;cards.forEach(c=>c.classList.remove("pend"));if(tot)tot.textContent=G.gain+" €";const m=$("gmsg"),s=$("gstamp");if(m)m.classList.add("show");if(s)s.classList.add("slam");
+  gm.classList.add("shk");setTimeout(()=>gm.classList.remove("shk"),350);if(G.ok)SFX.win();else SFX.lose();if(G.found)SFX.gem();if(G.nu)SFX.unlock()};
+ if(!cards.length){fin();return}cards.forEach(c=>c.classList.add("pend"));
+ clearInterval(G.scT);G.scT=setInterval(()=>{if(!G||!G.rev){clearInterval(G&&G.scT);return}if(k>=cards.length){fin();return}const c=cards[k];c.classList.remove("pend");c.classList.add("pop");sum+=+c.dataset.v||0;if(tot)tot.textContent=sum+" €";tone(420+k*32,.07,{w:"triangle",v:.06});k++},cards.length>14?90:170);
+ const rs=gm.querySelector(".gres");if(rs)rs.onclick=fin}
 function gmEnd(auto){if(!G||G.rev)return;ghHide();clearInterval(GT);GT=null;clearInterval(G.stepT);sAmbStop();const before=rankOf(G.cash);G.rev=true;
  const B=[...G.sel].map(i=>G.all[i]),spent=gSpent(),gain=B.reduce((a,x)=>a+x.v,0);
  G.cash+=gain-spent;G.maxCash=Math.max(G.maxCash,G.cash);
@@ -1016,13 +1180,13 @@ function gmEnd(auto){if(!G||G.rev)return;ghHide();clearInterval(GT);GT=null;clea
  G.stands.forEach(st=>{if(st.kind=="l"){if(!st.items.some(x=>G.sel.has(x.i))){const pv=Math.round(st.items.reduce((a,x)=>a+x.v,0)-st.p);if(pv>=Math.max(5,st.p*.5)){const b=[...st.items].sort((a,b)=>b.v-a.v)[0];G.missed.push({t:b.r.g.t+" (dans un lot)",c:b.r.g.c,p:pv})}}}
   else st.items.forEach(x=>{if(!G.sel.has(x.i)&&gMiss(x))G.missed.push({t:x.r.g.t,c:x.r.g.c,p:Math.round(x.v-x.s)})})});
  const net=G.cash-G.base,ok=net>=G.target&&B.length>0;G.ok=ok;if(ok)G.done++;
- const pe=G.all.find(x=>x.t=="p"),pt=pe?`<br>💎 Pépite : <b>${esc(pe.r.g.t)}</b> ${G.stands[pe.st].kind=="l"?"cachée dans le lot à "+G.stands[pe.st].p+" €":"affichée "+pe.s+" €"}, vaut ~${pe.v} € net · ${G.sel.has(pe.i)?"tu l'as trouvée !":"ratée"}`:"<br>Pas de pépite sur cette brocante.";
- G.msg=(auto&&!B.length?"⏱ Temps écoulé, rien acheté. ":"")+"Résultat : <b class='"+(net>=0?"gw":"gl")+"'>"+(net>=0?"+":"")+net+" €</b> (frais compris), objectif +"+G.target+" € : "+(ok?"<b class='gw'>réussi ✅</b>":"<b class='gl'>manqué ❌</b>")+" · caisse "+G.cash+" €"+(ok&&rankOf(G.cash)!=before?" · 🎉 nouveau rang : <b>"+rankOf(G.cash)+"</b>":"")+pt;
+ const pe=G.all.find(x=>x.t=="p"),pt=pe?`<br>Pépite : <b>${esc(pe.r.g.t)}</b> ${G.stands[pe.st].kind=="l"?"cachée dans le lot à "+G.stands[pe.st].p+" €":"affichée "+pe.s+" €"}, vaut ~${pe.v} € net · ${G.sel.has(pe.i)?"tu l'as trouvée !":"ratée"}`:"<br>Pas de pépite sur cette brocante.";
+ G.msg=(auto&&!B.length?"Temps écoulé, rien acheté. ":"")+"Résultat : <b class='"+(net>=0?"gw":"gl")+"'>"+(net>=0?"+":"")+net+" €</b> (frais compris), objectif +"+G.target+" € : "+(ok?"<b class='gw'>réussi </b>":"<b class='gl'>manqué </b>")+" · caisse "+G.cash+" €"+(ok&&rankOf(G.cash)!=before?" · nouveau rang : <b>"+rankOf(G.cash)+"</b>":"")+pt;
  const found=!!(pe&&G.sel.has(pe.i)),xg=Math.max(0,net)+(found?25:0)+(ok?10*G.stage:0),x0=gXP(),x1=x0+xg;gSetXP(x1);const nu=gUnl(x1).filter(n=>!gUnl(x0).includes(n));
- G.msg+=`<br>⭐ +${xg} XP (total ${x1}, niveau ${gLvl(x1)})`+(nu.length?`<br>🔓 Débloqué : <b>${nu.map(esc).join(", ")}</b> · à essayer dans « 👤 Mon chineur »`:"");
- if(ok)SFX.win();else SFX.lose();if(found)SFX.gem();if(nu.length)SFX.unlock();
+ G.msg+=`<br>+${xg} XP (total ${x1}, niveau ${gLvl(x1)})`+(nu.length?`<br>Débloqué : <b>${nu.map(esc).join(", ")}</b> · à essayer au vestiaire`:"");
+ G.gain=gain;G.found=found;G.nu=nu.length>0;G.scored=false;
  gmDraw()}
-function gmOver(){ghHide();clearInterval(GT);GT=null;sAmbStop();if(!G)return;clearInterval(G.stepT);
+function gmOver(){ghHide();if(G)clearInterval(G.scT);clearInterval(GT);GT=null;sAmbStop();if(!G)return;clearInterval(G.stepT);
  const by={};G.deals.forEach(d=>{const o=by[d.c]=by[d.c]||{n:0,p:0,m:0};o.n++;o.p+=d.p});G.missed.forEach(d=>{const o=by[d.c]=by[d.c]||{n:0,p:0,m:0};o.m++});
  const rows=Object.entries(by).sort((a,b)=>a[1].p-b[1].p),best=[...G.deals].sort((a,b)=>b.p-a.p)[0],worst=[...G.deals].sort((a,b)=>a.p-b.p)[0];
  let old={};try{old=JSON.parse(localStorage.getItem(LB))||{}}catch(e){}
@@ -1030,13 +1194,13 @@ function gmOver(){ghHide();clearInterval(GT);GT=null;sAmbStop();if(!G)return;cle
  const spot=rows.length&&rows[0][1].p<0?`Ton angle mort : <b>${esc(cname(rows[0][0]))}</b> (${rows[0][1].p} € sur ${rows[0][1].n} achat${rows[0][1].n>1?"s":""}).`:(rows.length?"Aucune console ne t'a fait perdre d'argent, bien joué.":"");
  const mm=rows.filter(r=>r[1].m).sort((a,b)=>b[1].m-a[1].m)[0];
  $("gm").innerHTML=`<div class="gbox"><button class="gx" onclick="gmClose()" style="align-self:flex-end">✕ Fermer</button><div class="gtitle">BILAN</div>
- <div>Brocantes réussies : <b>${G.done}</b> · caisse finale : <b>${G.cash} €</b> · maximum : <b>${G.maxCash} €</b> · rang : <b>${rankOf(G.maxCash)}</b>${rec?" · 🏆 nouveau record !":(old.stands?" · record : "+old.stands+" brocante"+(old.stands>1?"s":""):"")}</div>
- ${best?`<div>💎 Meilleure affaire : <b>${esc(best.t)}</b> (${esc(cname(best.c))}) <b class="gw">+${best.p} €</b></div>`:""}
- ${worst&&worst.p<0?`<div>💥 Pire erreur : <b>${esc(worst.t)}</b> (${esc(cname(worst.c))}) <b class="gl">${worst.p} €</b></div>`:""}
+ <div>Brocantes réussies : <b>${G.done}</b> · caisse finale : <b>${G.cash} €</b> · maximum : <b>${G.maxCash} €</b> · rang : <b>${rankOf(G.maxCash)}</b>${rec?" · nouveau record !":(old.stands?" · record : "+old.stands+" brocante"+(old.stands>1?"s":""):"")}</div>
+ ${best?`<div>Meilleure affaire : <b>${esc(best.t)}</b> (${esc(cname(best.c))}) <b class="gw">+${best.p} €</b></div>`:""}
+ ${worst&&worst.p<0?`<div>Pire erreur : <b>${esc(worst.t)}</b> (${esc(cname(worst.c))}) <b class="gl">${worst.p} €</b></div>`:""}
  <div>${spot}${mm?` Affaires ratées surtout sur <b>${esc(cname(mm[0]))}</b> (${mm[1].m}).`:""}</div>
  ${rows.length?`<table><tr><th>Console</th><th>Achats</th><th>Résultat</th><th>Affaires ratées</th></tr>${rows.map(([c,o])=>`<tr><td>${pill(c)}</td><td>${o.n}</td><td class="${o.p>=0?"gw":"gl"}">${o.p>=0?"+":""}${o.p} €</td><td>${o.m}</td></tr>`).join("")}</table>`:""}
  <div class="sub" style="text-align:left">Revente nette = moyenne des 3 annonces les moins chères − 10 % − ${GFRAIS} € de frais par jeu ; en dessous de 4 €, le jeu est invendable. Seuls les jeux PAL FR avec au moins 2 annonces sont utilisés : jamais une annonce unique.</div>
- <div><button class="gbtn" onclick="gmOpen()">↩ Menu</button></div></div>`}
+ <div><button class="gbtn" onclick="gmOpen()">Menu</button></div></div>`}
 /* --- prise en main : survoler un jeu l'agrandit, comme si on le prenait sur l'étal, et fait défiler ses photos (dos, intérieur…) --- */
 const GH={i:-1,k:0,t:null,el:null,L:[]},gTouch=()=>!!(window.matchMedia&&matchMedia("(hover:none)").matches);
 function ghEl(){if(!GH.el){const e=document.createElement("div");e.id="ghold";e.onclick=ghHide;document.body.appendChild(e);GH.el=e}return GH.el}
@@ -1053,7 +1217,13 @@ function ghShow(i,card){if(!G||!G.all[i]||!card)return;const it=G.all[i],r=it.r,
  L.slice(1).forEach(u=>{const im=new Image();im.src=u});clearInterval(GH.t);GH.t=L.length>1?setInterval(ghNext,1300):null}
 function ghTap(i,el){if(GH.i===i)ghHide();else ghShow(i,el.closest(".gc"))}
 $("gm").addEventListener("mousemove",e=>{if(gTouch())return;const c=e.target.closest?e.target.closest(".gc[data-i]"):null;if(!c){if(GH.i>=0)ghHide();return}const i=+c.dataset.i;if(i!==GH.i)ghShow(i,c)});
-$("gm").addEventListener("mouseleave",ghHide);$("gm").addEventListener("scroll",ghHide);
+$("gm").addEventListener("mouseleave",ghHide);
+// la carte survolée s'incline vers la souris
+let GTL=null;const gUntilt=()=>{if(GTL){const q=GTL.firstElementChild;if(q)q.style.transform="";GTL=null}};
+$("gm").addEventListener("mousemove",e=>{if(gTouch())return;const c=e.target.closest?e.target.closest(".gc"):null;if(GTL&&GTL!==c)gUntilt();if(!c||c.classList.contains("off"))return;
+ const q=c.firstElementChild,b=c.getBoundingClientRect(),x=(e.clientX-b.left)/b.width-.5,y=(e.clientY-b.top)/b.height-.5;if(!q)return;
+ q.style.transform="perspective(420px) rotateX("+(-y*16).toFixed(1)+"deg) rotateY("+(x*18).toFixed(1)+"deg) translateY("+(c.classList.contains("on")?-16:-7)+"px) scale(1.07)";GTL=c});
+$("gm").addEventListener("mouseleave",gUntilt);$("gm").addEventListener("scroll",ghHide);
 $("gmb").onclick=gmOpen;
 document.addEventListener("keydown",e=>{if(!GON)return;if(e.key==="Escape"){gmClose();return}
  if(!G||G.rev||!G.stands.length)return;if(e.key==="ArrowRight"||e.key==="ArrowLeft"){e.preventDefault();if(G.walking)return;const k=G.cur<0?0:G.cur+(e.key=="ArrowRight"?1:-1);if(k>=0&&k<G.stands.length)gmCur(k)}});
