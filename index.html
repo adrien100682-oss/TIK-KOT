@@ -12,10 +12,10 @@ header{padding:8px 14px;background:var(--card);border-bottom:1px solid var(--lin
 .bar label{display:flex;align-items:center;gap:6px}
 .bar input[type=range]{width:90px}
 select{background:var(--bg);color:var(--fg);border:1px solid var(--mut);border-radius:8px;padding:6px;font-size:15px}
-#ab,#addb,#rfb,#nlb,summary{border:0;border-radius:8px;padding:7px 12px;font-weight:700;cursor:pointer;font-size:14px;list-style:none}
+#ab,#addb,#gmb,#nlb,summary{border:0;border-radius:8px;padding:7px 12px;font-weight:700;cursor:pointer;font-size:14px;list-style:none}
 #ab{background:var(--acc);color:#111}
 #addb{background:#7a3cff;color:#fff}
-#rfb{background:#e5383b;color:#fff}
+#gmb{background:#e5383b;color:#fff}
 #nlb,summary{background:var(--bg);color:var(--fg);border:1px solid var(--mut)}
 summary::-webkit-details-marker{display:none}
 details{position:relative}
@@ -104,12 +104,6 @@ table.cmp{width:100%;border-collapse:collapse;background:var(--card);border-radi
 .more{display:flex;gap:8px;flex-wrap:wrap}
 .more a{background:var(--card);color:var(--fg);text-decoration:none;border-radius:10px;padding:6px 12px;font-size:15px;border:1px solid var(--line)}
 
-/* entraînement (clic) et raffle (automatique) */
-body.train .card:not(.rev) .info{visibility:hidden}
-body.train .card:not(.rev)::after{content:"Clique l'image : quel prix ?";position:absolute;bottom:14px;left:0;right:0;text-align:center;color:var(--mut);font-size:14px}
-body.raffle .card:not(.rev) .hp{visibility:hidden}
-#rfbar{display:none;position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:30;background:#000d;color:#fff;border-radius:99px;overflow:hidden;min-width:260px;padding:9px 20px;font-weight:700;text-align:center}
-#rfp{position:absolute;left:0;top:0;bottom:0;width:0;background:#7a3cffaa}
 #rft{position:relative}
 
 #q{background:var(--bg);color:var(--fg);border:1px solid var(--mut);border-radius:8px;padding:7px 10px;font-size:15px;width:230px}
@@ -209,6 +203,43 @@ body.raffle .card:not(.rev) .hp{visibility:hidden}
 .sb.lbc{background:#ff6e14}.sb.vin{background:#09b1ba}
 .ti{display:block;font-size:clamp(12px,1vw,14px);color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-decoration:none}
 @media(max-width:899px){.prow{grid-template-columns:1fr;justify-items:center}.prow .srch{flex-direction:row;justify-self:center}.prow .pothers{flex-direction:row;justify-self:center}}
+.boxl{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:6px 12px;font-size:clamp(13px,1.1vw,16px);text-align:center}
+/* ---- jeu : La Brocante ---- */
+#gm{display:none;position:fixed;inset:0;z-index:60;background:var(--bg);overflow:auto;padding:12px 16px calc(16px + env(safe-area-inset-bottom,0px))}
+.gtop{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;justify-content:space-between;margin-bottom:10px}
+.gtop b{font-size:clamp(16px,1.6vw,22px)}.gcash{font-size:clamp(18px,2vw,26px);font-weight:800;color:var(--acc)}
+.gx{background:var(--card);color:var(--fg);border:1px solid var(--mut);border-radius:8px;padding:6px 12px;cursor:pointer;font-weight:700}
+.ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.gc{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:8px;display:flex;flex-direction:column;gap:5px;cursor:pointer;user-select:none;position:relative}
+.gc.on{border-color:var(--acc);box-shadow:0 0 0 2px var(--acc)}.gc.off{opacity:.4;cursor:not-allowed}.gc.fin{cursor:default}
+.gi{height:140px;border-radius:8px;background:#0003;display:flex;align-items:center;justify-content:center;overflow:hidden}.gi img{max-width:100%;max-height:100%;object-fit:contain}
+.gc .tt{font-size:13px;font-weight:700;line-height:1.2;min-height:2.4em}.gc .cd{font-size:12px;color:var(--mut)}
+.gp{font-size:22px;font-weight:800;text-align:center}.gv{font-size:13px;text-align:center;font-weight:700}
+.gw{color:#2ea043}.gl{color:#e5383b}.gn{color:var(--mut)}
+.gbot{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-top:12px;position:sticky;bottom:0;background:var(--bg);padding:8px 0}
+.gbar{height:8px;background:var(--line);border-radius:99px;overflow:hidden;flex:1 1 100%}.gbar>div{height:100%;width:100%;background:var(--acc)}
+.gbtn{background:var(--acc);color:#111;border:0;border-radius:10px;padding:10px 18px;font-weight:800;font-size:15px;cursor:pointer}.gbtn[disabled]{opacity:.4;cursor:not-allowed}.gbtn.sec{background:var(--card);color:var(--fg);border:1px solid var(--mut)}
+.gbox{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:12px}.gbox h2{margin:0}.gbox table{width:100%;border-collapse:collapse;font-size:14px}.gbox td,.gbox th{padding:4px 8px;border-bottom:1px solid var(--line);text-align:left}
+.gtabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}.gtab{background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:8px 12px;cursor:pointer;font-weight:700;font-size:14px}.gtab.on{background:var(--acc);color:#111;border-color:var(--acc)}
+.gcs{display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:center}
+.gprev{width:200px;height:300px;background:linear-gradient(#8fd3ff 0 62%,#bfe3a2 62%);border-radius:14px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:12px}.gprev svg{width:140px;height:233px}
+.gopt{display:flex;flex-direction:column;gap:10px;max-width:420px}.gopt .row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.gopt .row>b{min-width:90px;font-size:13px}
+.sw{width:28px;height:28px;border-radius:50%;border:2px solid var(--line);cursor:pointer;padding:0}.sw.on{border-color:var(--acc);box-shadow:0 0 0 2px var(--acc)}
+.chp{background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:13px}.chp.on{background:var(--acc);color:#111;border-color:var(--acc)}
+.gsc{position:relative;overflow-x:auto;overflow-y:hidden;border-radius:12px;background:linear-gradient(#8fd3ff 0 50%,#bfe3a2 50% 64%,#cdbd9d 64%);height:260px;margin-bottom:10px;border:1px solid var(--line)}
+.gin{position:relative;height:100%}.gent{position:absolute;left:6px;bottom:10px;background:#fff;color:#333;font-size:11px;font-weight:800;padding:2px 6px;border-radius:4px}
+.gst{position:absolute;bottom:62px;width:120px;height:160px;cursor:pointer}
+.gsg{height:30px;text-align:center}.gsg .num{display:inline-block;background:#fff;color:#222;border-radius:50%;width:26px;height:26px;line-height:26px;font-weight:800}.gsg .pap{display:inline-block;background:#fff6a8;color:#5a4400;font-weight:800;font-size:11px;padding:3px 6px;border-radius:3px;transform:rotate(-3deg);box-shadow:0 1px 3px #0005}
+.aw{height:36px;background:repeating-linear-gradient(90deg,var(--c) 0 15px,#fff 15px 30px);border-radius:4px 4px 14px 14px;box-shadow:0 3px 4px #0003}
+.tb{position:relative;height:58px;margin:8px 8px 0;background:#8b5a2b;border-top:4px solid #a67c52;border-radius:4px;display:flex;justify-content:center;gap:3px}.tb img{height:38px;width:30px;object-fit:cover;border-radius:2px;margin-top:-26px;box-shadow:0 1px 3px #0006}
+.bd{position:absolute;top:-2px;right:2px;font-size:12px;font-weight:800;background:#2ea043;color:#fff;border-radius:9px;padding:0 6px}.bd:empty{display:none}
+.gst:hover .aw{filter:brightness(1.15)}.gst.cur .aw{outline:3px solid var(--acc)}
+.gch{position:absolute;bottom:8px;width:60px;height:100px;transform:translateX(-50%);z-index:3;transition-property:left;transition-timing-function:linear}
+.gcw{width:60px;height:100px}.gch.lft .gcw{transform:scaleX(-1)}.gch svg,.gch2 svg{width:60px;height:100px;overflow:visible}
+.cl{transform-box:fill-box;transform-origin:50% 0}
+@keyframes lga{0%,100%{transform:rotate(-24deg)}50%{transform:rotate(24deg)}}@keyframes lgb{0%,100%{transform:rotate(24deg)}50%{transform:rotate(-24deg)}}@keyframes bob{50%{transform:translateY(-3px)}}@keyframes jmp{50%{transform:translateY(-14px)}}
+.walking .l1{animation:lga .42s linear infinite}.walking .l2{animation:lgb .42s linear infinite}.walking .gcw{animation:bob .21s ease-in-out infinite}
+.gch2.jump .gcw{animation:jmp .6s ease-in-out infinite}.gres{display:flex;gap:14px;align-items:center;margin:8px 0}
 </style></head><body>
 <header>
  <div class="bar">
@@ -216,15 +247,15 @@ body.raffle .card:not(.rev) .hp{visibility:hidden}
   <input id="q" type="search" placeholder="🔎 Chercher un jeu par nom…" autocomplete="off">
   <button id="addb" type="button">✍ Ajouter un prix de référence</button>
   <button id="nlb" type="button">📋 Jeux à compléter</button>
-  <button id="rfb" type="button">🎲 Raffle</button>
+  <button id="gmb" type="button">🎒 La Brocante</button>
   <button id="ab">▶ Défilement auto</button>
-  <label><input type="checkbox" id="tr"> 🎓 Entraînement</label>
   <details><summary>⚙ Filtres</summary><div class="flt">
    <label>Délai du défilement <input id="sp" type="range" min="2" max="30" value="6"><b id="sv">6</b> s</label>
-   <label>🎲 Raffle : prix caché <input id="rh" type="number" min="1" max="30" value="5"> s</label>
-   <label>🎲 Raffle : prix affiché <input id="rv" type="number" min="1" max="30" value="5"> s</label>
    <label>Prix minimum <input id="mn" type="range" min="0" max="500" step="5" value="0"><b id="mv">0</b> €</label>
    <label><input type="checkbox" id="two"> Au moins 2 annonces</label>
+   <label><input type="checkbox" id="uq"> 🔹 Annonces uniques seulement (prix non confirmé)</label>
+   <label>Tri <select id="so"><option value="p">Prix (annonces fiables d'abord)</option><option value="b">Écart boîte (complet − cartouche seule)</option></select></label>
+   <div id="boxst" class="sub" style="text-align:left"></div>
    <label><input type="checkbox" id="all"> Inclure les jeux sans version FR</label>
    <label><input type="checkbox" id="ms" checked> Montrer les introuvables</label>
    <label><input type="checkbox" id="mo"> 🚫 Introuvables seulement (pas en vente)</label>
@@ -243,7 +274,7 @@ body.raffle .card:not(.rev) .hp{visibility:hidden}
 <div id="res"></div>
 <div id="feed"></div>
 <div id="mod"></div>
-<div id="rfbar"><div id="rfp"></div><span id="rft"></span></div>
+<div id="gm"></div>
 <div id="map" style="display:none"><svg id="sv2" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid meet" style="color:var(--fg)"></svg><div class="note">Les 25 jeux les plus chers sont nommés. Passe la souris sur un point pour voir son nom, clique pour ouvrir sa fiche. Couleur du point = étiquette de valeur, contour = console. Échelle logarithmique, prix de l'annonce la moins chère.</div></div>
 <script>
 const $=id=>document.getElementById(id),eur=n=>Math.round(n)+" €";
@@ -289,7 +320,7 @@ function setT(i,k,v){TI[i][k]=k=="t"?Math.max(0,+v||0):v;jset(LTI,TI);drawTiers(
 function resetT(){TI=DEF_T.map(x=>({...x}));jset(LTI,TI);drawTiers();build()}
 
 /* ---- état ---- */
-let CONS=[],SEL=[],DB={},GM={},LAT={},LD={},XC={},OBS=null,ITEMS=[],LASTM=null;
+let ALLROWS=[],CONS=[],SEL=[],DB={},GM={},LAT={},LD={},XC={},OBS=null,ITEMS=[],LASTM=null;
 const CART=new Set(["nes","snes","n64","gb","gbc","gba","md","sms","gg","ds","3ds"]);   // jeux sur cartouche : on se base sur le prix de la cartouche seule
 const mcOf=c=>CART.has(c)?"loose":"complet";
 const okj=r=>{if(!r.ok)throw 0;return r.json()};
@@ -403,8 +434,8 @@ function cardA(r,i,N){
  <div class="info">${conBar(r.g.c,"#"+(i+1)+" / "+N,r.ver)}
  <h2 class="gt">${esc(r.g.t)}${exBadge(r.g)}${fmBadge(r.g)}</h2>
  ${W.length?`<div class="hp" style="display:contents">${W.join("")}</div>`:""}
- <div class="verdict hp"><span class="vt">${vtxt(r.min)}</span><span class="vr">${r.q}</span>${r.n<=3?'<span class="badge">RARE : '+r.n+' annonce'+(r.n>1?'s':'')+'</span>':''}</div>
- ${pbox}${xcBlock(r.g)}${eds}
+ <div class="verdict hp"><span class="vt">${vtxt(r.min)}</span><span class="vr">${r.q}</span>${r.solo?'<span class="badge" style="background:#b45309" title="Une seule annonce, aucune autre version/pays ne la confirme : c\'est un prix demandé, pas une valeur">⚠ 1 SEULE ANNONCE : prix non confirmé</span>':(r.n<=3?'<span class="badge">RARE : '+r.n+' annonce'+(r.n>1?'s':'')+'</span>':'')}</div>
+ ${pbox}${r.box!=null?`<div class="boxl hp" title="Complet (boîte + notice) moins cartouche seule">📦 Complet <b>${eur(r.full.min)}</b> : la boîte vaut <b>${r.box>=0?"+":""}${eur(r.box)}</b> (×${r.bx.toFixed(1)})</div>`:""}${xcBlock(r.g)}${eds}
  <div class="sub hp">${r.man?"✍ Ton prix de vente saisi : "+eur(r.man.p)+" ("+esc(r.man.d)+"). ":""}${r.sure<r.n?"Langue probable (pas écrite dans le titre) pour "+(r.n-r.sure)+" annonce(s). ":""}</div></div>${phBox(r.imgs)}`}
 function cardB(m){const isM=m.src=="manual",edl=m.ed?SPL[m.ed]:"";
  const badges=(edl?'<span class="badge" style="background:#ff7a00;color:#111">ÉDITION : '+esc(edl)+'</span>':'')+(isM?'<span class="badge" style="background:#7a3cff">✍ VENDU (prix saisi par toi)</span>':'<span class="badge" style="background:#555">INTROUVABLE</span>');
@@ -418,6 +449,9 @@ function cardB(m){const isM=m.src=="manual",edl=m.ed?SPL[m.ed]:"";
  <div class="more"><a href="#" onclick="openAdd('${esc(m.g.uid)}');return false">✏ ${isM?"Modifier / supprimer ce prix":"Saisir un prix de vente réussi"}</a></div>
  <div class="sub">Aucune annonce en ligne en ce moment.${isM?" Si une annonce FR apparaît à la prochaine collecte, son prix remplacera le tien.":""}</div></div>`}
 function hydrate(es){es.forEach(e=>{if(!e.isIntersecting)return;const sec=e.target;OBS.unobserve(sec);if(!sec.dataset.h){sec.dataset.h=1;sec.innerHTML=ITEMS[+sec.dataset.k].inner()}})}
+function boxStats(rows){const by={};rows.forEach(r=>{if(r.bx!=null&&r.cart){(by[r.g.c]=by[r.g.c]||[]).push(r.bx)}});
+ const t=Object.entries(by).filter(([c,a])=>a.length>=5).map(([c,a])=>{a.sort((x,y)=>x-y);return [c,a[a.length>>1],a.length]}).sort((x,y)=>y[1]-x[1]);
+ $("boxst").innerHTML=t.length?"📦 Prix complet ÷ cartouche seule (médiane) : "+t.map(x=>`<b>${esc(SHORT[x[0]]||x[0])}</b> ×${x[1].toFixed(1)} (${x[2]})`).join(" · "):""}
 function build(){
  if(NL){buildNL();return}
  const min=+$("mn").value,all=$("all").checked;
@@ -451,10 +485,15 @@ function build(){
   Object.keys(SPL).forEach(ed=>{const x=mm[idk+"|"+ed];
    if(x&&!live.some(l=>l.lang=="FR"&&l.sp==ed))miss.push({g,last:x.p,date:x.d,ver:"FR",src:"manual",ed,unc:null})});
  });
+ rows.forEach(r=>{const o=r.others.map(x=>x.min).filter(Boolean);r.solo=r.n==1&&!o.some(x=>x>=r.min*0.5&&x<=r.min*2);r.box=r.full?Math.round(r.full.min-r.min):null;r.bx=r.full&&r.min>0?r.full.min/r.min:null});
+ ALLROWS=rows.slice();boxStats(rows);
  if($("ex").checked){rows=rows.filter(r=>r.g.x);miss=miss.filter(m=>m.g.x)}
  if($("fm").checked){rows=rows.filter(r=>r.g.fame===0);miss=miss.filter(m=>m.g.fame===0)}
  if($("two").checked)rows=rows.filter(r=>r.n>=2);
- rows=rows.filter(r=>r.min>=min).sort((a,b)=>b.min-a.min);
+ if($("uq").checked)rows=rows.filter(r=>r.solo);
+ rows=rows.filter(r=>r.min>=min);
+ if($("so").value=="b")rows=rows.filter(r=>r.box!=null).sort((a,b)=>b.box-a.box);
+ else rows.sort((a,b)=>(a.solo-b.solo)||(b.min-a.min));
  if($("mo").checked)rows=[];
  miss=($("ms").checked||$("mo").checked)?miss.filter(m=>m.last>=min).sort((a,b)=>b.last-a.last):[];
  const f=$("feed");
@@ -479,7 +518,6 @@ function build(){
  [...f.children].forEach(sec=>OBS.observe(sec));
 
  f.scrollTop=0;setCH();
- if(RF.on){RF.deck=[];clearTimeout(RF.t);RF.t=setTimeout(rfNext,50)}
 }
 function drawMap(rows,medP,medN){
  const sv=$("sv2");if(!rows.length){sv.innerHTML="";return}
@@ -573,7 +611,7 @@ function goGame(uid,ed){closeMod();$("mp").checked=false;$("mp").onchange();
  feed.scrollTo({top:i*feed.clientHeight})}
 $("mod").onclick=e=>{if(e.target.id=="mod")closeMod()};
 $("addb").onclick=()=>openAdd("");
-$("nlb").onclick=()=>{if(RF.on)rfStop();NL=!NL;$("nlb").textContent=NL?"↩ Retour aux fiches":"📋 Jeux à compléter";$("feed").classList.toggle("nlmode",NL);
+$("nlb").onclick=()=>{NL=!NL;$("nlb").textContent=NL?"↩ Retour aux fiches":"📋 Jeux à compléter";$("feed").classList.toggle("nlmode",NL);
  if(NL){$("mp").checked=false;$("mp").onchange()}
  build();$("feed").scrollTop=0};
 
@@ -597,44 +635,160 @@ $("imp").onchange=e=>{const f=e.target.files[0];if(!f)return;f.text().then(t=>{t
  for(const k in nc)cu[k]=Object.assign(cu[k]||{},nc[k]);
  svMan(o);svCus(cu);build();alert("Prix importés.")}catch(x){alert("Fichier invalide.")}})};
 
-/* ---- défilement auto, entraînement, raffle ---- */
+/* ---- défilement auto ---- */
 function step(){const h=feed.clientHeight;if(feed.scrollTop+h>=feed.scrollHeight-5)feed.scrollTo({top:0,behavior:"smooth"});else feed.scrollBy({top:h,behavior:"smooth"});
- if(document.body.classList.contains("train"))setTimeout(()=>{const c=feed.children[Math.round(feed.scrollTop/feed.clientHeight)];if(c)c.classList.add("rev")},$("sp").value*500)}
+ }
 function auto(on){clearInterval(tm);tm=null;$("ab").textContent=on?"⏸ Pause":"▶ Défilement auto";if(on)tm=setInterval(step,$("sp").value*1000)}
-const RF={on:false,paused:false,t:null,deck:[]};
-function rfBar(sec,txt){const p=$("rfp");p.style.transition="none";p.style.width="0";$("rft").textContent=txt;
- requestAnimationFrame(()=>requestAnimationFrame(()=>{p.style.transition="width "+sec+"s linear";p.style.width="100%"}))}
-function rfNext(){clearTimeout(RF.t);if(!RF.on||RF.paused)return;
- const all=[...feed.children],cs=all.filter(c=>c.classList&&c.classList.contains("card"));
- if(!cs.length){RF.t=setTimeout(rfNext,1000);return}
- if(!RF.deck.length){RF.deck=cs.map((_,i)=>i);for(let i=RF.deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[RF.deck[i],RF.deck[j]]=[RF.deck[j],RF.deck[i]]}}
- const i=RF.deck.pop(),h=Math.max(1,+$("rh").value||5),v=Math.max(1,+$("rv").value||5);
- cs.forEach(c=>c.classList.remove("rev"));
- feed.scrollTo({top:all.indexOf(cs[i])*feed.clientHeight,behavior:"auto"});
- rfBar(h,"🎲 Devine le prix…");
- RF.t=setTimeout(()=>{cs[i].classList.add("rev");rfBar(v,"💰 Voilà le prix !");RF.t=setTimeout(rfNext,v*1000)},h*1000)}
-function rfStop(){RF.on=false;RF.paused=false;clearTimeout(RF.t);document.body.classList.remove("raffle");$("rfb").textContent="🎲 Raffle";$("rfbar").style.display="none";
- [...feed.children].forEach(c=>c.classList&&c.classList.remove("rev"))}
-function rfStart(){if(NL)$("nlb").onclick();$("mp").checked=false;$("mp").onchange();auto(false);
- RF.on=true;RF.paused=false;RF.deck=[];document.body.classList.add("raffle");$("rfb").textContent="⏹ Stop raffle";$("rfbar").style.display="block";rfNext()}
-function togglePause(){
- if(RF.on){if(RF.paused){RF.paused=false;rfNext()}
-  else{RF.paused=true;clearTimeout(RF.t);const c=feed.children[Math.round(feed.scrollTop/Math.max(1,feed.clientHeight))];if(c&&c.classList)c.classList.add("rev");
-   const p=$("rfp");p.style.transition="none";p.style.width="100%";$("rft").textContent="⏸ Pause · espace pour continuer"}
-  return}
- $("ab").onclick()}
-$("rfb").onclick=()=>RF.on?rfStop():rfStart();
-$("tr").onchange=()=>document.body.classList.toggle("train",$("tr").checked);
+function togglePause(){$("ab").onclick()}
 $("mp").onchange=()=>{const on=$("mp").checked;if(on&&LASTM)drawMap(LASTM.rows,LASTM.medP,LASTM.medN);$("map").style.display=on?"block":"none";$("feed").style.display=on?"none":""};
-$("ab").onclick=()=>{if(RF.on)rfStop();auto(!tm)};
+$("ab").onclick=()=>auto(!tm);
 $("sp").oninput=()=>{$("sv").textContent=$("sp").value;if(tm)auto(true)};
-document.addEventListener("keydown",e=>{if(e.target.tagName==="SELECT"||e.target.tagName==="INPUT")return;const h=feed.clientHeight;
+document.addEventListener("keydown",e=>{if(e.target.tagName==="SELECT"||e.target.tagName==="INPUT"||G)return;const h=feed.clientHeight;
  if(e.key===" "){e.preventDefault();if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();togglePause();return}
  if(["ArrowDown","PageDown"].includes(e.key)){e.preventDefault();feed.scrollBy({top:h,behavior:"smooth"})}
  if(["ArrowUp","PageUp"].includes(e.key)){e.preventDefault();feed.scrollBy({top:-h,behavior:"smooth"})}
  if(tm)auto(true)});
 $("bg").onchange=()=>build();
-["ms","mo","ex","fm","two","all"].forEach(i=>$(i).onchange=build);let mnT=null;$("mn").oninput=()=>{$("mv").textContent=$("mn").value;clearTimeout(mnT);mnT=setTimeout(build,250)};
+["ms","mo","ex","fm","two","all","uq","so"].forEach(i=>$(i).onchange=build);let mnT=null;$("mn").oninput=()=>{$("mv").textContent=$("mn").value;clearTimeout(mnT);mnT=setTimeout(build,250)};
+
+/* ---- jeu : La Brocante ---- */
+const LB="tikkot_best",GSEC=22;
+const GNAME=["Vide-grenier de quartier","Brocante du dimanche","Puces de la ville","Braderie de la place","Marché aux puces","Grande brocante"];
+const gFee=n=>n<=6?[0,5,8,12,18,25][n-1]:25+(n-6)*7,gTarget=n=>n<=6?[10,12,18,25,35,50][n-1]:50+(n-6)*20,gNst=n=>[5,7,8,9,10][Math.min(n-1,4)];
+const GRANK=[[0,"Apprenti"],[100,"Chineur"],[250,"Brocanteur"],[500,"Pro des puces"],[1000,"Légende"]];
+const rankOf=c=>GRANK.filter(x=>c>=x[0]).pop()[1];
+const gv=r=>Math.max(2,Math.round((r.ref||r.min)*0.9));
+const rnd=(a,b)=>a+Math.random()*(b-a);
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+let G=null,GT=null,GPOOL=[];
+// jeux utilisables : PAL FR, version standard, au moins 2 annonces, prix confirmé (jamais une annonce unique)
+const gmPool=()=>ALLROWS.filter(r=>!r.solo&&r.n>=2&&r.ver=="FR"&&!r.spOnly&&(r.g.cover||r.g.img||(r.imgs&&r.imgs.length))&&gv(r)>=2);
+const gImg=r=>r.g.img||(r.g.cover?IMG+r.g.cover+".jpg":(r.imgs&&r.imgs[0])||"");
+function gmClose(){clearInterval(GT);GT=null;$("gm").style.display="none";G=null}
+const GSK=["#ffdbb4","#f1c27d","#e0ac69","#c68642","#8d5524","#5c3a21"],GHC=["#2b1b10","#5a3825","#a0522d","#e6c35c","#d33f49","#2f6fdb","#bbbbbb"],GSH=["#e5383b","#2f6bff","#2ea043","#ffb020","#9b5de5","#ff7ab6","#222222","#f4f4f4"],GPA=["#2d3a5a","#3b3b3b","#6b4f2a","#1f6f6f"];
+const GHS=["Courts","Longs","Bouclés","Chauve"],GHT=["Aucun","Casquette","Bonnet","Chapeau de paille"],GAC=["Aucun","Lunettes","Sac à dos"],CH0={skin:1,hs:0,hc:2,hat:0,sh:3,pa:1,ac:0};
+function gLoadChar(){try{const c=JSON.parse(localStorage.getItem("tikkot_char"));if(c&&typeof c=="object")return {...CH0,...c}}catch(e){}return {...CH0}}
+let GC=gLoadChar();
+const gSaveChar=()=>{try{localStorage.setItem("tikkot_char",JSON.stringify(GC))}catch(e){}};
+function charSVG(c){const sk=GSK[c.skin]||GSK[1],hc=GHC[c.hc]||GHC[2],sh=GSH[c.sh]||GSH[3],pa=GPA[c.pa]||GPA[1];let h="";
+ h+='<ellipse cx="30" cy="96" rx="16" ry="4" fill="#0003"/>';
+ if(c.ac==2)h+='<rect x="13" y="36" width="14" height="28" rx="5" fill="#7a5a3a"/>';
+ h+=`<rect class="cl l1" x="22" y="62" width="7" height="30" rx="2" fill="${pa}"/><rect class="cl l2" x="31" y="62" width="7" height="30" rx="2" fill="${pa}"/><rect class="cl l1" x="21" y="88" width="9" height="6" rx="2" fill="#222"/><rect class="cl l2" x="30" y="88" width="9" height="6" rx="2" fill="#222"/>`;
+ h+=`<rect class="cl l2" x="12" y="36" width="8" height="24" rx="4" fill="${sh}"/><rect class="cl l1" x="40" y="36" width="8" height="24" rx="4" fill="${sh}"/><circle cx="16" cy="61" r="4" fill="${sk}"/><circle cx="44" cy="61" r="4" fill="${sk}"/>`;
+ h+=`<rect x="19" y="34" width="22" height="32" rx="7" fill="${sh}"/>`;
+ h+=`<circle cx="30" cy="22" r="12" fill="${sk}"/><circle cx="26" cy="23" r="1.7" fill="#222"/><circle cx="34" cy="23" r="1.7" fill="#222"/><path d="M26 28 Q30 31 34 28" stroke="#222" stroke-width="1.4" fill="none" stroke-linecap="round"/>`;
+ if(c.hs==0)h+=`<path d="M18 21 Q18 8 30 8 Q42 8 42 21 Q36 14 30 14 Q24 14 18 21Z" fill="${hc}"/>`;
+ if(c.hs==1)h+=`<path d="M18 21 Q18 8 30 8 Q42 8 42 21 Q36 14 30 14 Q24 14 18 21Z" fill="${hc}"/><rect x="16" y="16" width="5" height="24" rx="2.5" fill="${hc}"/><rect x="39" y="16" width="5" height="24" rx="2.5" fill="${hc}"/>`;
+ if(c.hs==2)h+=[[20,14],[26,9],[34,9],[40,14],[18,21],[42,21],[30,8]].map(q=>`<circle cx="${q[0]}" cy="${q[1]}" r="5.5" fill="${hc}"/>`).join("");
+ if(c.ac==1)h+='<circle cx="26" cy="23" r="4.3" fill="none" stroke="#111" stroke-width="1.5"/><circle cx="34" cy="23" r="4.3" fill="none" stroke="#111" stroke-width="1.5"/><path d="M30.3 23h-0.6" stroke="#111" stroke-width="1.5"/>';
+ if(c.hat==1)h+='<path d="M17 17 Q17 4 30 4 Q43 4 43 17Z" fill="#1d4ed8"/><rect x="30" y="15" width="22" height="4" rx="2" fill="#1d4ed8"/>';
+ if(c.hat==2)h+='<path d="M17 17 Q17 3 30 3 Q43 3 43 17Z" fill="#d33f49"/><rect x="16" y="14" width="28" height="5" rx="2" fill="#a52a35"/><circle cx="30" cy="2" r="3.5" fill="#fff"/>';
+ if(c.hat==3)h+='<ellipse cx="30" cy="14" rx="21" ry="4.5" fill="#e6c35c"/><path d="M19 14 Q19 2 30 2 Q41 2 41 14Z" fill="#f0d27a"/><rect x="19" y="11" width="22" height="3" fill="#b8892b"/>';
+ return `<svg viewBox="0 0 60 100" xmlns="http://www.w3.org/2000/svg">${h}</svg>`}
+function gcSet(k,v){GC[k]=v;gSaveChar();gmCustom()}
+function gcRand(){const r=n=>Math.floor(Math.random()*n);GC={skin:r(6),hs:r(4),hc:r(7),hat:r(4),sh:r(8),pa:r(4),ac:r(3)};gSaveChar();gmCustom()}
+function gmCustom(){const sw=(k,L)=>L.map((c,i)=>`<button type="button" class="sw${GC[k]==i?" on":""}" style="background:${c}" onclick="gcSet('${k}',${i})"></button>`).join(""),
+  ch=(k,L)=>L.map((t,i)=>`<button type="button" class="chp${GC[k]==i?" on":""}" onclick="gcSet('${k}',${i})">${t}</button>`).join("");
+ $("gm").style.display="block";
+ $("gm").innerHTML=`<div class="gbox"><button class="gx" onclick="gmClose()" style="align-self:flex-end">✕ Fermer</button><h2>🎒 La Brocante : mon chineur</h2>
+ <div class="gcs"><div class="gprev">${charSVG(GC)}</div><div class="gopt">
+ <div class="row"><b>Peau</b>${sw("skin",GSK)}</div><div class="row"><b>Cheveux</b>${ch("hs",GHS)}</div><div class="row"><b>Couleur</b>${sw("hc",GHC)}</div>
+ <div class="row"><b>Chapeau</b>${ch("hat",GHT)}</div><div class="row"><b>Haut</b>${sw("sh",GSH)}</div><div class="row"><b>Pantalon</b>${sw("pa",GPA)}</div><div class="row"><b>Accessoire</b>${ch("ac",GAC)}</div>
+ <div class="row"><button type="button" class="gbtn sec" onclick="gcRand()">🎲 Au hasard</button> <button type="button" class="gbtn" onclick="gmBegin()">▶ Jouer</button></div></div></div></div>`}
+function gmOpen(){const P=gmPool();$("gm").style.display="block";
+ if(P.length<14){$("gm").innerHTML=`<div class="gbox"><button class="gx" onclick="gmClose()" style="align-self:flex-end">✕ Fermer</button><h2>🎒 La Brocante</h2><p>Pas assez de jeux avec des prix fiables (il en faut au moins 14, j'en ai ${P.length}). Coche d'autres consoles dans « 🎮 Consoles ».</p></div>`;return}
+ GPOOL=P;gmCustom()}
+function gmBegin(){const P=GPOOL;
+ const v=P.map(gv).sort((x,y)=>x-y),q=f=>v[Math.floor(f*(v.length-1))];
+ G={cash:50,stage:0,pool:P,used:new Set(),q50:q(.5),q88:Math.max(q(.88),15),deals:[],missed:[],maxCash:50,done:0,sel:new Set(),rev:false,stands:[],all:[],cur:-1,walking:false,fresh:true,msg:"",ok:false};gmStage()}
+const gRef=(it,t,ratio)=>({...it,t,s:Math.max(1,Math.round(it.v*ratio))});
+function gmStage(){const n=++G.stage;G.fee=gFee(n);G.base=G.cash;G.cash-=G.fee;G.target=gTarget(n);G.sel=new Set();G.rev=false;G.cur=-1;G.walking=false;G.fresh=true;G.msg="";G.ok=false;
+ let P=G.pool.filter(r=>!G.used.has(r.g.uid));if(P.length<45)P=G.pool.slice(),G.used.clear();
+ const su=new Set(),pick=f=>{let L=P.filter(f).filter(r=>!su.has(r.g.uid));if(!L.length)L=P.filter(f);if(!L.length)L=P;const r=L[Math.floor(Math.random()*L.length)];su.add(r.g.uid);G.used.add(r.g.uid);return {r,v:gv(r)}};
+ const junk=r=>gv(r)<=G.q50,high=r=>gv(r)>=G.q88,mid=r=>!junk(r)&&!high(r);
+ const N=gNst(n),kinds=Array.from({length:N},(_,i)=>i<(n==1?1:Math.round(N*.3))?"u":"m");const KS=shuf(kinds);
+ const stands=KS.map(k=>({kind:k,items:[],p:k=="u"?Math.max(1,Math.round(rnd(2,5)*(1+.15*(n-1)))):0}));
+ const mixIdx=stands.map((s,i)=>s.kind=="m"?i:-1).filter(i=>i>=0),mixes=()=>mixIdx.length?stands[mixIdx[Math.floor(Math.random()*mixIdx.length)]]:stands[0];
+ // pépite : garantie à la 1re brocante, ensuite de moins en moins sûre, parfois au prix fort
+ const pPep=n==1?1:Math.max(.3,.65-.07*(n-2));
+ if(Math.random()<pPep){const it=pick(high),fort=n>1&&Math.random()<.5;mixes().items.push(gRef(it,"p",fort?rnd(.9,1.3):(n==1?rnd(.2,.35):rnd(.22+.03*n,.5))))}
+ const ng=n==1?2:1+Math.floor(Math.random()*3);
+ for(let i=0;i<ng;i++){const it=pick(r=>!junk(r)),hi=Math.min(.85,.5+.02*n);mixes().items.push(gRef(it,"g",rnd(.3,hi)))}
+ stands.forEach(st=>{
+  if(st.kind=="u"){const cnt=4+Math.floor(Math.random()*3);
+   if(Math.random()<.5){const it=pick(r=>gv(r)>=3*st.p&&!high(r));st.items.push({...it,t:"g",s:st.p})}
+   while(st.items.length<cnt){const it=Math.random()<(n==1?.85:.65)?pick(junk):pick(mid);st.items.push({...it,t:it.v>=2*st.p?"g":"j",s:st.p})}}
+  else{const cnt=4+Math.floor(Math.random()*3);
+   while(st.items.length<cnt){const x=Math.random();
+    if(x<(n==1?.7:.4)){const it=pick(junk);st.items.push(gRef(it,"j",rnd(.8,1.5)))}
+    else if(x<(n==1?.85:.65)){const it=pick(mid);st.items.push(gRef(it,"f",rnd(.85,1.15)))}
+    else{const it=pick(r=>!junk(r));st.items.push(gRef(it,"o",rnd(1.4,2.3)))}}}
+  st.items=shuf(st.items)});
+ G.stands=stands;G.all=[];stands.forEach(st=>st.items.forEach(it=>{it.i=G.all.length;if(it.s<=it.v&&it.t=="o")it.s=it.v+2;G.all.push(it)}));
+ G.end=Date.now()+GSEC*N*1000;G.tot=GSEC*N;G.name=GNAME[Math.min(n-1,GNAME.length-1)==0?0:Math.floor(Math.random()*GNAME.length)];
+ if(n==1)G.name="La brocante du coin";
+ gmDraw();clearInterval(GT);GT=setInterval(gmTick,200)}
+function gmTick(){if(!G||G.rev){clearInterval(GT);return}const left=G.end-Date.now(),b=$("gbt");
+ if(b)b.style.width=Math.max(0,left/(G.tot*10))+"%";const t=$("gtt");if(t)t.textContent=Math.max(0,Math.ceil(left/1000))+" s";
+ if(left<=0)gmEnd(true)}
+const gSpent=()=>[...G.sel].reduce((a,i)=>a+G.all[i].s,0);
+function gmTog(i){if(G.rev)return;if(G.sel.has(i))G.sel.delete(i);else if(G.all[i].s<=G.cash-gSpent())G.sel.add(i);gmDraw()}
+const GW=130,GPAD=80;
+function gmCur(k){if(!G||G.rev||G.walking||k===G.cur)return;const ch=$("gch");if(!ch)return;
+ const x=GPAD+k*GW+GW/2,from=parseFloat(ch.style.left)||40,dur=Math.max(.35,Math.abs(x-from)/260);
+ G.walking=true;ch.classList.add("walking");ch.classList.toggle("lft",x<from);ch.style.transitionDuration=dur+"s";ch.style.left=x+"px";
+ const sc=$("gsc");if(sc&&sc.scrollTo)sc.scrollTo({left:Math.max(0,x-sc.clientWidth/2),behavior:"smooth"});
+ gmFill();
+ setTimeout(()=>{if(!G||G.rev)return;G.cur=k;G.walking=false;const c=$("gch");if(c)c.classList.remove("walking");gmFill()},dur*1000+30)}
+function gmCard(it){const g=it.r.g,im=gImg(it.r),cd=it.r.cart?"Cartouche seule":"Complet (boîte)";let st="",foot="";const on=G.sel.has(it.i);
+ if(!G.rev){const dis=!on&&it.s>G.cash-gSpent();st=`${on?" on":""}${dis?" off":""}`}
+ else{const pr=it.v-it.s,star=it.t=="p"?"💎 PÉPITE · ":"";
+  foot=`<div class="gv ${on?(pr>=0?"gw":"gl"):"gn"}">${star}Vaut ~${it.v} €<br>${on?(pr>=0?"✅ +":"❌ ")+pr+" €":(pr>=Math.max(5,it.s)?"😖 affaire ratée +"+pr+" €":(it.s>=1.3*it.v?"👍 bien évité":"—"))}</div>`;st=" fin"+(on?" on":"")}
+ return `<div class="gc${st}" onclick="gmTog(${it.i})"><div class="gi">${im?`<img src="${safe(im)}" alt="" onerror="this.remove()">`:""}</div><div class="tt">${esc(g.t)}</div><div class="cd">${pill(g.c)} ${cd}</div><div class="gp">${it.s} €</div>${foot}</div>`}
+const gLab=(st,k)=>`Stand ${k+1}`+(st.kind=="u"?` · tout à ${st.p} €`:"");
+function gmTop(){return `<div class="gtop"><div><b>🎒 ${esc(G.name)}</b> · brocante n° ${G.stage}${G.fee?` · frais ${G.fee} €`:" · pas de frais"}</div><div class="gcash">💶 ${G.cash-(G.rev?0:gSpent())} € <small style="font-size:.55em;color:var(--mut)">· ${rankOf(G.cash)}</small></div><button class="gx" onclick="gmOver()">⏹ Arrêter</button></div>`}
+const gInfo=()=>`🎯 Objectif : finir la brocante avec <b>${G.base+G.target} €</b> en caisse (${G.base} € + ${G.target} €), frais compris.${G.stage==1?" 💡 Brocante d'entraînement : une pépite se cache quelque part, et au moins deux bons plans.":""} Clique sur un stand ou utilise ← →. Marcher prend du temps !`;
+function gmSkel(){const N=G.stands.length,cols=["#e5383b","#2f6bff","#2ea043","#ffb020","#9b5de5","#ff7ab6","#0ea5a5","#f97316"];
+ const st=G.stands.map((s,k)=>{const c=cols[(k*3+G.stage)%cols.length],th=s.items.slice(0,3).map(it=>{const im=gImg(it.r);return im?`<img src="${safe(im)}" alt="" onerror="this.remove()">`:""}).join("");
+  return `<div class="gst" id="gs${k}" style="left:${GPAD+k*GW}px" onclick="gmCur(${k})"><div class="gsg">${s.kind=="u"?`<span class="pap">TOUT À ${s.p} €</span>`:`<span class="num">${k+1}</span>`}</div><div class="aw" style="--c:${c}"></div><div class="tb">${th}</div><div class="bd" id="gb${k}"></div></div>`}).join("");
+ $("gm").innerHTML=`<div id="gtopw"></div><div id="ginfo" class="sub" style="text-align:left;margin-bottom:8px"></div><div class="gsc" id="gsc"><div class="gin" style="width:${GPAD+N*GW+60}px"><div class="gent">ENTRÉE</div>${st}<div class="gch" id="gch" style="left:40px"><div class="gcw">${charSVG(GC)}</div></div></div></div><div id="gpanel"></div><div id="gbotw"></div>`}
+function gmFill(){if(!$("gpanel"))return;const sp=gSpent(),n=G.sel.size;
+ $("gtopw").innerHTML=gmTop();$("ginfo").innerHTML=gInfo();
+ G.stands.forEach((st,k)=>{const c=st.items.filter(x=>G.sel.has(x.i)).length,b=$("gb"+k),e=$("gs"+k);if(b)b.textContent=c?"✓ "+c:"";if(e)e.classList.toggle("cur",k===G.cur&&!G.walking)});
+ $("gpanel").innerHTML=G.walking?'<div class="sub" style="padding:30px 0">🚶 En route…</div>':(G.cur<0?'<div class="sub" style="padding:30px 0">👆 Choisis un stand pour commencer.</div>':`<h3 style="margin:4px 0 8px">${gLab(G.stands[G.cur],G.cur)}</h3><div class="ggrid">${G.stands[G.cur].items.map(gmCard).join("")}</div>`);
+ $("gbotw").innerHTML=`<div class="gbot"><div class="gbar"><div id="gbt"></div></div><span>⏱ <b id="gtt">${Math.max(0,Math.ceil((G.end-Date.now())/1000))} s</b> pour toute la brocante · achats : <b>${n}</b> (${sp} €)</span><span><button class="gbtn" ${n?"":"disabled"} title="${n?"":"Il faut acheter au moins un jeu"}" onclick="gmEnd()">Quitter la brocante</button></span></div>`}
+function gmDraw(){if(G.rev){gmDrawRev();return}if(G.fresh||!$("gsc")){gmSkel();G.fresh=false}gmFill()}
+function gmDrawRev(){const nx=G.cash>=gFee(G.stage+1)+1;
+ $("gm").innerHTML=gmTop()+`<div class="gres"><div class="gch2 ${G.ok?"jump":""}" style="${G.ok?"":"filter:grayscale(.7)"}"><div class="gcw">${charSVG(GC)}</div></div><div>${G.msg}</div></div>`
+  +G.stands.map((st,k)=>`<h3 style="margin:14px 0 6px">${gLab(st,k)}</h3><div class="ggrid">${st.items.map(gmCard).join("")}</div>`).join("")
+  +`<div class="gbot"><span></span><span><button class="gbtn sec" onclick="gmOver()">Voir le bilan</button> ${G.ok&&nx?`<button class="gbtn" onclick="gmStage()">Brocante suivante (frais ${gFee(G.stage+1)} €)</button>`:`<button class="gbtn" onclick="gmOver()">Fin de partie</button>`}</span></div>`;$("gm").scrollTop=0}
+function gmEnd(auto){if(!G||G.rev)return;clearInterval(GT);GT=null;const before=rankOf(G.cash);G.rev=true;
+ const B=[...G.sel].map(i=>G.all[i]),spent=B.reduce((a,x)=>a+x.s,0),gain=B.reduce((a,x)=>a+x.v,0);
+ G.cash+=gain-spent;G.maxCash=Math.max(G.maxCash,G.cash);
+ B.forEach(x=>G.deals.push({t:x.r.g.t,c:x.r.g.c,p:x.v-x.s}));
+ G.all.forEach(x=>{if(!G.sel.has(x.i)&&x.v-x.s>=Math.max(5,x.s))G.missed.push({t:x.r.g.t,c:x.r.g.c,p:x.v-x.s})});
+ const net=G.cash-G.base,ok=net>=G.target&&B.length>0;G.ok=ok;if(ok)G.done++;
+ const pe=G.all.find(x=>x.t=="p"),pt=pe?`<br>💎 Pépite : <b>${esc(pe.r.g.t)}</b> affichée ${pe.s} €, vaut ~${pe.v} € · ${G.sel.has(pe.i)?"tu l'as trouvée !":"ratée"}`:"<br>Pas de pépite sur cette brocante.";
+ G.msg=(auto&&!B.length?"⏱ Temps écoulé, rien acheté. ":"")+"Résultat : <b class='"+(net>=0?"gw":"gl")+"'>"+(net>=0?"+":"")+net+" €</b> (frais compris), objectif +"+G.target+" € : "+(ok?"<b class='gw'>réussi ✅</b>":"<b class='gl'>manqué ❌</b>")+" · caisse "+G.cash+" €"+(ok&&rankOf(G.cash)!=before?" · 🎉 nouveau rang : <b>"+rankOf(G.cash)+"</b>":"")+pt;
+ gmDraw()}
+function gmOver(){clearInterval(GT);GT=null;if(!G)return;
+ const by={};G.deals.forEach(d=>{const o=by[d.c]=by[d.c]||{n:0,p:0,m:0};o.n++;o.p+=d.p});G.missed.forEach(d=>{const o=by[d.c]=by[d.c]||{n:0,p:0,m:0};o.m++});
+ const rows=Object.entries(by).sort((a,b)=>a[1].p-b[1].p),best=[...G.deals].sort((a,b)=>b.p-a.p)[0],worst=[...G.deals].sort((a,b)=>a.p-b.p)[0];
+ let old={};try{old=JSON.parse(localStorage.getItem(LB))||{}}catch(e){}
+ const rec=G.done>0&&(G.done>(old.stands||0));if(G.done>0){try{localStorage.setItem(LB,JSON.stringify({cash:Math.max(old.cash||0,G.maxCash),stands:Math.max(old.stands||0,G.done)}))}catch(e){}}
+ const spot=rows.length&&rows[0][1].p<0?`Ton angle mort : <b>${esc(cname(rows[0][0]))}</b> (${rows[0][1].p} € sur ${rows[0][1].n} achat${rows[0][1].n>1?"s":""}).`:(rows.length?"Aucune console ne t'a fait perdre d'argent, bien joué.":"");
+ const mm=rows.filter(r=>r[1].m).sort((a,b)=>b[1].m-a[1].m)[0];
+ $("gm").innerHTML=`<div class="gbox"><button class="gx" onclick="gmClose()" style="align-self:flex-end">✕ Fermer</button><h2>🎒 Bilan</h2>
+ <div>Brocantes réussies : <b>${G.done}</b> · caisse finale : <b>${G.cash} €</b> · maximum : <b>${G.maxCash} €</b> · rang : <b>${rankOf(G.maxCash)}</b>${rec?" · 🏆 nouveau record !":(old.stands?" · record : "+old.stands+" brocante"+(old.stands>1?"s":""):"")}</div>
+ ${best?`<div>💎 Meilleure affaire : <b>${esc(best.t)}</b> (${esc(cname(best.c))}) <b class="gw">+${best.p} €</b></div>`:""}
+ ${worst&&worst.p<0?`<div>💥 Pire erreur : <b>${esc(worst.t)}</b> (${esc(cname(worst.c))}) <b class="gl">${worst.p} €</b></div>`:""}
+ <div>${spot}${mm?` Affaires ratées surtout sur <b>${esc(cname(mm[0]))}</b> (${mm[1].m}).`:""}</div>
+ ${rows.length?`<table><tr><th>Console</th><th>Achats</th><th>Résultat</th><th>Affaires ratées</th></tr>${rows.map(([c,o])=>`<tr><td>${pill(c)}</td><td>${o.n}</td><td class="${o.p>=0?"gw":"gl"}">${o.p>=0?"+":""}${o.p} €</td><td>${o.m}</td></tr>`).join("")}</table>`:""}
+ <div class="sub" style="text-align:left">Valeur de revente estimée = moyenne des 3 annonces les moins chères − 10 %. Seuls les jeux PAL FR avec au moins 2 annonces sont utilisés : jamais une annonce unique.</div>
+ <div><button class="gbtn" onclick="gmOpen()">Nouvelle partie</button></div></div>`}
+$("gmb").onclick=gmOpen;
+document.addEventListener("keydown",e=>{if(!G)return;if(e.key==="Escape"){gmClose();return}
+ if(G.rev||!G.stands.length)return;if(e.key==="ArrowRight"||e.key==="ArrowLeft"){e.preventDefault();if(G.walking)return;const k=G.cur<0?0:G.cur+(e.key=="ArrowRight"?1:-1);if(k>=0&&k<G.stands.length)gmCur(k)}});
 
 /* ---- consoles ---- */
 function upTxt(){const d=SEL.map(k=>DB[k]).filter(Boolean);if(!d.length){$("up").textContent="-";return}
