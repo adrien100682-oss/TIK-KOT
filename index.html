@@ -291,9 +291,11 @@ table.cmp{width:100%;border-collapse:collapse;background:var(--card);border-radi
 .ghp{display:flex;gap:8px;min-width:0}.ghp .ph{position:relative;height:100%;aspect-ratio:3/4;background:#e8e0d0;border-radius:3px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex:0 0 auto}
 .ghp .ph img{width:100%;height:100%;object-fit:contain}.ghp .ph.big{aspect-ratio:3/4;box-shadow:0 0 0 2px #e0508a}
 .ghp .gp{right:2px;top:2px;font-size:13px;position:absolute}
+#ghold.fx{position:fixed;top:12px;bottom:auto;height:min(58vh,380px);z-index:9999}
 .ghr{display:flex;flex-direction:column;gap:6px;width:150px;flex:0 0 auto;min-width:0}
 .ght{font-weight:800;font-size:15px;line-height:1.2}.ghc{font-size:12px;color:#cfd}
 @media(max-width:700px){#ghold{flex-direction:column;left:4px;right:4px;transform:none;max-width:none}.ghp{flex:1;min-height:0}.ghr{width:auto}}
+.au{animation:aub .9s steps(1) infinite}.aub{animation:aubs 2s ease-in-out infinite}.aur{animation:aur 1.5s linear infinite}.aud{animation:aud 1.8s linear infinite}@keyframes aub{50%{opacity:0}}@keyframes aubs{50%{opacity:.3}}@keyframes aur{0%{transform:translateY(0);opacity:1}100%{transform:translateY(-12px);opacity:0}}@keyframes aud{0%{transform:translateY(-6px);opacity:0}20%{opacity:1}100%{transform:translateY(14px);opacity:0}}
 .gzo{display:none;position:absolute;right:3px;bottom:3px;background:#000a;color:#fff;border-radius:50%;width:26px;height:26px;align-items:center;justify-content:center;font-size:13px}
 @media(hover:none){.gzo{display:flex}}
 .deal .gc{animation:gdeal .32s backwards cubic-bezier(.2,1.3,.4,1)}@keyframes gdeal{from{opacity:0;transform:translateY(-26px) rotate(-6deg) scale(.8)}}
@@ -916,27 +918,42 @@ function sToggle(){SND.on=!SND.on;try{localStorage.setItem("tikkot_snd",SND.on?"
 /* --- le chineur : apparence, XP et objets à débloquer --- */
 const GSK=["#e8c39e","#d9a97a","#c08a5a","#a06a3c","#7a4a28","#4f301c"],GSD=["#c9a07c","#b88a5e","#9c6c42","#80522c","#5e381c","#3a2212"],GHC=["#1e1612","#4a3222","#7a4a2a","#b89b55","#8c3b3b","#3b5a8c","#9a9a9a","#5a3f8c","#3f6b47"],GSH=["#b0304a","#3a5fc0","#2f9a6a","#e0a030","#7a4fc0","#d0608a","#22243a","#d8d0f0","#2fa0a0","#e07030"],GPA=["#2a2f5a","#22243a","#5a4630","#1f5f6a","#5a1f3a","#8a8fa8"];
 // [nom, XP nécessaire]
-const GHS=[["Courts",0],["Longs",0],["Bouclés",0],["Chauve",0],["Queue de cheval",0],["Crête",40],["Piques",120]];
-const GHT=[["Aucun",0],["Casquette",0],["Bonnet",0],["Chapeau de paille",0],["Casque audio",30],["Bandana",80],["Tricorne de pirate",160],["Casque de chevalier",240],["Chapeau de sorcier",340],["Casque d'astronaute",460],["Couronne",800]];
-const GOF=[["T-shirt",0],["Sweat à capuche",0],["Maillot rayé",20],["Tenue de ninja",100],["Manteau de pirate",180],["Armure de chevalier",260],["Robe de sorcier",360],["Combinaison spatiale",480],["Robot",620],["Costume doré",1000]];
-const GFA=[["Aucun",0],["Lunettes",0],["Moustache",0],["Barbe",0],["Lunettes pixel",60],["Cache-œil",140],["Casque VR",200]];
-const GBK=[["Aucun",0],["Sac à dos",0],["Sac manette",50],["Cape",130],["Épée pixel",220],["Jetpack",540],["Ailes pixel",700]];
-const GCAT=[["hs","Cheveux",GHS],["hat","Tête",GHT],["of","Tenue",GOF],["fa","Visage",GFA],["bk","Dos",GBK]];
+const GHS=[["Courts",0],["Longs",0],["Bouclés",0],["Chauve",0],["Queue de cheval",0],["Crête",150],["Piques",450]];
+const GHT=[["Aucun",0],["Casquette",0],["Bonnet",0],["Chapeau de paille",0],["Casque audio",120],["Bandana",250],["Tricorne de pirate",600],["Casque de chevalier",900],["Chapeau de sorcier",1300],["Casque d'astronaute",1700],["Couronne",3500,["ok",20,"Réussir 20 brocantes"]],
+ ["Casque pro-gamer",400],["Capuche relevée",150],["Boîte en carton",900,["runs",15,"Faire 15 brocantes"]],["Casque de super-soldat",1800,["stage",4,"Réussir la brocante n°4"]],["Cornes de démon",1200,["pep",10,"Trouver 10 pépites"]],["Auréole pixel",2000,["perf",3,"3 brocantes à 18/20"]],["Oreilles de chat RGB",800],["Casque viking",1100],["Bonnet à pompon",200],["Heaume cyber-samouraï",2500,["stage",5,"Réussir la brocante n°5"]],["Chapeau de cowboy",500],["Casque de pilote",700]];
+const GOF=[["T-shirt",0],["Sweat à capuche",0],["Maillot rayé",60],["Tenue de ninja",350],["Manteau de pirate",700],["Armure de chevalier",1100],["Robe de sorcier",1500],["Combinaison spatiale",2000],["Robot",2800,["pep",15,"Trouver 15 pépites"]],["Costume doré",5000,["ok",30,"Réussir 30 brocantes"]],
+ ["Maillot e-sport",150],["Armure de super-soldat",2200,["stage",4,"Réussir la brocante n°4"]],["Agent furtif",1000],["Veste cyber néon",900],["Poncho de pistolero",600],["Tunique d'aventurier",300],["Armure de dragon",3000,["pep",25,"Trouver 25 pépites"]],["Blouse de savant fou",450],["Pyjama nuit blanche",80],["Combi de pilote",700],["Manteau du chasseur de pépites",4000,["pep",50,"Trouver 50 pépites"]]];
+const GFA=[["Aucun",0],["Lunettes",0],["Moustache",0],["Barbe",0],["Lunettes pixel",200],["Cache-œil",450],["Casque VR",900],["Masque de ninja",300],["Masque à gaz",900],["Visière tactique",1300],["Monocle",250],["Cicatrice",120],["Peinture de guerre",600],["Lunettes 3D",150],["Masque de bandit",200],["Œil bionique",2000,["perf",2,"2 brocantes à 18/20"]]];
+const GBK=[["Aucun",0],["Sac à dos",0],["Sac manette",150],["Cape",450],["Épée pixel",800],["Jetpack",2500,["stage",3,"Réussir la brocante n°3"]],["Ailes pixel",3000,["perf",1,"1 brocante à 18/20"]],
+ ["Bouclier",400],["Arc et carquois",650],["Katana",900],["Drone compagnon",1600,["pep",8,"Trouver 8 pépites"]],["Grande épée",1300],["Ailes de dragon",3600,["pep",30,"Trouver 30 pépites"]],["Pack de cartouches",100],["Manette géante",350]];
+const GAU=[["Aucune",0],["Étincelles",500],["Néon",900],["Pluie de pixels",1400],["Glitch",1700],["Flammes",2000,["ok",10,"Réussir 10 brocantes"]],["Éclairs",2600,["perf",2,"2 brocantes à 18/20"]],["Pluie de pièces",3500,["pep",40,"Trouver 40 pépites"]]];
+const GCAT=[["hs","Cheveux",GHS],["hat","Tête",GHT],["of","Tenue",GOF],["fa","Visage",GFA],["bk","Dos",GBK],["au","Aura",GAU]];
+const LA="tikkot_ach",gA=()=>{try{return JSON.parse(localStorage.getItem(LA))||{}}catch(e){return {}}},gAch=(a,A)=>((A||gA())[a[0]]||0)>=a[1],gLk=(it,x,A)=>it[1]>x||(it[2]&&!gAch(it[2],A));
+const gLkTxt=(it,x)=>[it[1]>x?"encore "+(it[1]-x)+" XP":"",it[2]&&!gAch(it[2])?it[2][2]:""].filter(Boolean).join(" + ");
 const LX="tikkot_xp",gXP=()=>{try{return Math.max(0,parseInt(localStorage.getItem(LX))||0)}catch(e){return 0}},gSetXP=v=>{try{localStorage.setItem(LX,String(v))}catch(e){}};
 const gLvl=x=>1+Math.floor(Math.sqrt(x/20));
-const gUnl=x=>GCAT.flatMap(c=>c[2].filter(i=>i[1]>0&&i[1]<=x).map(i=>i[0]));
+const gUnl=(x,A)=>GCAT.flatMap(c=>c[2].filter(i=>i[1]>0&&!gLk(i,x,A)).map(i=>i[0]));
 const gNext=x=>GCAT.flatMap(c=>c[2]).filter(i=>i[1]>x).sort((a,b)=>a[1]-b[1])[0];
-const CH0={skin:1,hs:0,hc:2,hat:0,sh:3,pa:1,of:0,fa:0,bk:0};
+const CH0={skin:1,hs:0,hc:2,hat:0,sh:3,pa:1,of:0,fa:0,bk:0,au:0};
 function gLoadChar(){let c={};try{c=JSON.parse(localStorage.getItem("tikkot_char"))||{}}catch(e){}
  if(c.ac==1&&c.fa==null)c.fa=1;if(c.ac==2&&c.bk==null)c.bk=1;c={...CH0,...c};delete c.ac;const x=gXP();
- GCAT.forEach(([k,,L])=>{if(!L[c[k]]||L[c[k]][1]>x)c[k]=0});return c}
+ GCAT.forEach(([k,,L])=>{if(!L[c[k]]||gLk(L[c[k]],x))c[k]=0});return c}
 let GC=gLoadChar();
 const gSaveChar=()=>{try{localStorage.setItem("tikkot_char",JSON.stringify(GC))}catch(e){}};
 // Sprite de profil, membres articulés (cuisse/tibia, bras/avant-bras) animés image par image, en aplats de couleur
+const AUR=a=>{if(!a)return"";const p=(x,y,w,h,f,d,cl)=>`<rect class="${cl}" x="${x}" y="${y}" width="${w}" height="${h}" fill="${f}" style="animation-delay:-${d}s"/>`;let o="";
+ if(a==1)[[3,6,"#ffe27a"],[19,10,"#fff"],[5,24,"#ffe27a"],[20,28,"#fff"],[2,16,"#4fd6d0"],[21,19,"#e0508a"],[17,3,"#ffe27a"],[4,33,"#fff"]].forEach((q,i)=>o+=p(q[0],q[1],1,1,q[2],i*.23,"au"));
+ if(a==2)o+=p(3,0,1,38,"#e0508a99",0,"aub")+p(21,0,1,38,"#4fd6d099",.8,"aub")+p(4,38,16,1,"#e0508a",0,"aub")+p(5,-3,14,1,"#4fd6d0",.8,"aub");
+ if(a==3)[[2,4],[5,10],[18,2],[21,9],[3,20],[20,18],[19,28],[2,30]].forEach((q,i)=>o+=p(q[0],q[1],1,2,i%2?"#3ecf6e":"#b8ffcc",i*.2,"aud"));
+ if(a==4)o+=p(4,14,15,1,"#4fd6d0",0,"au")+p(2,22,14,1,"#e0508a",.3,"au")+p(6,28,13,1,"#4fd6d0",.6,"au")+p(3,8,6,1,"#e0508a",.45,"au")+p(14,33,8,1,"#4fd6d0",.15,"au");
+ if(a==5)[[5,34,"#f08a4a"],[8,35,"#f0c050"],[12,34,"#f08a4a"],[15,35,"#f0c050"],[18,34,"#f08a4a"],[3,31,"#e0503a"],[20,30,"#e0503a"],[10,36,"#fff2b0"]].forEach((q,i)=>o+=p(q[0],q[1],2,3,q[2],i*.2,"aur"));
+ if(a==6)o+=p(2,2,1,3,"#4fd6d0",0,"au")+p(3,5,1,3,"#4fd6d0",0,"au")+p(2,8,1,3,"#4fd6d0",0,"au")+p(21,14,1,3,"#fff",.4,"au")+p(20,17,1,3,"#fff",.4,"au")+p(21,20,1,3,"#fff",.4,"au")+p(19,26,1,3,"#4fd6d0",.7,"au")+p(18,29,1,3,"#4fd6d0",.7,"au");
+ if(a==7)[[2,0],[20,4],[4,10],[19,14],[1,20],[21,24]].forEach((q,i)=>o+=p(q[0],q[1],2,2,"#f0c050",i*.3,"aud")+p(q[0],q[1],1,1,"#fff2b0",i*.3,"aud"));
+ return o};
 function charSVG(c){const sk=GSK[c.skin]||GSK[1],skd=GSD[c.skin]||GSD[1],hc=GHC[c.hc]||GHC[1],of=c.of|0,hat=c.hat|0,fa=c.fa|0,bk=c.bk|0,hs=c.hs|0,robot=of==8;
- const OC={3:["#22243a","#22243a","#22243a"],4:["#8c2040","#3a2c40",sk],5:["#8a93a8","#5e6680","#5e6680"],6:["#5a3fa0","#3d2a78",sk],7:["#d0d4e0","#a9aec0","#a9aec0"],8:["#7d87a0","#565f78","#565f78"],9:["#e0b030","#a88014",sk]}[of];
- const sh=OC?OC[0]:(GSH[c.sh]||GSH[1]),pa=OC?OC[1]:(GPA[c.pa]||GPA[0]),hand=OC?OC[2]:sk,shoe=of==7?"#8a8fa8":of==9?"#6b560e":"#12101c",bare=of==0||of==2,D="#00000059";
- const r=(x,y,w,h,f)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${f}"/>`,fore=bare?sk:sh;let o=r(6,39,12,1,"#0007");
+ const OC={3:["#22243a","#22243a","#22243a"],4:["#8c2040","#3a2c40",sk],5:["#8a93a8","#5e6680","#5e6680"],6:["#5a3fa0","#3d2a78",sk],7:["#d0d4e0","#a9aec0","#a9aec0"],8:["#7d87a0","#565f78","#565f78"],9:["#e0b030","#a88014",sk],10:["#2a2f6a","#22243a",sk],11:["#4a6b3a","#33492a","#33492a"],12:["#15151f","#15151f","#15151f"],13:["#2a1c5a","#1c1440",sk],14:["#a0703a","#5a4630",sk],15:["#3f9a5a","#d8c8a0",sk],16:["#8c2a2a","#5a1a1a","#5a1a1a"],17:["#e8eaf4","#5a4630","#e8eaf4"],18:["#3a4fb0","#3a4fb0",sk],19:["#e03030","#e03030","#e03030"],20:["#2a1c5a","#22243a","#2a1c5a"]}[of];
+ const sh=OC?OC[0]:(GSH[c.sh]||GSH[1]),pa=OC?OC[1]:(GPA[c.pa]||GPA[0]),hand=OC?OC[2]:sk,shoe=of==7?"#8a8fa8":of==9?"#6b560e":"#12101c",bare=of==0||of==2||of==10,D="#00000059";
+ const r=(x,y,w,h,f)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${f}"/>`,fore=bare?sk:sh;let o=r(6,39,12,1,"#0007")+AUR(c.au|0);
  // derrière le corps
  if(bk==1)o+=r(5,11,3,8,"#6b5030")+r(5,11,1,8,"#3a2c20")+r(6,13,1,2,"#8a6f4a");
  if(bk==2)o+=r(5,12,3,6,"#3a3f58")+r(6,14,1,1,"#e0508a")+r(6,16,1,1,"#4fd6d0");
@@ -944,8 +961,16 @@ function charSVG(c){const sk=GSK[c.skin]||GSK[1],skd=GSD[c.skin]||GSD[1],hc=GHC[
  if(bk==4)o+=r(6,7,1,15,"#c9cde0")+r(5,6,3,1,"#f0c050")+r(6,3,1,3,"#4a3222");
  if(bk==5)o+=r(5,11,3,9,"#7d87a0")+r(5,11,1,9,"#565f78")+r(6,20,1,3,"#f08a4a")+r(6,23,1,1,"#f0c050");
  if(bk==6)o+=r(4,10,4,3,"#e0dcf0")+r(2,9,3,3,"#e0dcf0")+r(1,8,2,2,"#e0dcf0")+r(3,13,4,3,"#c9c4e0")+r(4,16,3,2,"#c9c4e0");
+ if(bk==7)o+=r(4,12,4,9,"#4a6b9a")+r(4,12,1,9,"#2a3f66")+r(5,15,2,3,"#f0c050")+r(4,21,3,1,"#4a6b9a");
+ if(bk==8)o+=r(3,8,1,16,"#8a6438")+r(4,8,1,1,"#8a6438")+r(4,23,1,1,"#8a6438")+r(5,10,3,9,"#6b4423")+r(5,7,1,3,"#e0dcf0")+r(7,7,1,3,"#b0304a");
+ if(bk==9){for(let i=0;i<16;i++)o+=r(9-Math.floor(i*.45),5+i,1,1,i<3?"#1c1a2c":i==3?"#f0c050":"#d0d4e8")}
+ if(bk==10)o+=r(3,2,6,2,"#8a93a8")+r(1,1,3,1,"#4fd6d0")+r(8,1,3,1,"#4fd6d0")+r(4,4,4,1,"#e0508a")+r(5,5,2,1,"#4fd6d055");
+ if(bk==11)o+=r(5,-1,2,25,"#c9cde0")+r(5,-1,1,25,"#8a93a8")+r(3,24,6,1,"#f0c050")+r(5,25,2,4,"#4a3222");
+ if(bk==12)o+=r(2,5,4,3,"#8c2a2a")+r(0,3,3,2,"#8c2a2a")+r(3,8,4,4,"#8c2a2a")+r(4,12,3,5,"#8c2a2a")+r(1,5,1,12,"#5a1a1a")+r(3,9,1,1,"#f08a4a");
+ if(bk==13)o+=r(5,11,3,9,"#3a3f58")+r(5,8,1,3,"#8a8fa8")+r(6,9,1,2,"#e0508a")+r(7,8,1,3,"#3ecf6e")+r(5,14,3,1,"#4fd6d0");
+ if(bk==14)o+=r(3,11,5,8,"#d8d0f0")+r(3,11,1,8,"#a9a4c0")+r(5,13,1,1,"#e0508a")+r(6,14,1,1,"#4fd6d0")+r(4,15,1,1,"#333");
  if(of==7)o+=r(6,11,2,8,"#a9aec0");
- if(of==1)o+=r(7,8,3,3,sh)+r(7,8,3,3,D);
+ if(of==1)o+=r(7,6,3,6,sh)+r(7,6,1,6,"#0005")+r(7,6,3,1,"#ffffff22");
  if(!robot&&hs==1)o+=r(8,4,2,9,hc);
  if(!robot&&hs==4)o+=r(7,5,2,2,hc)+r(6,6,2,5,hc);
  // bras et jambe du fond (plus sombres)
@@ -965,6 +990,17 @@ function charSVG(c){const sk=GSK[c.skin]||GSK[1],skd=GSD[c.skin]||GSD[1],hc=GHC[
  if(of==7)o+=r(12,13,2,3,"#3b5a9c")+r(13,13,1,1,"#e0508a")+r(8,19,6,1,"#8a8fa8");
  if(robot)o+=r(11,14,2,2,"#3ecf6e")+r(8,10,1,1,"#3a3f58")+r(13,10,1,1,"#3a3f58")+r(8,20,1,1,"#3a3f58")+r(13,20,1,1,"#3a3f58");
  if(of==9)o+=r(10,12,1,1,"#fff2b0")+r(12,16,1,1,"#fff2b0")+r(9,18,1,1,"#fff2b0");
+ if(of==10)o+=r(8,12,6,2,"#e0508a")+r(9,15,4,1,"#4fd6d0")+r(11,17,1,1,"#fff");
+ if(of==11)o+=r(9,12,4,3,"#6a8b52")+r(11,16,1,1,"#e0b030")+r(8,19,6,1,"#e0b030")+r(8,9,3,2,"#6a8b52");
+ if(of==12)o+=r(8,14,6,1,"#3a3a4a")+r(9,17,2,2,"#2a2a3a")+r(13,12,1,1,"#4fd6d0")+r(8,20,6,1,"#6b5030");
+ if(of==13)o+=r(8,10,1,12,"#4fd6d0")+r(13,10,1,12,"#e0508a")+r(10,14,2,1,"#4fd6d0")+r(10,17,2,1,"#e0508a");
+ if(of==14)o+=r(7,10,8,9,"#a0703a")+r(7,10,8,1,"#c99060")+r(7,14,8,1,"#6b4423")+r(7,17,8,1,"#6b4423")+r(7,19,1,1,"#c99060")+r(9,19,1,1,"#c99060")+r(11,19,1,1,"#c99060")+r(13,19,1,1,"#c99060");
+ if(of==15)o+=r(8,19,6,1,"#6b4423")+r(11,19,1,1,"#f0c050")+r(8,10,6,1,"#2a6a3a")+r(8,21,6,1,"#2a6a3a");
+ if(of==16)o+=r(9,12,1,1,"#e07030")+r(11,14,1,1,"#e07030")+r(9,16,1,1,"#e07030")+r(12,18,1,1,"#e07030")+r(8,8,2,2,"#f0c050")+r(12,8,2,2,"#f0c050");
+ if(of==17)o+=r(11,14,1,6,"#c0c4d8")+r(9,15,1,2,"#3ecf6e")+r(12,12,1,1,"#e0508a");
+ if(of==18)o+=r(9,12,1,1,"#ffe27a")+r(12,15,1,1,"#ffe27a")+r(10,18,1,1,"#ffe27a")+r(12,19,1,1,"#8a9ad0");
+ if(of==19)o+=r(8,14,6,1,"#fff")+r(8,17,6,1,"#fff")+r(12,11,2,2,"#2a2a3a");
+ if(of==20)o+=r(8,10,1,12,"#f0c050")+r(13,10,1,12,"#f0c050")+r(8,21,6,1,"#f0c050")+r(11,13,2,2,"#e0508a")+r(11,13,1,1,"#fff");
  o+=r(10,9,3,1,robot?"#565f78":skd);
  // tête
  if(robot)o+=r(9,2,6,7,"#9aa3b8")+r(9,2,1,7,"#7d87a0")+r(12,4,2,2,"#4fd6d0")+r(12,7,3,1,"#565f78")+r(11,0,1,2,"#565f78")+r(11,-1,1,1,"#e0508a");
@@ -979,7 +1015,16 @@ function charSVG(c){const sk=GSK[c.skin]||GSK[1],skd=GSD[c.skin]||GSD[1],hc=GHC[
   if(fa==2)o+=r(12,7,3,1,hc);
   if(fa==4)o+=r(9,5,3,1,"#0c0a14")+r(11,4,4,2,"#0c0a14")+r(12,6,2,1,"#0c0a14");
   if(fa==5)o+=r(9,4,5,1,"#12101c")+r(12,5,2,1,"#0c0a14");
-  if(fa==6)o+=r(9,5,3,1,"#3a3f58")+r(11,3,5,4,"#1c1a2c")+r(15,4,1,2,"#4fd6d0")}
+  if(fa==6)o+=r(9,5,3,1,"#3a3f58")+r(11,3,5,4,"#1c1a2c")+r(15,4,1,2,"#4fd6d0");
+  if(fa==7)o+=r(9,7,6,3,"#22243a")+r(9,3,5,1,"#b0304a");
+  if(fa==8)o+=r(11,5,4,4,"#3a3f58")+r(14,6,2,3,"#5e6680")+r(12,5,2,1,"#9fd6e0")+r(16,7,1,2,"#2a2f3a")+r(9,5,3,1,"#12101c");
+  if(fa==9)o+=r(10,4,5,2,"#3ecf6e")+r(10,4,5,1,"#9ff0b0")+r(9,5,1,1,"#12101c");
+  if(fa==10)o+=r(12,4,3,3,"#d9a441")+r(13,5,1,1,"#9fd6e0")+r(12,7,1,3,"#d9a441");
+  if(fa==11)o+=r(11,4,1,1,"#c03030")+r(12,5,1,1,"#c03030")+r(13,6,1,1,"#c03030");
+  if(fa==12)o+=r(10,6,5,1,"#d03030")+r(10,7,5,1,"#f0f0f0");
+  if(fa==13)o+=r(9,5,3,1,"#12101c")+r(12,4,3,2,"#d03030")+r(12,6,3,1,"#30c0d0");
+  if(fa==14)o+=r(10,4,5,3,"#12101c")+r(12,5,2,1,sk);
+  if(fa==15)o+=r(11,4,1,3,"#8a8fa8")+r(12,4,3,3,"#c03040")+r(13,5,1,1,"#fff")}
  // sur la tête
  if(hat==1)o+=r(9,1,5,3,"#3a4fb0")+r(14,3,3,1,"#3a4fb0")+r(9,1,1,3,"#2a3a8c");
  if(hat==2)o+=r(9,0,5,2,"#b0304a")+r(8,2,7,2,"#8c2040")+r(11,-1,2,1,"#e0dcf0");
@@ -991,6 +1036,18 @@ function charSVG(c){const sk=GSK[c.skin]||GSK[1],skd=GSD[c.skin]||GSD[1],hc=GHC[
  if(hat==8)o+=r(11,-3,2,2,"#5a3fa0")+r(10,-1,4,2,"#5a3fa0")+r(9,1,6,2,"#5a3fa0")+r(6,3,11,1,"#3d2a78")+r(11,0,1,1,"#f0c050");
  if(hat==9)o+='<rect x="8" y="1" width="8" height="9" fill="#9fd6e0" opacity=".28"/>'+r(8,1,8,1,"#e0e4f0")+r(8,9,8,1,"#e0e4f0")+r(8,1,1,9,"#e0e4f0")+r(15,1,1,9,"#e0e4f0");
  if(hat==10)o+=r(9,1,5,2,"#f0c050")+r(9,0,1,1,"#f0c050")+r(11,0,1,1,"#f0c050")+r(13,0,1,1,"#f0c050")+r(11,2,1,1,"#b0304a");
+ if(hat==11)o+=r(9,2,5,1,"#2a2a3a")+r(8,3,2,5,"#2a2a3a")+r(8,4,2,3,"#e0508a")+r(11,8,3,1,"#2a2a3a")+r(14,8,1,1,"#4fd6d0");
+ if(hat==12)o+=r(8,1,7,3,sh)+r(8,3,2,7,sh)+r(14,3,1,2,sh)+r(8,1,7,1,"#ffffff22")+r(9,3,1,6,"#0004")+r(8,9,3,1,"#0004");
+ if(hat==13)o+=r(7,0,9,10,"#b58a55")+r(7,0,9,1,"#d4a86c")+r(7,9,9,1,"#8a6438")+r(7,0,1,10,"#8a6438")+r(10,4,5,2,"#1a1020")+r(11,-4,1,2,"#f0c030")+r(11,-1,1,1,"#f0c030");
+ if(hat==14)o+=r(8,0,7,9,"#4a6b3a")+r(8,0,7,1,"#6a8b52")+r(10,3,5,3,"#e0b030")+r(10,3,5,1,"#fff2b0")+r(8,0,1,9,"#33492a");
+ if(hat==15)o+=r(12,0,1,2,"#c03040")+r(13,-2,1,2,"#c03040")+r(14,-3,1,1,"#c03040")+r(9,0,1,2,"#c03040")+r(8,-2,1,2,"#c03040")+r(7,-3,1,1,"#c03040");
+ if(hat==16)o+='<g class="aub">'+r(9,-3,5,1,"#ffe27a")+r(8,-2,1,1,"#ffe27a")+r(14,-2,1,1,"#ffe27a")+r(9,-1,5,1,"#ffe27a")+'</g>';
+ if(hat==17)o+=r(9,2,5,1,"#2a2a3a")+r(9,0,2,2,"#2a2a3a")+r(9,-1,1,1,"#2a2a3a")+r(13,0,2,2,"#2a2a3a")+r(14,-1,1,1,"#2a2a3a")+r(10,1,1,1,"#e0508a")+r(14,1,1,1,"#e0508a");
+ if(hat==18)o+=r(8,1,7,3,"#8a8fa8")+r(8,1,7,1,"#b0b4c8")+r(8,3,7,1,"#5e6680")+r(7,-1,1,3,"#f0e8d0")+r(6,-2,1,2,"#f0e8d0")+r(15,-1,1,3,"#f0e8d0")+r(16,-2,1,2,"#f0e8d0")+r(13,4,1,3,"#8a8fa8");
+ if(hat==19)o+=r(9,1,5,3,"#3fa0c0")+r(8,3,7,1,"#e0dcf0")+r(11,-1,2,2,"#e0dcf0");
+ if(hat==20)o+=r(8,0,7,3,"#1c1a2c")+r(8,0,7,1,"#e0508a")+r(7,3,9,1,"#1c1a2c")+r(10,-2,1,2,"#4fd6d0")+r(13,-2,1,2,"#4fd6d0")+r(14,3,1,1,"#4fd6d0");
+ if(hat==21)o+=r(9,0,5,3,"#8a5a30")+r(6,3,11,1,"#6b4423")+r(9,2,5,1,"#3a2212");
+ if(hat==22)o+=r(8,1,7,5,"#e8e4f4")+r(11,3,4,2,"#2a8fc0")+r(8,5,2,3,"#c9c4e0")+r(10,0,2,1,"#b0304a");
  if(c.hood&&!robot)o+=r(8,1,7,3,sh)+r(8,3,2,7,sh)+r(8,1,7,1,"#ffffff1f");
  // bras du premier plan
  o+=`<g class="aA" style="transform-origin:11px 12px">${r(10,11,3,7,sh)+r(10,11,1,7,"#0003")}<g class="eA" style="transform-origin:11px 18px">${r(10,18,2,5,fore)+r(10,23,2,2,hand)}</g></g>`;
@@ -1020,24 +1077,24 @@ function gmHow(){$("gm").innerHTML=`<div class="gmenu"><div class="gvh"><button 
  <p>La journée passe : aube à la lampe torche, puis les vendeurs <b>remballent</b> le soir. Tu vois toute la brocante, mais tu ne sais rien d'un vendeur avant d'arriver devant lui (← → ou clic) : ni ses prix, ni ses consoles, ni s'il vend en lot. Méfie-toi des ratisseurs, ces chineurs pressés qui passent tous les stands au peigne fin.</p>
  <p>Survole un jeu pour le prendre en main et voir ses photos. Certains vendeurs font un <b>prix de lot</b> dès 3 jeux.</p></div></div>`}
 // vestiaire : chaque objet a une rareté, s'essaie au survol sur ton chineur, et se débloque avec l'XP
-const GTABS=[["body","CORPS"],["hs","CHEVEUX"],["hat","TÊTE"],["of","TENUE"],["fa","VISAGE"],["bk","DOS"]],GLIST={hs:GHS,hat:GHT,of:GOF,fa:GFA,bk:GBK};
-const gRar=n=>n>=700?["LÉGENDAIRE","leg"]:n>=340?["ÉPIQUE","epi"]:n>=120?["RARE","rar"]:n>0?["PEU COMMUN","unc"]:["COMMUN","com"];
+const GTABS=[["body","CORPS"],["hs","CHEVEUX"],["hat","TÊTE"],["of","TENUE"],["fa","VISAGE"],["bk","DOS"],["au","AURA"]],GLIST={hs:GHS,hat:GHT,of:GOF,fa:GFA,bk:GBK,au:GAU};
+const gRar=n=>n>=2500?["LÉGENDAIRE","leg"]:n>=1200?["ÉPIQUE","epi"]:n>=450?["RARE","rar"]:n>0?["PEU COMMUN","unc"]:["COMMUN","com"];
 function gmCustom(tab){if(tab)GTAB=tab;sInit();ghHide();const back=G&&G.rev;$("gm").style.display="block";
  $("gm").innerHTML=`<div class="gves"><div class="gvh"><button type="button" class="gmb2 sm" onclick="${back?"gmDraw()":"gmMenu()"}">◀ RETOUR</button><div class="gtitle">VESTIAIRE</div>${gXpBar()}</div>
  <div class="gvb"><div class="gvstage"><div class="gvspot"></div><div class="gvchar" id="gvp"></div><div class="gvped"></div><div class="gvname" id="gvn"></div><button type="button" class="gmb2 sm" onclick="gcRand()">AU HASARD</button></div>
  <div class="gvr"><div class="gvtabs" id="gvt"></div><div class="gvgrid" id="gvg"></div></div></div></div>`;gvRefresh()}
 function gvRefresh(){if(!$("gvg"))return;const x=gXP();$("gvp").innerHTML=charSVG(GC);$("gvn").textContent="";
- $("gvt").innerHTML=GTABS.map(([k,t])=>{const L=GLIST[k];return `<button type="button" class="gvtab${k==GTAB?" on":""}" onclick="gvTab('${k}')">${t}<small>${L?L.filter(i=>i[1]<=x).length+"/"+L.length:"&nbsp;"}</small></button>`}).join("");
+ $("gvt").innerHTML=GTABS.map(([k,t])=>{const L=GLIST[k];return `<button type="button" class="gvtab${k==GTAB?" on":""}" onclick="gvTab('${k}')">${t}<small>${L?L.filter(i=>!gLk(i,x)).length+"/"+L.length:"&nbsp;"}</small></button>`}).join("");
  const sw=(k,L,lab)=>`<div class="gswl"><b>${lab}</b>${L.map((c,i)=>`<button type="button" class="sw${GC[k]==i?" on":""}" style="background:${c}" onclick="gcSet('${k}',${i})"></button>`).join("")}</div>`;
- const tiles=k=>`<div class="gtiles">${GLIST[k].map(([t,need],i)=>{const lk=need>x,[rn,rc]=gRar(need);
-  return `<button type="button" class="gti ${rc}${GC[k]==i?" on":""}${lk?" lock":""}" onmouseenter="gvTry('${k}',${i})" onmouseleave="gvTry()" onclick="gvPick('${k}',${i},this)">${GC[k]==i?'<span class="eq">ÉQUIPÉ</span>':""}<span class="gtic${k=="of"||k=="bk"?"":" head"}">${charSVG({...GC,[k]:i})}</span>${lk?`<span class="lk"><span class="plk"></span>${need} XP<i><b style="width:${Math.round(100*x/need)}%"></b></i></span>`:""}<span class="nm">${t}</span><span class="ra">${rn}</span></button>`}).join("")}</div>`;
+ const tiles=k=>`<div class="gtiles">${GLIST[k].map((it,i)=>{const [t,need]=it,lk=gLk(it,x),[rn,rc]=gRar(need);
+  return `<button type="button" class="gti ${rc}${GC[k]==i?" on":""}${lk?" lock":""}" onmouseenter="gvTry('${k}',${i})" onmouseleave="gvTry()" onclick="gvPick('${k}',${i},this)">${GC[k]==i?'<span class="eq">ÉQUIPÉ</span>':""}<span class="gtic${k=="of"||k=="bk"||k=="au"?"":" head"}">${charSVG({...GC,[k]:i})}</span>${lk?`<span class="lk"><span class="plk"></span>${[need>x?need+" XP":"",it[2]&&!gAch(it[2])?it[2][2]:""].filter(Boolean).join("<br>")}<i><b style="width:${Math.min(100,Math.round(100*x/Math.max(need,1)))}%"></b></i></span>`:""}<span class="nm">${t}</span><span class="ra">${rn}</span></button>`}).join("")}</div>`;
  $("gvg").innerHTML={body:()=>sw("skin",GSK,"PEAU")+sw("sh",GSH,"HAUT")+sw("pa",GPA,"PANTALON")+'<p class="sub" style="text-align:left;margin-top:16px">Les autres catégories changent la coiffure, la tête, la tenue, le visage et le dos. Survole un objet pour l\'essayer, même verrouillé.</p>',
-  hs:()=>tiles("hs")+sw("hc",GHC,"COULEUR"),hat:()=>tiles("hat"),of:()=>tiles("of")+sw("sh",GSH,"HAUT")+sw("pa",GPA,"PANTALON"),fa:()=>tiles("fa"),bk:()=>tiles("bk")}[GTAB]()}
+  hs:()=>tiles("hs")+sw("hc",GHC,"COULEUR"),hat:()=>tiles("hat"),of:()=>tiles("of")+sw("sh",GSH,"HAUT")+sw("pa",GPA,"PANTALON"),fa:()=>tiles("fa"),bk:()=>tiles("bk"),au:()=>tiles("au")}[GTAB]()}
 function gvTab(k){GTAB=k;SFX.arrive();gvRefresh()}
-function gvTry(k,i){const p=$("gvp"),n=$("gvn");if(!p)return;if(k==null){p.innerHTML=charSVG(GC);n.textContent="";return}const it=GLIST[k][i],lk=it[1]>gXP();p.innerHTML=charSVG({...GC,[k]:i});n.textContent=it[0]+(lk?" · verrouillé, "+it[1]+" XP":"")}
-function gvPick(k,i,el){const it=GLIST[k][i],x=gXP();if(it[1]>x){SFX.nope();el.classList.remove("shake");void el.offsetWidth;el.classList.add("shake");const n=$("gvn");if(n)n.textContent="Encore "+(it[1]-x)+" XP pour "+it[0];return}GC[k]=i;gSaveChar();SFX.pick();gvRefresh()}
+function gvTry(k,i){const p=$("gvp"),n=$("gvn");if(!p)return;if(k==null){p.innerHTML=charSVG(GC);n.textContent="";return}const it=GLIST[k][i],lk=gLk(it,gXP());p.innerHTML=charSVG({...GC,[k]:i});n.textContent=it[0]+(lk?" · verrouillé : "+gLkTxt(it,gXP()):"")}
+function gvPick(k,i,el){const it=GLIST[k][i],x=gXP();if(gLk(it,x)){SFX.nope();el.classList.remove("shake");void el.offsetWidth;el.classList.add("shake");const n=$("gvn");if(n)n.textContent=it[0]+" : "+gLkTxt(it,x);return}GC[k]=i;gSaveChar();SFX.pick();gvRefresh()}
 function gcSet(k,v){GC[k]=v;gSaveChar();SFX.pick();gvRefresh()}
-function gcRand(){const r=n=>Math.floor(Math.random()*n),x=gXP(),pk=L=>any(L.map((it,i)=>it[1]<=x?i:-1).filter(i=>i>=0));GC={skin:r(6),hc:r(9),sh:r(10),pa:r(6),hs:pk(GHS),hat:pk(GHT),of:pk(GOF),fa:pk(GFA),bk:pk(GBK)};gSaveChar();SFX.pick();gvRefresh()}
+function gcRand(){const r=n=>Math.floor(Math.random()*n),x=gXP(),pk=L=>any(L.map((it,i)=>!gLk(it,x)?i:-1).filter(i=>i>=0));GC={skin:r(6),hc:r(9),sh:r(10),pa:r(6),hs:pk(GHS),hat:pk(GHT),of:pk(GOF),fa:pk(GFA),bk:pk(GBK),au:pk(GAU)};gSaveChar();SFX.pick();gvRefresh()}
 function gmOpen(){GON=true;const P=gmPool();$("gm").style.display="block";
  if(P.length<40){$("gm").innerHTML=`<div class="gbox"><button class="gx" onclick="gmClose()" style="align-self:flex-end">✕ Fermer</button><div class="gtitle">LA BROCANTE</div><p>Pas assez de jeux avec des prix fiables (il en faut au moins 40, j'en ai ${P.length}). Coche d'autres consoles dans « 🎮 Consoles ».</p></div>`;return}
  GPOOL=P;gmMenu()}
@@ -1105,7 +1162,7 @@ function gmStage(){const n=++G.stage;G.sel=new Set();G.rev=false;G.cur=-1;G.deal
  G.stands=stands;G.all=[];stands.forEach((st,k)=>st.items.forEach(it=>{it.i=G.all.length;it.st=k;G.all.push(it)}));
  // la pépite du jour : la meilleure affaire possible
  {let best=null,bp=19;stands.forEach(st=>{if(st.kind=="l"){const pv=st.items.reduce((a,x)=>a+x.v,0)-st.p;if(pv>bp){bp=pv;best=[...st.items].sort((a,b)=>b.v-a.v)[0]}}else st.items.forEach(x=>{if(x.v-x.s>bp){bp=x.v-x.s;best=x}})});if(best)best.t="p"}
- G.tot=Math.round(30+G.all.length*1.8+N*6);G.end=Date.now()+G.tot*1000;G.name=GTH[(n-1)%GTH.length].n;
+ G.tot=Math.round(50+G.all.length*3+N*10);G.end=Date.now()+G.tot*1000;G.name=GTH[(n-1)%GTH.length].n;
  gmDraw();clearInterval(GT);GT=setInterval(gmTick,200);sInit();sAmbStart();G.end+=1900;gCine("BROCANTE N° "+n,esc(G.name).toUpperCase()+" · 06:00",1900)}
 const gSpent=()=>gCost(G.sel);
 function gmTog(i){if(!G||G.rev)return;const st=G.stands[G.all[i].st];if(st.packed){SFX.nope();return}
@@ -1284,7 +1341,7 @@ function gmEnd(auto){if(!G||G.rev)return;ghHide();vStop();clearInterval(GNT);cle
  G.ok=ok;G.note=note;if(ok)G.done++;G.notes.push(note);G.pf+=pf;G.pt+=pt;
  const pe=G.all.find(x=>x.t=="p"),found=!!(pe&&G.sel.has(pe.i)),ptx=pe?`<br>La plus belle affaire : <b>${esc(pe.r.g.t)}</b> ${G.stands[pe.st].kind=="l"?"cachée dans le lot à "+G.stands[pe.st].p+" €":"affichée "+pe.s+" €"}, cote ${Math.round(pe.raw)} € · ${found?"tu l'as trouvée !":"ratée"}`:"";
  G.msg=(auto&&!B.length?"Temps écoulé, rien acheté. ":"")+`Note de la brocante : <b class="${ok?"gw":"gl"}">${note}/20</b> · ${gApp(note)}. Tu as gagné <b class="${GG>=0?"gw":"gl"}">${GG>=0?"+":""}${GG} €</b> sur ${GI} € possibles${GL?` · <b class="gl">−${GL} €</b> perdus sur de mauvaises pioches, qui comptent double dans la note`:""} · pépites rouges ou violettes trouvées : <b>${pf}/${pt}</b>${ok?"":" · il faut 10/20 pour continuer"}`+ptx;
- const xg=Math.round(note*3)+pf*25+(ok?10*G.stage:0),x0=gXP(),x1=x0+xg;gSetXP(x1);const nu=gUnl(x1).filter(n=>!gUnl(x0).includes(n));
+ const xg=Math.round(note*3)+pf*25+(ok?10*G.stage:0),x0=gXP(),x1=x0+xg,A0=gA(),A1={...A0,pep:(A0.pep||0)+pf,runs:(A0.runs||0)+1,ok:(A0.ok||0)+(ok?1:0),perf:(A0.perf||0)+(note>=18?1:0),stage:ok?Math.max(A0.stage||0,G.stage):(A0.stage||0)};gSetXP(x1);try{localStorage.setItem(LA,JSON.stringify(A1))}catch(e){}const nu=gUnl(x1,A1).filter(n=>!gUnl(x0,A0).includes(n));
  G.msg+=`<br>+${xg} XP (total ${x1}, niveau ${gLvl(x1)})`+(nu.length?`<br>Débloqué : <b>${nu.map(esc).join(", ")}</b> · à essayer au vestiaire`:"");
  G.gain=B.reduce((a,x)=>a+x.v,0);G.found=found;G.nu=nu.length>0;G.scored=false;
  gmDraw()}
@@ -1307,7 +1364,7 @@ function gmOver(){ghHide();vStop();clearInterval(GNT);if(G)clearInterval(G.scT);
  <div><button class="gbtn" onclick="gmOpen()">Menu</button></div></div>`}
 /* --- prise en main : survoler un jeu l'agrandit, comme si on le prenait sur l'étal, et fait défiler ses photos (dos, intérieur…) --- */
 const GH={i:-1,k:0,t:null,el:null,L:[]},gTouch=()=>!!(window.matchMedia&&matchMedia("(hover:none)").matches);
-function ghEl(){let e=$("ghold");if(!e){e=document.createElement("div");e.id="ghold";($("gsc")||$("gm")).appendChild(e)}GH.el=e;return e}
+function ghEl(){let e=$("ghold");if(!e){e=document.createElement("div");e.id="ghold";($("gsc")||$("gm")).appendChild(e)}e.classList.toggle("fx",!$("gsc"));if(0){}GH.el=e;return e}
 function ghHide(){clearInterval(GH.t);GH.t=null;GH.i=-1;if(GH.el)GH.el.style.display="none"}
 function ghDots(){const d=$("ghd"),l=$("ghl");if(d)d.innerHTML=GH.L.length>1?GH.L.map((_,k)=>`<i class="${k==GH.k?"on":""}"></i>`).join(""):"";if(l){const u=GH.L[GH.k],c=GH.L.includes(GH.cov)?1:0;l.textContent=u===GH.cov?"jaquette officielle":"photo "+(GH.k+1)+"/"+(GH.L.length-c)+" de l'annonce"}}
 function ghSet(){const m=$("ghim");if(m&&GH.i>=0&&GH.L.length)m.src=GH.L[GH.k];ghDots()}
