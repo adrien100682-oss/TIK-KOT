@@ -286,14 +286,14 @@ table.cmp{width:100%;border-collapse:collapse;background:var(--card);border-radi
 .gmhead{text-align:center}.gtag{color:var(--mut);margin-top:12px;font-size:14px}
 .gmb1,.gmb2{font:700 12px "Press Start 2P",ui-monospace,monospace;padding:16px 14px;border-radius:12px;cursor:pointer;border:3px solid #0006;text-align:left;box-shadow:0 5px 0 #0008;transition:transform .08s}
 .gmb1{background:var(--acc);color:#111;font-size:16px}.gmb2{background:var(--card);color:var(--fg);border-color:var(--line)}.gmb1:hover,.gmb2:hover{transform:translateY(-2px)}.gmb1:active,.gmb2:active{transform:translateY(3px);box-shadow:0 2px 0 #0008}
-#ghold{display:none;position:sticky;top:8px;z-index:40;width:100%;height:230px;gap:14px;background:#e8e0d0;color:#1a1438;border-radius:4px;padding:10px;box-shadow:8px 8px 0 #000a,0 0 0 3px #000,0 0 0 6px #4fd6d0;margin-bottom:14px;cursor:pointer}
-#ghold.in{animation:ghin .22s cubic-bezier(.2,1.4,.4,1)}@keyframes ghin{from{transform:translateY(16px);opacity:0}to{transform:none;opacity:1}}
-.ghi{flex:0 0 46%;min-height:0;position:relative;display:flex;align-items:center;justify-content:center;background:#0002;border-radius:4px;perspective:700px}
-.ghi img{max-width:100%;max-height:100%;object-fit:contain;box-shadow:0 4px 14px #0006}.ghi img.flip{animation:ghfl .34s ease}@keyframes ghfl{50%{transform:rotateY(90deg)}}
-.ghi .gp{right:-6px;top:-6px;font-size:14px}.ghr{flex:1;display:flex;flex-direction:column;gap:6px;min-width:0}
-.ghd{display:flex;gap:5px;min-height:8px}.ghd i{width:8px;height:8px;background:#0003}.ghd i.on{background:#e0508a}
-.ght{font-weight:800;font-size:17px;line-height:1.2}.ghc{font-size:12px;color:#555}
-@media(max-width:700px){#ghold{height:300px;flex-direction:column}.ghi{flex:1 1 auto}}
+#ghold{display:none;position:absolute;z-index:60;top:8px;bottom:8px;left:50%;transform:translateX(-50%);max-width:94%;gap:10px;background:#0b0820ee;color:#fff;border-radius:4px;padding:8px;box-shadow:0 0 0 3px #000,0 0 0 5px #4fd6d0,8px 8px 0 #000a;pointer-events:none;align-items:stretch}
+#ghold.in{animation:ghin .18s ease-out}@keyframes ghin{from{opacity:0}to{opacity:1}}
+.ghp{display:flex;gap:8px;min-width:0}.ghp .ph{position:relative;height:100%;aspect-ratio:3/4;background:#e8e0d0;border-radius:3px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex:0 0 auto}
+.ghp .ph img{width:100%;height:100%;object-fit:contain}.ghp .ph.big{aspect-ratio:3/4;box-shadow:0 0 0 2px #e0508a}
+.ghp .gp{right:2px;top:2px;font-size:13px;position:absolute}
+.ghr{display:flex;flex-direction:column;gap:6px;width:150px;flex:0 0 auto;min-width:0}
+.ght{font-weight:800;font-size:15px;line-height:1.2}.ghc{font-size:12px;color:#cfd}
+@media(max-width:700px){#ghold{flex-direction:column;left:4px;right:4px;transform:none;max-width:none}.ghp{flex:1;min-height:0}.ghr{width:auto}}
 .gzo{display:none;position:absolute;right:3px;bottom:3px;background:#000a;color:#fff;border-radius:50%;width:26px;height:26px;align-items:center;justify-content:center;font-size:13px}
 @media(hover:none){.gzo{display:flex}}
 .deal .gc{animation:gdeal .32s backwards cubic-bezier(.2,1.3,.4,1)}@keyframes gdeal{from{opacity:0;transform:translateY(-26px) rotate(-6deg) scale(.8)}}
@@ -1307,17 +1307,16 @@ function gmOver(){ghHide();vStop();clearInterval(GNT);if(G)clearInterval(G.scT);
  <div><button class="gbtn" onclick="gmOpen()">Menu</button></div></div>`}
 /* --- prise en main : survoler un jeu l'agrandit, comme si on le prenait sur l'étal, et fait défiler ses photos (dos, intérieur…) --- */
 const GH={i:-1,k:0,t:null,el:null,L:[]},gTouch=()=>!!(window.matchMedia&&matchMedia("(hover:none)").matches);
-function ghEl(){let e=$("ghold");if(!e){e=document.createElement("div");e.id="ghold";e.onclick=ghHide;($("gpanel")||$("gm")).prepend(e)}GH.el=e;return e}
+function ghEl(){let e=$("ghold");if(!e){e=document.createElement("div");e.id="ghold";($("gsc")||$("gm")).appendChild(e)}GH.el=e;return e}
 function ghHide(){clearInterval(GH.t);GH.t=null;GH.i=-1;if(GH.el)GH.el.style.display="none"}
 function ghDots(){const d=$("ghd"),l=$("ghl");if(d)d.innerHTML=GH.L.length>1?GH.L.map((_,k)=>`<i class="${k==GH.k?"on":""}"></i>`).join(""):"";if(l){const u=GH.L[GH.k],c=GH.L.includes(GH.cov)?1:0;l.textContent=u===GH.cov?"jaquette officielle":"photo "+(GH.k+1)+"/"+(GH.L.length-c)+" de l'annonce"}}
 function ghSet(){const m=$("ghim");if(m&&GH.i>=0&&GH.L.length)m.src=GH.L[GH.k];ghDots()}
 function ghNext(){if(GH.i<0||GH.L.length<2)return;GH.k=(GH.k+1)%GH.L.length;const im=$("ghim");if(!im)return;im.classList.remove("flip");void im.offsetWidth;im.classList.add("flip");setTimeout(ghSet,160)}
 function ghBad(){if(GH.i<0)return;GH.L.splice(GH.k,1);if(!GH.L.length){ghHide();return}GH.k=GH.k%GH.L.length;ghSet()}
-function ghShow(i,card){if(!G||!G.all[i]||!card)return;const it=G.all[i],r=it.r,L=[...new Set([...(r.imgs||[]),gCov(r)].filter(Boolean))];if(!L.length){ghHide();return}
- GH.i=i;GH.k=0;GH.L=L;GH.cov=gCov(r);const e=ghEl(),st=G.stands[it.st];
- e.innerHTML=`<div class="ghi"><img id="ghim" src="${safe(L[0])}" alt="" onerror="ghBad()"><span class="gp">${st.kind=="l"?"lot":it.s+" €"}</span></div><div class="ghr"><div class="ght">${esc(r.g.t)}</div><div class="ghc">${pill(r.g.c)} ${r.cart?"cartouche seule":"complet"}</div><div class="ghd" id="ghd"></div><div class="ghc" id="ghl"></div><div class="ghc" style="margin-top:auto">Survole une autre carte pour la prendre en main.</div></div>`;
- e.style.display="flex";if(!e.classList.contains("in")){e.classList.add("in")}else{const im=$("ghim");if(im){im.classList.remove("flip");void im.offsetWidth;im.classList.add("flip")}}
- ghDots();SFX.hold();L.slice(1).forEach(u=>{const im=new Image();im.src=u});clearInterval(GH.t);GH.t=L.length>1?setInterval(ghNext,1300):null}
+function ghShow(i,card){if(!G||!G.all[i]||!card)return;const it=G.all[i],r=it.r,L=[...new Set([...(r.imgs||[]),gCov(r)].filter(Boolean))].slice(0,5);if(!L.length){ghHide();return}
+ GH.i=i;GH.L=L;GH.cov=gCov(r);const e=ghEl(),st=G.stands[it.st];
+ e.innerHTML=`<div class="ghp">${L.map((u,k)=>`<div class="ph${k?"":" big"}"><img src="${safe(u)}" alt="" onerror="this.parentNode.remove()">${k?"":`<span class="gp">${st.kind=="l"?"lot":it.s+" €"}</span>`}</div>`).join("")}</div><div class="ghr"><div class="ght">${esc(r.g.t)}</div><div class="ghc">${pill(r.g.c)} ${r.cart?"cartouche seule":"complet"}</div><div class="ghc">${L.length>1&&r.imgs&&r.imgs.length?L.length+" photos de l'annonce":"jaquette officielle"}</div></div>`;
+ e.style.display="flex";e.classList.remove("in");void e.offsetWidth;e.classList.add("in");SFX.hold()}
 function ghTap(i,el){if(GH.i===i)ghHide();else ghShow(i,el.closest(".gc"))}
 $("gm").addEventListener("mousemove",e=>{if(gTouch())return;const c=e.target.closest?e.target.closest(".gc[data-i]"):null;if(!c){if(GH.i>=0)ghHide();return}const i=+c.dataset.i;if(i!==GH.i)ghShow(i,c)});
 $("gm").addEventListener("mouseleave",ghHide);
