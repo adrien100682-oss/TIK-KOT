@@ -183,7 +183,11 @@ def has(t, words):
 
 BAD = [" lot ", " lots ", " bundle ", " pack ", " custom ", " repro ", " reproduction ", " copie ", " copy ", " backup ",
        " burned ", " grave ", " console ", " manette ", " controller ", " memory card ", " carte memoire ", " poster ",
-       " guide ", " film ", " movie ", " soundtrack ", " ost ", " figurine ", " peluche ", " x2 ", " x3 ", " x4 ", " 2 jeux ", " 3 jeux "]
+       " guide ", " film ", " movie ", " soundtrack ", " ost ", " figurine ", " peluche ", " x2 ", " x3 ", " x4 ", " 2 jeux ", " 3 jeux ",
+       # cartmods, repros et copies : des faux qui tirent la cote des jeux chers vers le bas
+       " cartmod ", " cart mod ", " cardmod ", " modded ", " flash cart ", " flashcart ", " everdrive ", " fan made ", " fanmade ", " homebrew ",
+       " translation ", " traduction ", " hack ", " unofficial ", " non officiel ", " bootleg ", " fake ", " faux ", " contrefacon ",
+       " au choix ", " a choisir ", " choisissez ", " votre choix ", " your choice ", " choose ", " selection ", " zur auswahl ", " a scelta ", " a elegir ", " plusieurs jeux ", " jeux divers ", " vrac "]
 # Jeux japonais / américains / importés : jamais comptés comme PAL
 NOT_PAL = [" ntsc ", " nstc ", " ntcs ", " jap ", " japan ", " japon ", " japonais ", " japanese ", " jp ", " usa ", " us import ", " import ", " asia "]
 BOX_ONLY = [" boite seule ", " boitier seul ", " boite vide ", " case only ", " box only ", " empty case ", " sans jeu ",
@@ -399,6 +403,8 @@ def run_console(cfg, games, tok, budget):
             tt = toks(title)
             if iid in seen or not gt[gid] <= tt or any(sp <= tt for sp in supers[gid]):
                 continue
+            if it.get("itemGroupType") or it.get("itemGroupHref") or it.get("itemHref", "").count("|") >= 2:
+                continue                  # annonce « au choix » (plusieurs jeux/variantes sous une même annonce) : le prix affiché est celui du moins cher, pas de ce jeu
             if other_game(gid, tt):
                 state["amb"] += 1
                 continue                  # le titre contient le nom d'un autre jeu (démo/bonus) : on ne l'attribue pas à celui-ci
