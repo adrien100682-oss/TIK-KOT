@@ -7,17 +7,20 @@ OTHER_MARKETS = ["EBAY_BE", "EBAY_GB", "EBAY_DE", "EBAY_IT", "EBAY_ES"]   # comp
 MIN_VALUE = 50               # (autres pays) prix mini pour chercher un jeu
 FOREIGN_MAX = 60             # (autres pays) nombre max de jeux cherchés par pays
 GBP_EUR = 1.15               # taux approximatif livre -> euro
-MAX_CALLS = 4500             # budget d'appels eBay par jour (quota gratuit estimé à ~5000)
+MAX_CALLS = 4900             # budget d'appels eBay par jour (quota gratuit estimé à ~5000)
 DATA = "data"
 TODAY = datetime.date.today().isoformat()
 EUROPE = {"FR", "BE", "LU", "CH", "DE", "IT", "ES", "GB", "IE", "NL", "PT", "AT"}   # pays de vendeur acceptés
-PRIORITY = ["ps2", "ps1", "ps3", "x360", "wii", "ds", "psp", "ps4"]   # consoles faciles à trouver en brocante/magasin : traitées en premier
+PRIORITY = ["ps3", "x360", "ps4", "xone", "wii", "wiiu", "ds", "3ds", "psp", "ps2"]   # consoles faciles à trouver en brocante/magasin : traitées en premier
 CHEAP_MAX = 10          # € : un jeu dont les annonces FR "complet" valent en moyenne moins que ça est jugé "bon marché"
 CHEAP_MIN_ADS = 3       # il faut au moins 3 annonces pour être sûr qu'il est bon marché
-CHEAP_RECHECK = 14      # jours entre deux contrôles d'un jeu bon marché
+CHEAP_RECHECK = 30      # jours entre deux contrôles d'un jeu bon marché
 PRIORITY_SHARE = 0.7    # au plus 70 % du budget du jour pour les consoles prioritaires : le reste est garanti aux autres consoles (Xbox One, Switch, Saturn, Dreamcast…)
+PER_CONSOLE_MAX = 700   # appels max par console et par jour : aucune console ne peut plus monopoliser le quota
+CAT_V = 2               # version du catalogue : l'augmenter force sa reconstruction
+MIN_FAME = {"ps4": 3, "xone": 3, "switch": 3, "wiiu": 2, "3ds": 2}   # consoles récentes : on ignore les jeux sans (ou presque) aucune note IGDB (jeux numériques/indépendants invisibles en boutique)
 LEFT_OK = 25           # une console est « terminée » s'il reste au plus 25 jeux non cherchés (requêtes en échec)
-UNSEEN_RECHECK = 6      # jours entre deux recherches d'un jeu jamais vu en vente (on continue de le chercher)
+UNSEEN_RECHECK = 10     # jours entre deux recherches d'un jeu jamais vu en vente (on continue de le chercher)
 RESET_ONCE = {"ps2": "v2", "gba": "v1"}     # repart de zéro UNE seule fois (efface l'ancien historique, pollué par d'anciennes erreurs de tri)
 CJK = re.compile(r"[\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]")                      # titres en japonais/chinois/coréen : ignorés
 
@@ -117,7 +120,8 @@ def build_catalog(cfg):
     tok = _TOK["t"]
     h = {"Client-ID": cid, "Authorization": "Bearer " + tok}
     P = cfg["igdb"]
-    variantes = [   # du plus précis au plus large : on garde la première qui renvoie des jeux
+    typ = ["game_type=(0,8,9,10,11)", "category=(0,8,9,10,11)"]   # jeux principaux, remakes, remasters (pas les DLC, bundles, extensions)
+    variantes = [f"platforms=({P}) & release_dates.region=(1,8) & version_parent=null & {t}" for t in typ] + [   # du plus précis au plus large : on garde la première qui renvoie des jeux
         f"platforms=({P}) & release_dates.region=(1,8) & version_parent=null",
         f"platforms=({P}) & release_dates.release_region=(1,8) & version_parent=null",
         f"platforms=({P}) & release_dates.region=(1,8)",
@@ -163,8 +167,14 @@ def build_catalog(cfg):
         off += 500
         time.sleep(0.4)
         pg = page(where, off)
-    print(f"Catalogue {cfg['name']} : {len(games)} jeux")
-    return {"date": TODAY, "games": games}
+    print(f"Catalogue {cfg['name']} : {len(games)} jeux (avant filtre de notoriété)")
+    mf = MIN_FAME.get(cfg["key"], 0)
+    if mf:
+        kept = [g for g in games if (g.get("r", 0) + g.get("f", 0)) >= mf]
+        if len(kept) >= 300:
+            games = kept
+            print(f"Catalogue {cfg['name']} : {len(games)} jeux après filtre de notoriété (>= {mf})")
+    return {"date": TODAY, "v": CAT_V, "games": games}
 
 
 # ---------- Classement des annonces ----------
@@ -539,13 +549,13 @@ def main():
         d = state.get(c["key"])
         return 1e9 if not d else (datetime.date.today() - datetime.date.fromisoformat(d)).days / c["every"]
     order = sorted([c for c in CONSOLES if retard(c) >= 1],
-                   key=lambda c: (c["key"] not in PRIORITY, state.get(c["key"]) or "0000-00-00",   # prioritaires d'abord ; les plus anciennes (ou jamais faites) en tête
+                   key=lambda c: (c["key"] not in PRIORITY, (state.get("_run") or {}).get(c["key"]) or "0000-00-00",   # prioritaires d'abord ; ensuite celles passées le moins récemment (rotation)
                                   PRIORITY.index(c["key"]) if c["key"] in PRIORITY else 99))
     have_ebay = bool(os.environ.get("EBAY_APP_ID") and os.environ.get("EBAY_CERT_ID"))
     tok, used, ran, used_prio = (ebay_token() if have_ebay else None), 0, 0, 0
     for cfg in order:
         prio = cfg["key"] in PRIORITY
-        room = MAX_CALLS - used
+        room = min(MAX_CALLS - used, PER_CONSOLE_MAX)
         if prio:
             room = min(room, int(MAX_CALLS * PRIORITY_SHARE) - used_prio)
         if MAX_CALLS - used < 100:
@@ -557,7 +567,7 @@ def main():
         D = f"{DATA}/{cfg['key']}"
         os.makedirs(D, exist_ok=True)
         cat = load(f"{D}/catalog.json") or (load(f"{DATA}/catalog.json") if cfg["key"] == "ps2" else None)
-        if not cat or not cat.get("games") or "x" not in cat["games"][0] or "r" not in cat["games"][0] or (datetime.date.today() - datetime.date.fromisoformat(cat["date"])).days >= 7:
+        if not cat or not cat.get("games") or "x" not in cat["games"][0] or "r" not in cat["games"][0] or cat.get("v") != CAT_V or (datetime.date.today() - datetime.date.fromisoformat(cat["date"])).days >= 7:
             try:
                 cat = build_catalog(cfg)
             except RuntimeError as e:
@@ -572,6 +582,7 @@ def main():
         if prio:
             used_prio += calls
         ran += 1
+        state.setdefault("_run", {})[cfg["key"]] = TODAY
         if left <= LEFT_OK and not stop:
             state[cfg["key"]] = TODAY             # console terminée : prochaine fois dans "every" jours
         else:
