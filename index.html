@@ -286,15 +286,16 @@ table.cmp{width:100%;border-collapse:collapse;background:var(--card);border-radi
 .gmhead{text-align:center}.gtag{color:var(--mut);margin-top:12px;font-size:14px}
 .gmb1,.gmb2{font:700 12px "Press Start 2P",ui-monospace,monospace;padding:16px 14px;border-radius:12px;cursor:pointer;border:3px solid #0006;text-align:left;box-shadow:0 5px 0 #0008;transition:transform .08s}
 .gmb1{background:var(--acc);color:#111;font-size:16px}.gmb2{background:var(--card);color:var(--fg);border-color:var(--line)}.gmb1:hover,.gmb2:hover{transform:translateY(-2px)}.gmb1:active,.gmb2:active{transform:translateY(3px);box-shadow:0 2px 0 #0008}
-#ghold{display:none;position:fixed;z-index:70;flex-direction:column;gap:6px;background:#f4efe4;color:#222;border-radius:14px;padding:10px;box-shadow:0 18px 50px #000b,0 0 0 3px #ffb020;pointer-events:none;transform-origin:50% 60%}
-#ghold.in{animation:ghin .22s cubic-bezier(.2,1.4,.4,1)}@keyframes ghin{from{transform:scale(.5) rotate(-8deg);opacity:0}to{transform:none;opacity:1}}
-.ghi{flex:1;min-height:0;position:relative;display:flex;align-items:center;justify-content:center;background:#0002;border-radius:8px;perspective:700px}
-.ghi img{max-width:100%;max-height:100%;object-fit:contain;border-radius:4px;box-shadow:0 4px 14px #0006}.ghi img.flip{animation:ghfl .34s ease}@keyframes ghfl{50%{transform:rotateY(90deg)}}
-.ghi .gp{right:-6px;top:-6px;font-size:20px}
-.ghd{display:flex;gap:5px;justify-content:center;min-height:8px}.ghd i{width:8px;height:8px;border-radius:50%;background:#0003}.ghd i.on{background:#e5383b}
-.ght{font-weight:800;font-size:15px;line-height:1.2}.ghc{font-size:12px;color:#555}
+#ghold{display:none;position:sticky;top:8px;z-index:40;width:100%;height:230px;gap:14px;background:#e8e0d0;color:#1a1438;border-radius:4px;padding:10px;box-shadow:8px 8px 0 #000a,0 0 0 3px #000,0 0 0 6px #4fd6d0;margin-bottom:14px;cursor:pointer}
+#ghold.in{animation:ghin .22s cubic-bezier(.2,1.4,.4,1)}@keyframes ghin{from{transform:translateY(16px);opacity:0}to{transform:none;opacity:1}}
+.ghi{flex:0 0 46%;min-height:0;position:relative;display:flex;align-items:center;justify-content:center;background:#0002;border-radius:4px;perspective:700px}
+.ghi img{max-width:100%;max-height:100%;object-fit:contain;box-shadow:0 4px 14px #0006}.ghi img.flip{animation:ghfl .34s ease}@keyframes ghfl{50%{transform:rotateY(90deg)}}
+.ghi .gp{right:-6px;top:-6px;font-size:14px}.ghr{flex:1;display:flex;flex-direction:column;gap:6px;min-width:0}
+.ghd{display:flex;gap:5px;min-height:8px}.ghd i{width:8px;height:8px;background:#0003}.ghd i.on{background:#e0508a}
+.ght{font-weight:800;font-size:17px;line-height:1.2}.ghc{font-size:12px;color:#555}
+@media(max-width:700px){#ghold{height:300px;flex-direction:column}.ghi{flex:1 1 auto}}
 .gzo{display:none;position:absolute;right:3px;bottom:3px;background:#000a;color:#fff;border-radius:50%;width:26px;height:26px;align-items:center;justify-content:center;font-size:13px}
-@media(hover:none){.gzo{display:flex}#ghold{pointer-events:auto}}
+@media(hover:none){.gzo{display:flex}}
 .deal .gc{animation:gdeal .32s backwards cubic-bezier(.2,1.3,.4,1)}@keyframes gdeal{from{opacity:0;transform:translateY(-26px) rotate(-6deg) scale(.8)}}
 /* menu et vestiaire */
 .gbounce{display:inline-block;animation:gbnc 2.6s ease-in-out infinite}@keyframes gbnc{50%{transform:translateY(-6px) rotate(-1deg)}}
@@ -366,7 +367,7 @@ table.cmp{width:100%;border-collapse:collapse;background:var(--card);border-radi
 .gc{border-radius:2px;background:#d8d2c2;border:2px solid #000;box-shadow:3px 3px 0 #0008}.gi{border-radius:0;background:#0003}.gc.on{border-color:#000;box-shadow:0 0 0 3px #5a9a62,3px 3px 0 3px #0008}
 .gp{border-radius:0;border:1px solid #000;background:#e8d9a0;font-family:"Press Start 2P",ui-monospace,monospace;font-size:10px;padding:4px 6px;transform:rotate(3deg)}.gp.lot{background:#b9d6b9;font-size:8px}.ghi .gp{font-size:14px}
 .gck{border-radius:0;background:#5a9a62;border:2px solid #000}.gzo{border-radius:0}.gw{color:#6fbf7a}.gl{color:#d9605a}.gc .gw{color:#2f7a3c}.gc .gl{color:#a8322c}
-#ghold{border-radius:2px;background:#d8d2c2;box-shadow:8px 8px 0 #000a,0 0 0 3px #000,0 0 0 6px #d9a441}.ghi,.ghi img{border-radius:0}
+.ghi,.ghi img{border-radius:0}
 /* vestiaire */
 .gvstage{background:linear-gradient(#1a1c24 0 72%,#14161d 72%);padding-top:40px}.gvspot{display:none}.gvped{border-radius:0;width:150px;height:10px;margin-top:-6px;background:#3a3d4a;box-shadow:0 4px 0 #000,inset 0 3px 0 #5a5e6e}
 .gti{--rc:#8a8a84;border-radius:2px;background:#1a1c24;border:3px solid #000;outline:2px solid var(--rc);outline-offset:-5px;box-shadow:inset 0 -26px 22px -22px var(--rc),4px 4px 0 #000}
@@ -427,9 +428,45 @@ table.cmp{width:100%;border-collapse:collapse;background:var(--card);border-radi
 /* vestiaire */
 .gvstage{background:linear-gradient(#2a1458 0,#0f3a4a 72%,#120c2c 72%)}.gvped{background:#3a2f6a;box-shadow:0 4px 0 #000,inset 0 3px 0 #5a4fa0}
 .gti{--rc:#8a84b0;background:#171033}.gti.unc{--rc:#3fbf8a}.gti.rar{--rc:#4f9fe0}.gti.epi{--rc:#b060e0}.gti.leg{--rc:#f0c050}.gtic.head svg{margin-top:12px}
-#ghold{background:#e8e0d0;box-shadow:8px 8px 0 #000a,0 0 0 3px #000,0 0 0 6px #4fd6d0}
+
 .gsc .gscroll,.gsc .gsky,.gsc .gdim,.gmscene .gin,.gmscene .gsky{top:24px;bottom:24px}.gsc,.gmscene{background:#000}.gmscene{height:270px}
+/* ---- ville du futur : décors par quartier, foule, zoom sur le vendeur ---- */
+.gin{transition:transform .5s cubic-bezier(.2,.9,.3,1)}
+.blk{animation:gblk 1.2s steps(1) infinite}@keyframes gblk{50%{opacity:0}}
+.gchm{position:absolute;bottom:41%;width:22px;background:linear-gradient(90deg,#4a3f8a 0 3px,#2a2350 3px)}.gchm i{position:absolute;left:3px;top:-14px;width:14px;height:14px;background:#8a84b066;animation:gsmk 4s linear infinite}.gchm i:nth-child(2){animation-delay:-1.3s}.gchm i:nth-child(3){animation-delay:-2.6s}
+@keyframes gsmk{from{transform:translate(0,0) scale(.6);opacity:.8}to{transform:translate(46px,-90px) scale(2.2);opacity:0}}.gchm b{position:absolute;top:4px;left:8px;width:5px;height:5px;background:#e0304a}
+.gdeck{position:absolute;left:0;right:0;top:4%;height:15%;background:#120c2c;border-bottom:5px solid #3a2f6a;box-shadow:0 10px 0 #0b082066;overflow:hidden}.gdeck::after{content:"";position:absolute;left:0;right:0;bottom:5px;height:3px;background:repeating-linear-gradient(90deg,#f0c050 0 6px,transparent 6px 40px);opacity:.5}
+.gtrain{position:absolute;top:7px;width:340px;height:14px;background:repeating-linear-gradient(90deg,#4fd6d0 0 14px,#1c1646 14px 20px);border:2px solid #1c1646;animation:gtrn 16s linear infinite}@keyframes gtrn{0%{left:-400px}40%,100%{left:var(--w,1600px)}}
+.gpil{position:absolute;top:19%;bottom:41%;width:44px;background:linear-gradient(90deg,#3a2f6a 0 5px,#1c1646 5px 38px,#120c2c 38px)}
+.gneon{position:absolute;top:22px;left:-10px;font:700 8px "Press Start 2P",ui-monospace,monospace;padding:5px;border:2px solid;white-space:nowrap;background:#0b0820;animation:gflk 3.7s steps(1) infinite}.gneon.a{color:#e0508a;box-shadow:0 0 12px #e0508a}.gneon.b{color:#4fd6d0;box-shadow:0 0 12px #4fd6d0;animation-delay:-1.4s}.gneon.c{color:#f0c050;box-shadow:0 0 12px #f0c050;animation-delay:-2.2s}
+@keyframes gflk{0%,47%,50%,54%,100%{opacity:1}48%{opacity:.3}52%{opacity:.4}}
+.gtower{position:absolute;top:-10px;bottom:41%;width:520px;background:repeating-linear-gradient(0deg,#0000 0 9px,#0b0820aa 9px 12px),repeating-linear-gradient(90deg,#1c1646 0 8px,#241c56 8px 12px);border-left:6px solid #3a2f6a;border-right:6px solid #120c2c}
+.gscrn{position:absolute;font:700 9px "Press Start 2P",ui-monospace,monospace;padding:8px;border:3px solid #000;white-space:nowrap;animation:gflk 5s steps(1) infinite}.gscrn.a{left:30px;top:30px;background:#e0508a;color:#0b0820}.gscrn.b{right:26px;top:58px;background:#0b0820;color:#f0c050;border-color:#f0c050;animation-delay:-2s}.gscrn.c{left:150px;top:96px;background:#4fd6d0;color:#0b0820;animation-delay:-3.1s}
+.gbeam{position:absolute;left:50%;top:0;width:70px;height:420px;margin-left:-35px;background:linear-gradient(#e8e4f84d,transparent);clip-path:polygon(45% 0,55% 0,100% 100%,0 100%);transform-origin:50% 0;animation:gswp 9s ease-in-out infinite alternate;pointer-events:none}.gbeam.b{animation-duration:13s;animation-direction:alternate-reverse}@keyframes gswp{from{transform:rotate(-50deg)}to{transform:rotate(50deg)}}
+.gsea{position:absolute;left:0;right:0;bottom:41%;height:26px;background:repeating-linear-gradient(0deg,#1f6f7a 0 3px,#1a5f6a 3px 6px)}
+.gtint,.grain,.gsmog{position:absolute;left:0;right:0;top:24px;bottom:24px;z-index:2;pointer-events:none}
+.grain{background-image:repeating-linear-gradient(100deg,transparent 0 11px,#9fd6e040 11px 12px);background-size:60px 60px;animation:grn .35s linear infinite}@keyframes grn{to{background-position:-20px 60px}}
+.gsmog{background:linear-gradient(transparent 30%,#f08a4a26 60%,transparent 80%)}
+.gdrone{position:absolute;top:60px;width:22px;height:6px;background:#141033;animation:gdrn 26s linear infinite}.gdrone::before{content:"";position:absolute;left:-6px;right:-6px;top:-3px;height:2px;background:#141033}.gdrone i{position:absolute;left:9px;top:6px;width:4px;height:4px;background:#e0304a}.gdrone.b{top:96px;animation-duration:39s;animation-direction:reverse}@keyframes gdrn{from{left:-40px}to{left:100%}}
+.th0 .ggr::before{content:"";position:absolute;left:0;right:0;top:34%;height:3px;background:repeating-linear-gradient(90deg,#d8d0f055 0 40px,transparent 40px 110px)}
+.th1 .ggr{background:linear-gradient(#141033 0 8%,#1c1840 8%)}.th2 .ggr{background:linear-gradient(#5a3040 0 8%,#2e2038 8%)}
+.th3 .ggr{background:linear-gradient(#3a2f6a 0 8%,#1c1646 8%)}.th3 .ggr::before{content:"";position:absolute;inset:8% 0 0 0;background:repeating-linear-gradient(90deg,#0000 0 58px,#0005 58px 60px)}
+.th4 .ggr{background:linear-gradient(#2fa0a0 0 4%,#16303a 4%)}
+/* foule */
+.gnpc2{position:absolute;width:60px;height:100px;margin-left:-30px;z-index:3;pointer-events:none}.gnpc2.kid{transform:scale(.62);transform-origin:50% 100%}.gnpc2 svg{width:60px;height:100px;overflow:visible}
+.gnpc2.peek .gcw{transform:rotate(9deg) translateY(2px)}
+.gnb{position:absolute;left:50%;bottom:100%;transform:translateX(-50%);background:#e8e4f8;color:#12101c;border:2px solid #000;font:700 9px system-ui,sans-serif;padding:2px 5px;white-space:nowrap;display:none}.gnb.on{display:block}.gnpc2.kid .gnb{transform:translateX(-50%) scale(1.5);transform-origin:50% 100%}
+/* vendeurs vivants */
+.gst.cur .gbub{display:none;animation:none}.gbub.say{display:block!important;animation:gbub 3.4s forwards!important}
+.gsel.talk{animation:gtalk .22s steps(2) infinite}@keyframes gtalk{50%{transform:translateY(-2px)}}
+.gsel.wave .aA{animation:gwav .36s steps(1) infinite}@keyframes gwav{0%{transform:rotate(-150deg)}50%{transform:rotate(-122deg)}}
+.gsel.look svg{transform:scaleX(1)}.gsel.bend svg{transform:scaleX(-1) rotate(-12deg) translateY(2px)}
+.gnav{display:flex;gap:6px}.gnav .gx{padding:9px 12px}
+.gin.zoomed .gbub{top:auto;bottom:100%;margin-left:-60px;width:120px;font-size:8px;padding:3px 5px}.gin.zoomed .gbub::after{display:none}.gin.zoomed .gsg{display:none}
+.gc.fin .gci{border:4px solid var(--tc,#000)}.gnote.ok{color:#4fd6d0}.gnote.ko{color:#e0508a}
+.gleg{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--mut);margin-bottom:8px}.gleg i{display:inline-block;width:12px;height:12px;border:2px solid #000;margin-right:5px;vertical-align:-2px}
 </style></head>
+
 <body>
 <header>
  <div class="bar">
@@ -854,8 +891,8 @@ const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math
 let G=null,GT=null,GPOOL=[];
 // jeux utilisables : PAL FR, version standard, au moins 2 annonces, prix confirmé (jamais une annonce unique)
 const gmPool=()=>ALLROWS.filter(r=>!r.solo&&r.n>=2&&r.ver=="FR"&&!r.spOnly&&(r.g.cover||r.g.img||(r.imgs&&r.imgs.length)));
-const gImg=r=>r.g.img||(r.g.cover?IMG+r.g.cover+".jpg":(r.imgs&&r.imgs[0])||"");
-function gmClose(){GON=false;ghHide();clearInterval(GT);GT=null;sAmbStop();if(G)clearInterval(G.stepT);$("gm").style.display="none";G=null}
+const gCov=r=>r.g.img||(r.g.cover?IMG+r.g.cover+".jpg":""),gImg=r=>(r.imgs&&r.imgs[0])||gCov(r);
+function gmClose(){GON=false;ghHide();vStop();clearInterval(GNT);clearInterval(GT);GT=null;sAmbStop();if(G)clearInterval(G.stepT);$("gm").style.display="none";G=null}
 /* --- sons : tout est synthétisé, aucun fichier audio --- */
 const SND={ctx:null,amb:null,t:null,on:(()=>{try{return localStorage.getItem("tikkot_snd")!=="0"}catch(e){return true}})()};
 function sInit(){if(!SND.on)return;try{if(!SND.ctx){const A=window.AudioContext||window.webkitAudioContext;if(!A)return;SND.ctx=new A()}if(SND.ctx.state=="suspended")SND.ctx.resume()}catch(e){SND.ctx=null}}
@@ -954,6 +991,7 @@ function charSVG(c){const sk=GSK[c.skin]||GSK[1],skd=GSD[c.skin]||GSD[1],hc=GHC[
  if(hat==8)o+=r(11,-3,2,2,"#5a3fa0")+r(10,-1,4,2,"#5a3fa0")+r(9,1,6,2,"#5a3fa0")+r(6,3,11,1,"#3d2a78")+r(11,0,1,1,"#f0c050");
  if(hat==9)o+='<rect x="8" y="1" width="8" height="9" fill="#9fd6e0" opacity=".28"/>'+r(8,1,8,1,"#e0e4f0")+r(8,9,8,1,"#e0e4f0")+r(8,1,1,9,"#e0e4f0")+r(15,1,1,9,"#e0e4f0");
  if(hat==10)o+=r(9,1,5,2,"#f0c050")+r(9,0,1,1,"#f0c050")+r(11,0,1,1,"#f0c050")+r(13,0,1,1,"#f0c050")+r(11,2,1,1,"#b0304a");
+ if(c.hood&&!robot)o+=r(8,1,7,3,sh)+r(8,3,2,7,sh)+r(8,1,7,1,"#ffffff1f");
  // bras du premier plan
  o+=`<g class="aA" style="transform-origin:11px 12px">${r(10,11,3,7,sh)+r(10,11,1,7,"#0003")}<g class="eA" style="transform-origin:11px 18px">${r(10,18,2,5,fore)+r(10,23,2,2,hand)}</g></g>`;
  if(of==5)o+=r(8,9,5,3,"#a9b2c8")+r(8,11,5,1,"#5e6680");
@@ -963,23 +1001,23 @@ let GTAB="of",GON=false;
 const gBest=()=>{try{return JSON.parse(localStorage.getItem(LB))||{}}catch(e){return {}}};
 const gXpBar=()=>{const x=gXP(),nx=gNext(x);return `<div class="gvx"><span class="gvl">NIV ${gLvl(x)}</span><div style="flex:1;min-width:150px"><div class="gbar"><div style="width:${nx?Math.min(100,100*x/nx[1]):100}%"></div></div><small>${x} XP${nx?` · prochain objet : <b>${nx[0]}</b> à ${nx[1]} XP`:" · tout est débloqué !"}</small></div></div>`};
 // décor animé réutilisé par le menu
-function gBackdrop(){let dec="";for(let x=-20,i=2;x<1500;i++){dec+=i%3==1?gTree(x,i):gHouse(x,i);x+=118+((i*53)%70)}
+function gBackdrop(){const dec=gThemeDec(1,1500,2);
  const npc=Array.from({length:5},(_,i)=>{const d=26+Math.random()*22;return `<div class="gnpc walking${i%2?" rv lft":""}" style="animation-duration:${d.toFixed(1)}s;animation-delay:-${(Math.random()*d).toFixed(1)}s;bottom:${24+i*4}px"><div class="gfl"><div class="gcw">${charSVG(gNpc())}</div></div></div>`}).join("");
  return `<div class="gmscene" style="--night:0;--torch:0"><div class="gsky" style="background:linear-gradient(#2a1458,#e0605a)"><div class="gsun" style="left:78%;top:52%"></div><div class="gcl" style="top:18px;width:110px;animation-duration:70s;animation-delay:-20s"></div><div class="gcl" style="top:52px;width:80px;animation-duration:95s;animation-delay:-60s"></div><div class="gcl" style="top:8px;width:140px;animation-duration:120s;animation-delay:-95s"></div></div>
- <div class="gin" style="--w:1500px"><div class="gfar"></div><div class="ggr"></div>${dec}<div class="gbun"></div>${npc}<div class="gmme walking"><div class="gcw">${charSVG(GC)}</div></div></div></div>`}
+ <div class="gin th1" style="--w:1500px"><div class="gfar"></div><div class="ggr"></div>${dec}<div class="gbun"></div>${npc}<div class="gmme walking"><div class="gcw">${charSVG(GC)}</div></div></div></div>`}
 // menu principal
-function gmMenu(){ghHide();clearInterval(GT);GT=null;sAmbStop();G=null;const b=gBest();$("gm").style.display="block";
+function gmMenu(){ghHide();vStop();clearInterval(GNT);clearInterval(GT);GT=null;sAmbStop();G=null;const b=gBest();$("gm").style.display="block";
  $("gm").innerHTML=`<div class="gmenu"><div class="gmhead"><div class="gtitle big gbounce">LA BROCANTE</div><div class="gtag">CHASSE AUX PÉPITES RÉTRO</div></div>${gBackdrop()}
  <div class="gmrow"><button type="button" class="gmb1" onclick="gmBegin()"><span class="gar">▶</span> JOUER</button>
  <div class="gmgrid"><button type="button" class="gmb2" onclick="gmCustom()">VESTIAIRE</button><button type="button" class="gmb2" onclick="gmHow()">COMMENT JOUER</button>
  <button type="button" class="gmb2" onclick="sToggle();gmMenu()">${SND.on?"SON : OUI":"SON : NON"}</button><button type="button" class="gmb2" onclick="gmClose()">✕ QUITTER</button></div></div>
- <div class="gmfoot">${gXpBar()}<div class="gmrec">${b.stands?`RECORD : ${b.stands} BROCANTE${b.stands>1?"S":""} · ${b.cash} €`:"AUCUN RECORD"}<br><small>${GPOOL.length} jeux dans les bacs</small></div></div></div>`}
+ <div class="gmfoot">${gXpBar()}<div class="gmrec">${b.stands?`RECORD : ${b.stands} BROCANTE${b.stands>1?"S":""}${b.avg?" · "+b.avg+"/20":""}`:"AUCUN RECORD"}<br><small>${GPOOL.length} jeux dans les bacs</small></div></div></div>`}
 function gmHow(){$("gm").innerHTML=`<div class="gmenu"><div class="gvh"><button type="button" class="gmb2 sm" onclick="gmMenu()">◀ RETOUR</button><div class="gtitle">COMMENT JOUER</div><span></span></div><div class="gvgrid" style="line-height:1.55;min-height:0">
- <p>Tu pars avec <b>50 €</b>. Chaque brocante a un objectif de gain. Raté : la partie s'arrête.</p>
+ <p>Le but : apprendre à repérer les jeux qui valent le déplacement. Chaque stand est noté sur 20, et la brocante aussi. Les plus belles pépites pèsent le plus lourd dans la note. Il faut <b>10/20</b> pour passer à la brocante suivante.</p><p>Les couleurs sont celles du site. La moitié des jeux sont <b>blancs</b> (mauvaises pioches), beaucoup sont <b>jaunes</b> (peu d'intérêt), quelques-uns <b>orange</b>, et il y a toujours au moins une pépite <b>rouge ou violette</b>.</p>
  <p>Les stands débordent de <b>jeux communs invendables</b>. Ton travail : repérer au milieu le <b>bon jeu méconnu</b> que le vendeur n'a pas reconnu.</p>
  <p>Les vendeurs : le <b>vide-grenier</b> met des prix ronds au hasard · le <b>prix unique</b> vend tout pareil · le <b>malin</b> connaît les jeux célèbres mais pas les méconnus · le <b>rêveur</b> surcote tout ce qui est connu · le <b>lot indissociable</b> se prend en entier ou pas du tout.</p>
- <p>Revente = cote − 10 % − ${GFRAIS} € de frais par jeu. En dessous de 4 €, un jeu est <b>invendable</b> : tout acheter ne rapporte rien.</p>
- <p>La journée passe : aube à la lampe torche, puis les vendeurs <b>remballent</b> le soir. Les stands se découvrent en marchant (← → ou clic). Tu ne sais rien d'un vendeur avant d'arriver devant lui : ni ses prix, ni ses consoles, ni s'il vend en lot.</p>
+ <p>Les prix vont de 5 à 15 € le jeu : chaque erreur coûte. Ton gain = revente (cote − 10 % − ${GFRAIS} € de frais) − prix payé. En dessous de 4 €, un jeu est <b>invendable</b>.</p>
+ <p>La journée passe : aube à la lampe torche, puis les vendeurs <b>remballent</b> le soir. Tu vois toute la brocante, mais tu ne sais rien d'un vendeur avant d'arriver devant lui (← → ou clic) : ni ses prix, ni ses consoles, ni s'il vend en lot. Méfie-toi des ratisseurs, ces chineurs pressés qui passent tous les stands au peigne fin.</p>
  <p>Survole un jeu pour le prendre en main et voir ses photos. Certains vendeurs font un <b>prix de lot</b> dès 3 jeux.</p></div></div>`}
 // vestiaire : chaque objet a une rareté, s'essaie au survol sur ton chineur, et se débloque avec l'XP
 const GTABS=[["body","CORPS"],["hs","CHEVEUX"],["hat","TÊTE"],["of","TENUE"],["fa","VISAGE"],["bk","DOS"]],GLIST={hs:GHS,hat:GHT,of:GOF,fa:GFA,bk:GBK};
@@ -1007,10 +1045,8 @@ function gmBegin(){const P=GPOOL;sInit();
  const v=P.map(gv).sort((x,y)=>x-y),q=f=>v[Math.floor(f*(v.length-1))];
  // notoriété : rang de 0 (inconnu) à 1 (très connu) parmi les jeux en jeu
  const fs=r=>(r.g.r||0)+(r.g.f||0),S=[...P].sort((a,b)=>fs(a)-fs(b)),fr=new Map(),flat=fs(S[0])===fs(S[S.length-1]);S.forEach((r,i)=>fr.set(r,flat?Math.random():i/(S.length-1)));
- const gemMin=Math.max(q(.85),12),zero=P.filter(r=>gv(r)==0).length,crapMax=zero>=P.length*.25?0:Math.max(2,q(.4));   // les jeux communs = invendables quand il y en a assez
- const crap=P.filter(r=>gv(r)<=crapMax),gems=P.filter(r=>gv(r)>=gemMin),mid=P.filter(r=>gv(r)>crapMax&&gv(r)<gemMin);
- let hid=gems.filter(r=>fr.get(r)<.5),kno=gems.filter(r=>fr.get(r)>=.5);if(!hid.length)hid=gems;if(!kno.length)kno=gems;
- G={cash:50,stage:0,pool:P,fr,crap:crap.length>=8?crap:[...P].sort((a,b)=>gv(a)-gv(b)).slice(0,Math.ceil(P.length*.4)),mid:mid.length?mid:P,gems,hid,kno,used:new Set(),deals:[],missed:[],maxCash:50,done:0,sel:new Set(),rev:false,stands:[],all:[],cur:-1,seen:0,f:0,walking:false,fresh:true,msg:"",ok:false};gmStage()}
+ const T=[[],[],[],[],[]];P.forEach(r=>T[gTi(r)].push(r));
+ G={cash:1e9,stage:0,pool:P,fr,T,used:new Set(),deals:[],missed:[],notes:[],pf:0,pt:0,done:0,sel:new Set(),rev:false,stands:[],all:[],cur:-1,seen:0,f:0,walking:false,fresh:true,msg:"",ok:false};gmStage()}
 // Prix de brocante : toujours ronds (1, 2, 3, 5, 10, 15, 20…), jamais calculés au centime comme en magasin
 const GLAD=[1,2,3,5,8,10,15,20,25,30,40,50,60,80,100,120,150,200,250,300,400,500];
 const gRound=x=>x>550?Math.round(x/50)*50:GLAD.reduce((a,b)=>Math.abs(Math.log(x/b))<Math.abs(Math.log(x/a))?b:a);
@@ -1029,71 +1065,73 @@ const any=a=>a[Math.floor(Math.random()*a.length)];
 const gLot=sum=>sum<10?Math.max(1,Math.floor(sum*.8)):Math.floor(sum*.8/5)*5;
 function gCost(sel){let tot=0;G.stands.forEach(st=>{const B=st.items.filter(x=>sel.has(x.i));if(st.kind=="l"){tot+=B.length?st.p:0;return}const sm=B.reduce((a,x)=>a+x.s,0);tot+=st.lot&&B.length>=3?gLot(sm):sm});return tot}
 function gPaid(it){const st=G.stands[it.st];if(st.kind=="l")return st.p/st.items.length;const B=st.items.filter(x=>G.sel.has(x.i)),sm=B.reduce((a,x)=>a+x.s,0);return st.lot&&B.length>=3&&G.sel.has(it.i)?it.s*gLot(sm)/sm:it.s}
-function gmStage(){const n=++G.stage;G.fee=gFee(n);G.base=G.cash;G.cash-=G.fee;G.target=gTarget(n);G.sel=new Set();G.rev=false;G.cur=-1;G.dealK=-1;G.seen=0;G.f=0;G.warned=false;G.walking=false;G.fresh=true;G.msg="";G.ok=false;
- const su=new Set(),inSt=(st,r)=>st.items.some(x=>x.r===r),fr=r=>G.fr.get(r)||0,dim=Math.max(.75,1-.04*(n-1)),cnt=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
- // les jeux communs : les plus connus reviennent le plus souvent, et on peut les croiser sur plusieurs stands
+// couleur du jeu, la même que sur le site : 0 blanc (ou banal), 1 jaune, 2 orange, 3 rouge, 4 violet
+const gTi=r=>{const t=tierOf(r.min);return t?"DCBAS".indexOf(t.k):0};
+function gmStage(){const n=++G.stage;G.sel=new Set();G.rev=false;G.cur=-1;G.dealK=-1;G.seen=0;G.f=0;G.warned=false;G.walking=false;G.fresh=true;G.msg="";G.ok=false;
+ const su=new Set(),inSt=(st,r)=>st.items.some(x=>x.r===r),fr=r=>G.fr.get(r)||0,cnt=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
  // chaque vendeur a les jeux d'une console, parfois deux : on ne le découvre qu'en arrivant devant son stand
- const ok=(st,r)=>st.cs.includes(r.g.c);
- const crap=st=>{const L=st.L.crap;for(let i=0;i<40;i++){const r=any(L);if(!inSt(st,r)&&Math.random()<.3+.7*fr(r))return r}return L.find(r=>!inSt(st,r))||G.crap.find(r=>!inSt(st,r))||null};
- const mid=st=>{const L=st.L.mid;for(let i=0;i<20;i++){const r=any(L);if(!inSt(st,r))return r}return null};
- const gem=(L0,f0,big,st)=>{const cap=!big&&Math.random()<.88,L=st?L0.filter(r=>ok(st,r)):L0,f=f0;   // dans les bacs à petits prix, les bons jeux valent rarement une fortune
-  let C=L.filter(r=>!su.has(r)&&!G.used.has(r.g.uid)&&(!f||f(r))&&(!cap||gv(r)<=45));if(!C.length)C=L.filter(r=>!su.has(r)&&!G.used.has(r.g.uid)&&(!f||f(r)));if(!C.length)C=L.filter(r=>!su.has(r)&&(!f||f(r)));if(!C.length)return null;const r=any(C);su.add(r);G.used.add(r.g.uid);return r};
  const CN={};G.pool.forEach(r=>CN[r.g.c]=(CN[r.g.c]||0)+1);let CW=Object.entries(CN).filter(e=>e[1]>=12);if(!CW.length)CW=Object.entries(CN);
  const wpick=not=>{const L=CW.filter(e=>e[0]!==not),t=L.reduce((a,e)=>a+e[1],0);let x=Math.random()*t;for(const e of L){x-=e[1];if(x<=0)return e[0]}return L[0][0]};
  const N=gNst(n),K=n==1?["g","g","u","m","l"]:Array.from({length:N},(_,i)=>{const f=i/N;return f<.35?"g":f<.55?"u":f<.75?"m":f<.87?"l":"r"});
- const stands=shuf(K).map(k=>{const b0=any({g:[1,2,2,3,3,5],u:[2,2,3,5],m:[2,3,5],r:[3,5,5,8],l:[1]}[k]);
-  const c1=wpick(),c2=CW.length>1&&Math.random()<.4?wpick(c1):null,cs=c2?[c1,c2]:[c1],inC=r=>cs.includes(r.g.c);let cr=G.crap.filter(inC),mi=G.mid.filter(inC);if(cr.length<6)cr=G.crap;if(!mi.length)mi=G.mid;
-  return {kind:k,cs,L:{crap:cr,mid:mi},items:[],q:any(GQ[k]),p:n>=4&&Math.random()<.4?gAbove(b0):b0,lot:k=="g"||k=="u"?Math.random()<.5:(k=="m"?Math.random()<.2:false)}});
+ // plus de stand à 1 ou 2 € : à 5, 8 ou 10 € le jeu, une erreur coûte, et un jeu jaune ne suffit plus à rentabiliser
+ const stands=shuf(K).map(k=>{const b0=any({g:[5,5,8,10],u:[5,8,10],m:[8,10],r:[10,15],l:[1]}[k]),c1=wpick(),c2=CW.length>1&&Math.random()<.4?wpick(c1):null;
+  return {kind:k,cs:c2?[c1,c2]:[c1],items:[],q:any(GQ[k]),p:n>=4&&Math.random()<.4?gAbove(b0):b0,lot:k=="g"||k=="u"?Math.random()<.5:(k=="m"?Math.random()<.2:false)}});
  // le premier vendeur déballe depuis le coffre de sa voiture ; chaque vendeur remballe à son heure en fin de journée
  {const i=stands.findIndex(s=>s.kind=="g");if(i>0)[stands[0],stands[i]]=[stands[i],stands[0]];if(stands[0].kind=="g"){stands[0].car=true;stands[0].q=any(["« J'ai tout chargé dans le coffre ce matin. »","« Tout le grenier est dans le coffre, servez-vous. »"])}}
- const add=(st,r,t)=>st.items.push({r,v:gv(r),raw:gRaw(r),t:t||"j",s:0});
- stands.forEach(st=>{const k=st.kind;st.npc=gNpc();st.packF=rnd(.78,.97);st.packed=false;
-  const tot=k=="g"||k=="u"?cnt(n==1?7:8,n==1?14:20):k=="m"?cnt(6,14):cnt(5,12);
-  // les bons jeux : jamais garantis (sauf à la 1re brocante), et souvent des titres méconnus
-  if(k=="g"){if(Math.random()<.4*dim){const r=gem(G.gems,null,false,st);if(r)add(st,r,"g")}if(Math.random()<.15*dim){const r=gem(G.gems,null,false,st);if(r)add(st,r,"g")}}
-  if(k=="u"&&Math.random()<.3*dim){const r=gem(G.hid,r=>gv(r)>=3*st.p+5,false,st);if(r)add(st,r,"g")}
-  if(k=="m"){for(let i=cnt(1,3);i>0;i--){const r=gem(G.kno,null,true,st);if(r)add(st,r,"k")}if(Math.random()<.4*dim){const r=gem(G.hid,null,false,st);if(r)add(st,r,"g")}}
-  if(k=="r"&&Math.random()<.25*dim){const r=gem(G.hid,null,false,st);if(r)add(st,r,"g")}
-  if(k=="l"&&Math.random()<.4*dim){const r=gem(G.gems,null,false,st);if(r)add(st,r,"g")}
-  const pm=k=="u"?.05:k=="l"?.08:k=="g"?.1:.15;let guard=0;
-  while(st.items.length<tot&&guard++<200){const r=Math.random()<pm?mid(st):crap(st);if(r&&!inSt(st,r))add(st,r)}});
- if(n==1){let c=stands.reduce((a,st)=>a+st.items.filter(x=>x.t=="g").length,0),guard=0;const T=stands.filter(s=>s.kind=="g"||s.kind=="u");
-  while(c<2&&guard++<40){const st=any(T),r=st.kind=="u"?gem(G.hid,r=>gv(r)>=3*st.p+5,false,guard<30?st:null):gem(G.gems,null,false,guard<30?st:null);if(r){const j=st.items.findIndex(x=>x.t=="j");if(j>=0)st.items.splice(j,1);add(st,r,"g");c++}}}
+ const add=(st,r,t)=>st.items.push({r,v:gv(r),raw:gRaw(r),ti:gTi(r),t:t||"j",s:0});
+ const pick=(st,ti)=>{let L=G.T[ti].filter(r=>st.cs.includes(r.g.c)&&!inSt(st,r));if(!L.length)L=G.T[ti].filter(r=>!inSt(st,r));if(!L.length)return null;
+  if(ti==0){for(let i=0;i<30;i++){const r=any(L);if(Math.random()<.3+.7*fr(r))return r}return any(L)}   // les jeux sans valeur les plus connus reviennent partout
+  const F=L.filter(r=>!su.has(r)&&!G.used.has(r.g.uid)),F2=F.length?F:L.filter(r=>!su.has(r)),r=any(F2.length?F2:L);su.add(r);G.used.add(r.g.uid);return r};
+ // la moitié des jeux sont blancs (mauvaises pioches), un tiers jaunes, le reste orange
+ stands.forEach(st=>{const k=st.kind;st.npc=gNpc();st.packF=rnd(.78,.97);st.packed=false;st.vis=false;st.vi=Math.floor(Math.random()*50);st.vp=rnd(.55,1.5);st.vr=rnd(.95,1.2);st.thk=0;
+  const tot=k=="g"||k=="u"?cnt(n==1?7:8,n==1?14:20):k=="m"?cnt(6,14):cnt(5,12);let guard=0;
+  while(st.items.length<tot&&guard++<200){const x=Math.random(),r=pick(st,x<.5?0:x<.84?1:2)||pick(st,0);if(r&&!inSt(st,r))add(st,r)}});
+ // toujours au moins une vraie pépite, rouge ou violette, chez un vendeur qui ne la reconnaît pas
+ const big=()=>{const ti=G.T[4].length&&(Math.random()<.3||!G.T[3].length)?4:3,L0=G.T[ti].filter(r=>!su.has(r)),L1=L0.filter(r=>!G.used.has(r.g.uid)),L=L1.length?L1:L0;if(!L.length)return;const r=any(L);su.add(r);G.used.add(r.g.uid);
+  const C=stands.filter(s=>s.kind!="m"&&s.kind!="r"),S=C.filter(s=>s.cs.includes(r.g.c)),st=S.length?any(S):any(C.length?C:stands);if(!st.cs.includes(r.g.c))st.cs.push(r.g.c);
+  const j=st.items.findIndex(x=>x.ti==0);if(j>=0)st.items.splice(j,1);add(st,r,"g")};
+ big();if(Math.random()<.35)big();if(n>=3&&Math.random()<.3)big();
+ // le malin a parfois une belle pièce célèbre, mais au prix fort
+ stands.filter(s=>s.kind=="m").forEach(st=>{if(Math.random()<.6){const L=G.T[3].concat(G.T[4]).filter(r=>fr(r)>=.5&&!su.has(r)&&!inSt(st,r));if(L.length){const r=any(L);su.add(r);if(!st.cs.includes(r.g.c))st.cs.push(r.g.c);add(st,r,"k")}}});
  // les prix, toujours ronds
  stands.forEach(st=>{const k=st.kind,b=st.p;
-  if(k=="l"){st.p=gRound(st.items.length*any([1,1.5,2,2.5]));st.items.forEach(x=>x.s=st.p/st.items.length)}
+  if(k=="l"){st.p=gRound(st.items.length*any([5,6,8]));st.items.forEach(x=>x.s=st.p/st.items.length)}
   else st.items.forEach(x=>{const f=fr(x.r);
    if(k=="u")x.s=b;
    else if(k=="g")x.s=Math.random()<.22?gAbove(b):b;
-   else if(k=="m")x.s=f>=.5&&x.raw>=10?gRound(x.raw*rnd(.95,1.35)):(Math.random()<.2?gAbove(b):b);
-   else x.s=f>=.55?gRound(Math.max(x.raw,6)*rnd(1.6,2.6)):b});
+   else if(k=="m")x.s=f>=.5&&x.raw>=15?gRound(x.raw*rnd(.95,1.35)):(Math.random()<.2?gAbove(b):b);
+   else x.s=f>=.55?gRound(Math.max(x.raw,10)*rnd(1.6,2.6)):b});
   st.items=shuf(st.items)});
  G.stands=stands;G.all=[];stands.forEach((st,k)=>st.items.forEach(it=>{it.i=G.all.length;it.st=k;G.all.push(it)}));
- // la pépite du jour : la meilleure affaire possible, si elle en vaut la peine
- {let best=null,bp=14;stands.forEach(st=>{if(st.kind=="l"){const pv=st.items.reduce((a,x)=>a+x.v,0)-st.p;if(pv>bp){bp=pv;best=[...st.items].sort((a,b)=>b.v-a.v)[0]}}else st.items.forEach(x=>{if(x.v-x.s>bp){bp=x.v-x.s;best=x}})});if(best)best.t="p"}
- G.tot=Math.round(30+G.all.length*1.8+N*6);G.end=Date.now()+G.tot*1000;G.name=n==1?"La brocante du coin":any(GNAME);
+ // la pépite du jour : la meilleure affaire possible
+ {let best=null,bp=19;stands.forEach(st=>{if(st.kind=="l"){const pv=st.items.reduce((a,x)=>a+x.v,0)-st.p;if(pv>bp){bp=pv;best=[...st.items].sort((a,b)=>b.v-a.v)[0]}}else st.items.forEach(x=>{if(x.v-x.s>bp){bp=x.v-x.s;best=x}})});if(best)best.t="p"}
+ G.tot=Math.round(30+G.all.length*1.8+N*6);G.end=Date.now()+G.tot*1000;G.name=GTH[(n-1)%GTH.length].n;
  gmDraw();clearInterval(GT);GT=setInterval(gmTick,200);sInit();sAmbStart();G.end+=1900;gCine("BROCANTE N° "+n,esc(G.name).toUpperCase()+" · 06:00",1900)}
 const gSpent=()=>gCost(G.sel);
 function gmTog(i){if(!G||G.rev)return;const st=G.stands[G.all[i].st];if(st.packed){SFX.nope();return}
- if(st.kind=="l"){const ids=st.items.map(x=>x.i);if(G.sel.has(i)){ids.forEach(j=>G.sel.delete(j));SFX.unpick()}else{const t=new Set(G.sel);ids.forEach(j=>t.add(j));if(gCost(t)<=G.cash){ids.forEach(j=>G.sel.add(j));SFX.pick()}else SFX.nope()}gmSync();return}
- if(G.sel.has(i)){G.sel.delete(i);SFX.unpick()}else{const t=new Set(G.sel);t.add(i);if(gCost(t)<=G.cash){G.sel.add(i);SFX.pick()}else SFX.nope()}gmSync()}
+ if(st.kind=="l"){const ids=st.items.map(x=>x.i);if(G.sel.has(i)){ids.forEach(j=>G.sel.delete(j));SFX.unpick()}else{const t=new Set(G.sel);ids.forEach(j=>t.add(j));if(gCost(t)<=G.cash){ids.forEach(j=>G.sel.add(j));SFX.pick();gThank(st)}else{SFX.nope();gThank(st,1)}}gmSync();return}
+ if(G.sel.has(i)){G.sel.delete(i);SFX.unpick()}else{const t=new Set(G.sel);t.add(i);if(gCost(t)<=G.cash){G.sel.add(i);SFX.pick();gThank(st)}else{SFX.nope();gThank(st,1)}}gmSync()}
+function gThank(st,no){const now=Date.now(),k=G.stands.indexOf(st);if(now-(st.thk||0)<4500)return;st.thk=now;gSay(k,any(no?VNO:VTH))}
 const gMiss=it=>G.stands[it.st].kind!="l"&&it.v-it.s>=Math.max(5,it.s);
 function gmCard(it){const g=it.r.g,st=G.stands[it.st],im=gImg(it.r),on=G.sel.has(it.i),lot=st.kind=="l";let cl="",foot="";
  if(!G.rev)cl=(on?" on":"")+(gDis(it,st)?" off":"");
  else{const pr=Math.round(it.v-(on?gPaid(it):it.s));
-  foot=`<div class="gv ${on?(pr>=0?"gw":"gl"):(gMiss(it)?"gl":"gn")}">${it.t=="p"?"PÉPITE · ":""}${it.v?"vaut ~"+it.v+" €":"invendable"}${on?"<br>"+(pr>=0?"+":"")+pr+" €":(gMiss(it)?"<br>ratée +"+Math.round(it.v-it.s)+" €":"")}</div>`;cl=" fin"+(on?" on":"")}
- return `<div class="gc${cl}" data-i="${it.i}" data-v="${it.v}" style="--r:${((((it.i*37)%5)-2)*.7).toFixed(1)}deg;--sd:-${((it.i%8)*.4).toFixed(1)}s" onclick="gmTog(${it.i})"><div class="gci"><div class="gi">${im?`<img src="${safe(im)}" alt="" loading="lazy" onerror="this.remove()">`:""}<span class="gp${lot?" lot":""}">${lot?"lot":it.s+" €"}</span><span class="gck">✓</span><span class="gzo" onclick="event.stopPropagation();ghTap(${it.i},this)">+</span></div><div class="tt">${esc(g.t)}</div><div class="cd">${pill(g.c)}${it.r.cart?" cartouche":""}</div>${foot}</div></div>`}
+  foot=`<div class="gv ${on?(pr>=0?"gw":"gl"):(gMiss(it)?"gl":"gn")}">${it.t=="p"?"PÉPITE · ":""}cote ${Math.round(it.raw)} €${it.v?"":" · invendable"}${on?"<br>"+(pr>=0?"+":"")+pr+" €":(gMiss(it)?"<br>ratée +"+Math.round(it.v-it.s)+" €":(it.ti>=2&&!lot?"<br>trop cher ici":""))}</div>`;cl=" fin"+(on?" on":"")}
+ return `<div class="gc${cl}" data-i="${it.i}" data-v="${it.v}" style="${G.rev?"--tc:"+tcol(it.r.min)+";":""}--r:${((((it.i*37)%5)-2)*.7).toFixed(1)}deg;--sd:-${((it.i%8)*.4).toFixed(1)}s" onclick="gmTog(${it.i})"><div class="gci"><div class="gi">${im?`<img src="${safe(im)}" alt="" loading="lazy" data-f="${safe(gCov(it.r))}" onerror="const f=this.dataset.f;if(f&&this.src!==f&&!this.dataset.d){this.dataset.d=1;this.src=f}else this.remove()">`:""}<span class="gp${lot?" lot":""}">${lot?"lot":it.s+" €"}</span><span class="gck">✓</span><span class="gzo" onclick="event.stopPropagation();ghTap(${it.i},this)">+</span></div><div class="tt">${esc(g.t)}</div><div class="cd">${pill(g.c)}${it.r.cart?" cartouche":""}</div>${foot}</div></div>`}
 const gLotTxt=st=>{if(!st.lot)return "";const B=st.items.filter(x=>G.sel.has(x.i)),sm=B.reduce((a,x)=>a+x.s,0);return " · prix de lot dès 3 jeux (−20 % arrondi)"+(B.length>=3?` : ${sm} € → <b>${gLot(sm)} €</b>`:"")};
 const gCs=st=>st.cs.map(c=>esc(SHORT[c]||cname(c))).join(" et ");
 const gLab=(st,k)=>`Stand ${k+1} · jeux ${gCs(st)}`+(st.kind=="u"?` · tout à ${st.p} €`:st.kind=="l"?` · lot indissociable : ${st.p} € le tout`:"");
 const GW=150,GPAD=110,gX=k=>GPAD+k*GW+GW/2;
 function gToast(t){const e=$("gtoast");if(!e)return;e.textContent=t;e.style.display="block";clearTimeout(gToast.t);gToast.t=setTimeout(()=>{e.style.display="none"},3500)}
-function gmCur(k){ghHide();if(!G||G.rev||G.walking||k===G.cur||k<0||k>G.seen||k>=G.stands.length)return;const ch=$("gch");if(!ch)return;
- const x=gX(k),from=parseFloat(ch.style.left)||40,dur=Math.max(.5,Math.abs(x-from)/150);
- G.walking=true;ch.classList.add("walking");ch.classList.toggle("lft",x<from);ch.style.transitionDuration=dur+"s";ch.style.left=x+"px";
- const sc=$("gscr");if(sc&&sc.scrollTo)sc.scrollTo({left:Math.max(0,x-sc.clientWidth/2),behavior:"smooth"});
+function gmCur(k){ghHide();if(!G||G.rev||G.walking||k===G.cur||k<0||k>=G.stands.length)return;const ch=$("gch"),gin=$("gin");if(!ch)return;
+ if(G.cur>=0&&!G.stands[G.cur].packed)gSay(G.cur,any(VBY));if(gin){gin.style.transform="";gin.classList.remove("zoomed")}
+ const x=gX(k)-46,from=parseFloat(ch.style.left)||40,dur=Math.max(.5,Math.abs(x-from)/150);
+ G.walking=true;G.cur=-1;ch.classList.add("walking");ch.classList.toggle("lft",x<from);ch.style.transitionDuration=dur+"s";ch.style.left=x+"px";
+ const sc=$("gscr");if(sc&&sc.scrollTo)sc.scrollTo({left:Math.max(0,gX(k)-sc.clientWidth/2),behavior:"smooth"});
  clearInterval(G.stepT);G.stepT=setInterval(SFX.step,300);gmFill();
- setTimeout(()=>{if(!G)return;clearInterval(G.stepT);if(G.rev)return;G.cur=k;G.walking=false;G.seen=Math.max(G.seen,Math.min(G.stands.length-1,k+1));const c=$("gch");if(c)c.classList.remove("walking");SFX.arrive();gmFog();gmFill()},dur*1000+30)}
+ setTimeout(()=>{if(!G)return;clearInterval(G.stepT);if(G.rev)return;G.cur=k;G.walking=false;const c=$("gch"),g2=$("gin"),st=G.stands[k];st.vis=true;if(c){c.classList.remove("walking","lft")}SFX.arrive();
+  if(g2){g2.style.transformOrigin=gX(k)+"px 50%";g2.style.transform="scale(1.6)";g2.classList.add("zoomed")}
+  gmFill();if(!st.packed)gSay(k,any(VHI)+" "+st.q.replace(/[«»]/g,"").trim())},dur*1000+30)}
 // décor en aplats : immeubles violets à fenêtres éclairées, arbres turquoise, voiture
 function gHouse(x,i){const c=["#2a2350","#33285f","#3a2f6a","#2a3560","#3d2a66"][i%5],hl=["#4a3f8a","#5548a0","#5a4fa0","#4a5a9a","#6048a0"][i%5],w=20+(i%4)*4,hh=20+((i*7)%5)*5,S=4,lit=["#f0c050","#e0708a","#4fd6d0"];let p="";
  for(let y=4;y<hh-8;y+=6)for(let wx=3;wx<w-4;wx+=5){const k=(wx*3+y*5+i)%7;p+=`<rect x="${wx}" y="${y+6}" width="3" height="3" fill="#141033"/>`+(k<3?`<rect x="${wx}" y="${y+6}" width="3" height="3" fill="${lit[k]}" style="opacity:calc(.25 + var(--night)*.75)"/>`:"")}
@@ -1105,23 +1143,78 @@ function gCar(col){return `<svg class="gcar" viewBox="0 0 38 21" shape-rendering
  <rect x="2" y="11" width="1" height="2" fill="#f0c050"/><path d="M2 12 L-12 8 L-12 17Z" fill="#f0c050" style="opacity:calc(var(--torch)*.45)"/></svg>`}
 // intertitre de cinéma au début de chaque brocante
 function gCine(l1,l2,ms){const e=document.createElement("div");e.className="gcine";e.innerHTML=`<div><div class="c1"><span>${l1}</span></div><div class="c2">${l2}</div></div>`;$("gm").appendChild(e);const kill=()=>{if(e.parentNode)e.remove()};e.onclick=kill;setTimeout(()=>e.classList.add("out"),ms-450);setTimeout(kill,ms)}
-function gmSkel(){const N=G.stands.length,W=GPAD+N*GW+260,cols=["#b0407a","#2fa0a0","#e08040","#6a4fb0","#3f9f6a","#c0a040","#8a3f9a","#3a6fb0"];let dec="";
- for(let x=6,i=G.stage;x<W;i++){dec+=i%3==1?gTree(x,i):gHouse(x,i);x+=118+((i*53)%70)}
+/* --- décors : cinq quartiers d'une ville du futur, un par brocante --- */
+const GTH=[{n:"Parking du bloc 7",tint:"#6a4fb014"},{n:"Sous le périph",tint:"#e0508a1a"},{n:"Friche nord",tint:"#f08a4a30"},{n:"Pied de la tour",tint:"#6a4fb024"},{n:"Quai des conteneurs",tint:"#1f6f7a33",rain:1}];
+const gSv=(x,w,h,vb,body,cls)=>`<svg class="gdec${cls?" "+cls:""}" style="left:${x}px" width="${w}" height="${h}" viewBox="${vb}" shape-rendering="crispEdges">${body}</svg>`,R2=(x,y,w,h,f,ex)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${f}"${ex||""}/>`;
+function gLamp(x){return gSv(x,56,120,"0 0 14 30",R2(4,4,1,26,"#141033")+R2(4,4,5,1,"#141033")+R2(8,5,2,1,"#f0c050",' style="opacity:calc(.3 + var(--night)*.7)"')+`<path d="M9 6 L4 30 L14 30Z" fill="#f0c050" style="opacity:calc(var(--night)*.14)"/>`+R2(2,8,3,2,"#22243a")+R2(2,9,1,1,"#e0304a",' class="blk"'))}
+function gFactory(x,i){const w=40+(i%3)*8;let p="";for(let k=0;k<w;k+=8)p+=`<path d="M${k} 12 L${k+8} 6 L${k+8} 12Z" fill="#33285f"/>`;
+ return gSv(x,w*4,34*4,`0 0 ${w} 34`,p+R2(0,12,w,22,"#2a2350")+R2(0,12,w,1,"#4a3f8a")+R2(3,16,w-6,2,"#141033")+R2(3,16,Math.round((w-6)*.6),2,"#f08a4a",' style="opacity:calc(.2 + var(--night)*.6)"')+R2(w/2-3,26,6,8,"#141033")+R2(2,24,w-4,1,"#1c1646"))}
+function gChimney(x,i){return `<div class="gchm" style="left:${x}px;height:${130+(i%3)*26}px"><i></i><i></i><i></i><b class="blk"></b></div>`}
+function gTank(x){return gSv(x,22*4,20*4,"0 0 22 20",R2(2,2,18,16,"#33285f")+R2(4,0,14,2,"#33285f")+R2(2,2,2,16,"#4a3f8a")+R2(2,7,18,1,"#1c1646")+R2(2,12,18,1,"#1c1646")+R2(0,18,22,2,"#141033")+R2(9,4,5,2,"#e0508a",' style="opacity:.7"'))}
+function gCrane(x){return gSv(x,60*4,46*4,"0 0 60 46",R2(8,4,2,42,"#1c1646")+R2(14,4,2,42,"#1c1646")+R2(2,4,56,2,"#1c1646")+R2(40,6,1,14,"#1c1646")+R2(37,20,7,5,"#b0407a")+R2(8,12,8,1,"#1c1646")+R2(8,22,8,1,"#1c1646")+R2(8,32,8,1,"#1c1646")+R2(56,3,1,1,"#e0304a",' class="blk"'))}
+function gCont(x,i){const cs=["#b0407a","#2fa0a0","#e08040","#6a4fb0","#3f9f6a","#8a3f4a","#3a6fb0"],n=1+(i*7)%3;let p="";for(let k=0;k<n;k++){const c=cs[(i*3+k*5)%cs.length],y=(3-n+k)*11;p+=R2(0,y,26,10,c)+R2(0,y,26,1,"#ffffff33")+R2(0,y+9,26,1,"#0006");for(let q=2;q<26;q+=3)p+=R2(q,y+2,1,6,"#0000002e");p+=R2(18,y+3,5,3,"#0000004d")}
+ return gSv(x,26*4,33*4,"0 0 26 33",p)}
+function gThemeDec(t,W,seed){let d="",i=seed||0;
+ if(t==0){for(let x=6;x<W;i++){d+=i%4==2?gTree(x,i):gHouse(x,i);x+=118+((i*53)%70)}for(let x=150;x<W;x+=330)d+=gLamp(x)}
+ if(t==1){for(let x=20;x<W;i++){d+=gHouse(x,i);x+=150+((i*53)%90)}d+=`<div class="gdeck"><div class="gtrain"></div></div>`;for(let x=90,k=0;x<W;x+=300,k++)d+=`<div class="gpil" style="left:${x}px"><span class="gneon ${"abc"[k%3]}">${["BAR","24H","PRÊT","NOUILLES","HÔTEL"][k%5]}</span></div>`}
+ if(t==2){for(let x=0;x<W;i++){const k=i%4;d+=k==1?gChimney(x+30,i):k==2?gTank(x):gFactory(x,i);x+=k==1?90:150+((i*37)%60)}}
+ if(t==3){for(let x=6;x<W;i++){d+=gHouse(x,i);x+=130+((i*53)%70)}d+=`<div class="gtower" style="left:${Math.round(W/2-260)}px"><div class="gscrn a">ZONE 4</div><div class="gscrn b">COUVRE-FEU 22:00</div><div class="gscrn c">RATIONS −10 %</div><div class="gbeam"></div><div class="gbeam b"></div></div>`;for(let x=200;x<W;x+=420)d+=gLamp(x)}
+ if(t==4){d+=`<div class="gsea"></div>`;for(let x=120;x<W;x+=520)d+=gCrane(x);for(let x=0;x<W;i++){d+=gCont(x,i);x+=108+(i%3==0?40:0)}}
+ return d}
+const gThemeOver=t=>`<div class="gtint" style="background:${GTH[t].tint}"></div>`+(GTH[t].rain?'<div class="grain"></div>':"")+(t==0||t==3?'<div class="gdrone"><i class="blk"></i></div><div class="gdrone b"><i class="blk"></i></div>':"")+(t==2?'<div class="gsmog"></div>':"");
+/* --- la foule : familles qui flânent et discutent, promeneurs, « ratisseurs » pressés (casquette ou capuche, sac, lampe torche à l'aube) --- */
+let GN=[],GNT=null;
+const NFAM=["Regarde ça !","On y va ?","J'avais le même !","C'est combien ?","Pas mal…","On mange où ?","Attends-moi !","Trop cher."],NRAT=["Rien.","Vu.","Suivant.","Déjà parti ?"];
+const gRat=()=>{const r=n=>Math.floor(Math.random()*n),hood=Math.random()<.5;return {skin:r(6),hs:r(5),hc:r(7),hat:hood?0:1,hood:hood?1:0,sh:any([6,6,0,1,8]),pa:any([0,1]),of:hood?1:0,fa:any([0,0,3]),bk:any([1,1,2])}};
+function gNpcSay(o,t,ms){const b=o.el&&o.el.querySelector(".gnb");if(!b)return;b.textContent=t;b.classList.add("on");clearTimeout(o.bt);o.bt=setTimeout(()=>b.classList.remove("on"),ms||1300)}
+function gNpcInit(){GN=[];clearInterval(GNT);const N=G.stands.length,W=GPAD+N*GW+130,box=$("gnp");if(!box)return;let h="";
+ const add=o=>{o.id=GN.length;o.st="wait";o.t=rnd(0,1.5);o.tx=o.x;GN.push(o);h+=`<div class="gnpc2${o.kid?" kid":""}" id="gn${o.id}" style="left:${Math.round(o.x)}px;bottom:${Math.round(o.y)}px"><div class="gfl">${o.type=="rat"?'<div class="gtl"></div>':""}<div class="gcw">${charSVG(o.look)}</div></div><div class="gnb"></div></div>`};
+ for(let f=0;f<2+(N>7?1:0);f++){const x=rnd(120,W-120),y=12+f*5,sp=rnd(28,40);add({type:"fam",lead:1,grp:f,x,y,sp,look:gNpc()});add({type:"fam",grp:f,off:rnd(22,34),x:x+28,y:y+3,sp:sp*1.25,look:gNpc()});if(Math.random()<.75)add({type:"fam",grp:f,off:-rnd(18,26),x:x-20,y:y-3,sp:sp*1.4,kid:1,look:gNpc()})}
+ for(let k=0;k<2+(N>6?1:0);k++){const dir=k%2?-1:1;add({type:"rat",dir,si:dir>0?-1:N,x:dir>0?-40-k*90:W+40+k*90,y:38+k*4,sp:rnd(140,185),look:gRat()})}
+ for(let k=0;k<2;k++)add({type:"str",x:rnd(100,W-100),y:26+k*5,sp:rnd(38,52),look:gNpc()});
+ box.innerHTML=h;GN.forEach(o=>o.el=$("gn"+o.id));let last=Date.now(),acc=0;
+ GNT=setInterval(()=>{const now=Date.now(),dt=Math.min(.2,(now-last)/1000);last=now;if(!G||G.rev){clearInterval(GNT);return}gNpcTick(dt,W);
+  acc+=dt;if(acc>1.2){acc=0;const k=Math.floor(Math.random()*N),e=$("gs"+k),se=e&&e.querySelector(".gsel");   // les vendeurs bougent : ils se retournent, rangent, font signe
+   if(se&&!G.stands[k].packed&&!se.classList.contains("talk")){const a=any(["look","bend","wave","look"]);se.classList.add(a);setTimeout(()=>se.classList.remove(a),900+Math.random()*900)}}},50)}
+function gNpcTick(dt,W){const N=G.stands.length;
+ GN.forEach(o=>{if(!o.el)return;
+  if(o.st=="wait"){o.t-=dt;
+   if(o.type=="fam"&&!o.lead){const L=GN.find(q=>q.grp===o.grp&&q.lead);if(L&&Math.abs(L.x+o.off-o.x)>10){o.tx=L.x+o.off;o.st="walk"}else if(Math.random()<dt*.3)gNpcSay(o,any(NFAM))}
+   else if(o.t<=0){
+    if(o.type=="fam"){o.tx=Math.max(60,Math.min(W-60,o.x+rnd(-260,260)));o.st="walk"}
+    else if(o.type=="str"){o.tx=gX(Math.floor(Math.random()*N))+rnd(-30,30);o.st="walk"}
+    else{o.el.classList.remove("peek");o.si+=o.dir;if(o.si<0||o.si>=N){o.tx=o.dir>0?W+80:-80;o.out=1}else o.tx=gX(o.si)+rnd(-24,24);o.st="walk"}}}
+  else{const d=o.tx-o.x,s=o.sp*dt;
+   if(Math.abs(d)<=s){o.x=o.tx;o.st="wait";
+    if(o.type=="rat"){if(o.out){o.out=0;o.dir=-o.dir;o.si=o.dir>0?-1:N;o.t=rnd(2,6)}else{o.t=rnd(.5,1.2);o.el.classList.add("peek");if(Math.random()<.2)gNpcSay(o,any(NRAT),800)}}
+    else o.t=o.type=="fam"?(o.lead?rnd(2.5,6):0):rnd(2,4.5)}
+   else{o.x+=Math.sign(d)*s;o.el.classList.toggle("lft",d<0)}}
+  o.el.classList.toggle("walking",o.st=="walk");o.el.style.left=Math.round(o.x)+"px"})}
+/* --- les vendeurs parlent : vraie voix française du navigateur quand elle existe, sinon une voix synthétique en bips --- */
+const VO={ok:typeof speechSynthesis!="undefined"&&typeof SpeechSynthesisUtterance!="undefined",voices:[]};
+function vLoad(){try{VO.voices=speechSynthesis.getVoices().filter(v=>/^fr/i.test(v.lang))}catch(e){VO.voices=[]}}
+if(VO.ok){vLoad();try{speechSynthesis.addEventListener("voiceschanged",vLoad)}catch(e){}}
+const vStop=()=>{if(VO.ok)try{speechSynthesis.cancel()}catch(e){}};
+const VHI=["Bonjour !","Bonjour, regardez tranquille.","Salut ! Tout doit partir.","Bonjour, faites-vous plaisir.","Bonjour bonjour !"],VTH=["Merci !","Merci, bonne affaire.","Merci bien.","Ça marche, merci."],VBY=["Bonne journée !","Au revoir, bonne journée.","À la prochaine !","Bonne chine !"],VNO=["Il manque des sous.","C'est pas assez."],VPK=["Je remballe.","C'est fini pour aujourd'hui."];
+function gSay(k,txt){const st=G&&G.stands[k],e=$("gs"+k);if(!st||!e)return;const b=e.querySelector(".gbub"),se=e.querySelector(".gsel");
+ if(b){b.textContent=txt;b.classList.remove("say");void b.offsetWidth;b.classList.add("say")}
+ if(se){se.classList.add("talk","wave");clearTimeout(st.tt);st.tt=setTimeout(()=>se.classList.remove("talk","wave"),Math.min(3200,600+txt.length*55))}
+ if(!SND.on)return;
+ if(VO.ok&&VO.voices.length){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(txt.replace(/[«»]/g,""));u.lang="fr-FR";u.voice=VO.voices[st.vi%VO.voices.length];u.pitch=st.vp;u.rate=st.vr;u.volume=.9;speechSynthesis.speak(u)}catch(e){}}
+ else{const n=Math.min(14,Math.ceil(txt.length/4));for(let i=0;i<n;i++)tone(170*st.vp+Math.random()*90,.05,{w:"square",v:.03,t:i*.075})}}
+function gmSkel(){const N=G.stands.length,W=GPAD+N*GW+260,cols=["#b0407a","#2fa0a0","#e08040","#6a4fb0","#3f9f6a","#c0a040","#8a3f9a","#3a6fb0"],T=(G.stage-1)%GTH.length,dec=gThemeDec(T,W,G.stage);G.seen=N-1;
  const st=G.stands.map((s,k)=>{const c=cols[(k*3+G.stage)%cols.length],bc=["#b0407a","#2fa0a0","#e08040","#6a4fb0","#3f9f6a","#22243a"],th=[0,1,2,3].map(q=>`<i style="background:${bc[(k*2+q*3)%6]}"></i>`).join("");
   const sign=`<span class="num">${k+1}</span>`;
   return `<div class="gst${s.car?" car":""}${s.packed?" packed":""}" id="gs${k}" style="left:${GPAD+k*GW+10}px" onclick="gmCur(${k})"><div class="gsg">${sign}</div>${s.car?gCar(c):`<div class="aw" style="--c:${c}"></div>`}<div class="gsel">${charSVG(s.npc)}</div><div class="tb">${th}</div><div class="bd" id="gb${k}"></div><div class="gbub">${esc(s.q)}</div></div>`}).join("");
- const npc=Array.from({length:4},(_,i)=>{const d=24+Math.random()*22;return `<div class="gnpc walking${i%2?" rv lft":""}" style="animation-duration:${d.toFixed(1)}s;animation-delay:-${(Math.random()*d).toFixed(1)}s;bottom:${34+i*4}px"><div class="gfl"><div class="gcw">${charSVG(gNpc())}</div></div></div>`}).join("");
  $("gm").innerHTML=`<div id="gtopw"></div>
  <div class="gsc" id="gsc"><div class="gsky" id="gsky"><div class="gstars"></div><div class="gsun" id="gsun"></div><div class="gmoon"></div><div class="gcl" style="top:22px;width:110px;animation-duration:70s;animation-delay:-20s"></div><div class="gcl" style="top:62px;width:80px;animation-duration:95s;animation-delay:-60s"></div><div class="gcl" style="top:8px;width:140px;animation-duration:120s;animation-delay:-95s"></div></div>
- <div class="gscroll" id="gscr"><div class="gin" id="gin"><div class="gfar" id="gfar"></div><div class="ggr"></div>${dec}<div class="gbun"></div><div class="gent">ENTRÉE →</div>${st}${npc}<div class="gfog" id="gfog">?</div>
+ <div class="gscroll" id="gscr"><div class="gin th${T}" id="gin"><div class="gfar" id="gfar"></div><div class="ggr"></div>${dec}<div class="gbun"></div><div class="gent">ENTRÉE →</div>${st}<div id="gnp"></div><div class="gend" id="gfog">FIN</div>
  <div class="gch" id="gch" style="left:40px"><div class="gdk"></div><div class="gfl"><div class="gtl"></div><div class="gcw">${charSVG(GC)}</div></div></div></div></div>
- <div class="gdim"></div><div class="ghud" id="ghud"></div><div class="ghud2" id="ghud2"></div><div class="gtoast" id="gtoast"></div></div><div id="gpanel"></div><div id="gbotw"></div>`;
+ ${gThemeOver(T)}<div class="gdim"></div><div class="ghud" id="ghud"></div><div class="ghud2" id="ghud2"></div><div class="gtoast" id="gtoast"></div></div><div id="gpanel"></div><div id="gbotw"></div>`;
  const scr=$("gscr");if(scr)scr.onscroll=()=>{const f=$("gfar");if(f)f.style.transform="translateX("+Math.round(scr.scrollLeft*.6)+"px)"};
- gmFog();gmSky(G.f||0)}
-// on ne voit que les stands déjà approchés : le suivant apparaît quand on arrive au précédent
-function gmFog(){const gin=$("gin");if(!gin)return;const N=G.stands.length,all=G.seen>=N-1,w=GPAD+(Math.min(G.seen,N-1)+1)*GW+(all?130:200);
- gin.style.width=w+"px";gin.style.setProperty("--w",w+"px");G.stands.forEach((s,k)=>{const e=$("gs"+k);if(e)e.style.display=k<=G.seen?"":"none"});
- const f=$("gfog");if(f){f.className=all?"gend":"gfog";f.style.left=(all?w-100:w-200)+"px";f.style.right=all?"auto":"0";f.textContent=all?"FIN":"?"}}
+ gmFog();gmSky(G.f||0);gNpcInit()}
+// toute la brocante est visible : on ne sait simplement rien d'un vendeur avant d'être devant lui
+function gmFog(){const gin=$("gin");if(!gin)return;const w=GPAD+G.stands.length*GW+130;gin.style.width=w+"px";gin.style.setProperty("--w",w+"px");const f=$("gfog");if(f)f.style.left=(w-100)+"px"}
 // la journée : aube à la lampe torche, matin, midi, après-midi, puis remballage au coucher du soleil
 const SKY=[[0,"#0b0820","#2a1450",1],[.12,"#2a1458","#e0605a",.5],[.22,"#2f6f9a","#8fd0c8",0],[.7,"#2a6090","#8fd0c8",0],[.85,"#6a2f7a","#f08a4a",.2],[1,"#140a30","#6a2a6a",.65]];
 const hx=h=>[1,3,5].map(i=>parseInt(h.substr(i,2),16)),mix=(a,b,t)=>{const A=hx(a),B=hx(b);return "rgb("+A.map((v,i)=>Math.round(v+(B[i]-v)*t)).join(",")+")"};
@@ -1133,12 +1226,12 @@ function gmSky(f){f=Math.max(0,Math.min(1,f));let i=0;while(i<SKY.length-2&&f>SK
 function gmTick(){if(!G||G.rev){clearInterval(GT);return}const left=G.end-Date.now(),f=1-left/(G.tot*1000),b=$("gbt");G.f=f;
  if(b)b.style.width=Math.max(0,left/(G.tot*10))+"%";const t=$("gtt");if(t)t.textContent=Math.max(0,Math.ceil(left/1000))+" s";
  gmSky(f);
- G.stands.forEach((st,k)=>{if(!st.packed&&f>=st.packF){st.packed=true;const e=$("gs"+k);if(e)e.classList.add("packed");SFX.pack();if(!G.warned){G.warned=true;gToast("Les vendeurs commencent à remballer !")}if(k===G.cur)gmFill()}});
+ G.stands.forEach((st,k)=>{if(!st.packed&&f>=st.packF){st.packed=true;const e=$("gs"+k);if(e)e.classList.add("packed");SFX.pack();if(!G.warned){G.warned=true;gToast("Les vendeurs commencent à remballer !")}if(k===G.cur){gmFill();gSay(k,any(VPK))}}});
  if(left<=0)gmEnd(true)}
-function gmTop(){return `<div class="gtop"><div><span class="gtitle">LA BROCANTE</span> &nbsp;<b>${esc(G.name)}</b> <span class="sub">· n° ${G.stage}${G.fee?` · frais ${G.fee} €`:" · sans frais"}</span></div><span><button class="gx" id="gsnd" onclick="sToggle()" title="Son">${SND.on?"SON":"MUET"}</button> <button class="gx" onclick="gmOver()">Arrêter</button></span></div>`}
+function gmTop(){return `<div class="gtop"><div><span class="gtitle">LA BROCANTE</span> &nbsp;<b>${esc(G.name)}</b> <span class="sub">· brocante n° ${G.stage}</span></div><span><button class="gx" id="gsnd" onclick="sToggle()" title="Son">${SND.on?"SON":"MUET"}</button> <button class="gx" onclick="gmOver()">Arrêter</button></span></div>`}
 const gStallHead=(st,k,extra)=>`<div class="gsh"><div class="gport">${charSVG(st.npc)}</div><div style="flex:1;min-width:0">${extra}</div></div>`;
-const gHudTxt=()=>`CAISSE ${G.cash-gSpent()} € <span>OBJECTIF ${G.base+G.target} €</span>`;
-const gBot=()=>{const n=G.sel.size,sp=gSpent();return `<div class="gbot"><div class="gbar"><div id="gbt" style="width:${Math.max(0,(G.end-Date.now())/(G.tot*10))}%"></div></div><span><b id="gtt">${Math.max(0,Math.ceil((G.end-Date.now())/1000))} s</b> avant la fin de la journée · panier : <b>${n}</b> jeu${n>1?"x":""} (${sp} €)</span><span><button class="gbtn" ${n?"":"disabled"} title="${n?"":"Il faut acheter au moins un jeu"}" onclick="gmEnd()">Quitter la brocante</button></span></div>`};
+const gHudTxt=()=>`DÉPENSÉ ${gSpent()} € <span>NOTE À OBTENIR 10/20</span>`;
+const gBot=()=>{const n=G.sel.size,sp=gSpent();return `<div class="gbot"><div class="gbar"><div id="gbt" style="width:${Math.max(0,(G.end-Date.now())/(G.tot*10))}%"></div></div><span><b id="gtt">${Math.max(0,Math.ceil((G.end-Date.now())/1000))} s</b> avant la fin de la journée · panier : <b>${n}</b> jeu${n>1?"x":""} (${sp} €)</span><span><button class="gbtn" onclick="gmEnd()">Quitter la brocante</button></span></div>`};
 const gBadges=()=>G.stands.forEach((s,k)=>{const c=s.items.filter(x=>G.sel.has(x.i)).length,b=$("gb"+k),e=$("gs"+k);if(b)b.textContent=c?"✓ "+c:"";if(e)e.classList.toggle("cur",k===G.cur&&!G.walking)});
 const gInfoLine=(st,k)=>`<b>${gLab(st,k)}</b> · ${st.items.length} jeux${gLotTxt(st)}${st.packed?" · <b>remballé</b> : tes achats sont gardés, mais tu ne peux plus rien changer ici":""}`;
 const gLotBtn=st=>st.items.some(x=>G.sel.has(x.i))?"Reposer le lot":"Prendre tout le lot · "+st.p+" €";
@@ -1150,22 +1243,22 @@ function gmSync(){if(!G||G.rev||!$("gpanel"))return;const st=G.cur>=0?G.stands[G
 function gmFill(){if(!$("gpanel"))return;const st=G.cur>=0?G.stands[G.cur]:null;
  $("gtopw").innerHTML=gmTop();const h2=$("ghud2");if(h2)h2.innerHTML=gHudTxt();gBadges();let p;
  if(G.walking)p='<div class="gstall gmsg">En route…</div>';
- else if(!st)p=`<div class="gstall gmsg">Il fait encore nuit. Approche-toi du premier vendeur : clique dessus ou appuie sur →.<br><small>Objectif : finir la journée avec <b>${G.base+G.target} €</b> en caisse.${G.stage==1?" Brocante d'entraînement : au moins deux bons jeux se cachent au milieu des jeux sans valeur.":""}</small></div>`;
- else p=`<div class="gstall">`+gStallHead(st,G.cur,`<div class="gsq">${esc(st.q)}</div><div class="gsi" id="gsinfo">${gInfoLine(st,G.cur)}</div>`)
+ else if(!st)p=`<div class="gstall gmsg">${(G.f||0)<.18?"Il fait encore nuit. ":""}Approche-toi d'un vendeur : clique sur son stand ou appuie sur →.<br><small>Repère les jeux qui valent le déplacement : au moins une pépite rouge ou violette se cache ici, au milieu de jeux blancs sans intérêt. Il faut 10/20 pour passer à la brocante suivante.</small></div>`;
+ else p=`<div class="gstall">`+gStallHead(st,G.cur,`<div class="gsq">${esc(st.q)}</div><div class="gsi" id="gsinfo">${gInfoLine(st,G.cur)}</div>`).replace(/<\/div>$/,`<span class="gnav"><button class="gx" onclick="gmCur(${G.cur-1})" title="Stand précédent">◀</button><button class="gx" onclick="gmCur(${G.cur+1})" title="Stand suivant">▶</button></span></div>`)
    +(st.kind=="l"&&!st.packed?`<div style="margin-bottom:10px"><button class="gbtn" id="glotb" onclick="gmTog(${st.items[0].i})">${gLotBtn(st)}</button></div>`:"")
    +`<div class="ggrid">${st.items.map(gmCard).join("")}</div></div>`;
- $("gpanel").innerHTML=p;
+ $("gpanel").innerHTML=p;GH.el=null;if(GH.i>=0)ghHide();
  // arrivée devant un vendeur : l'étal tombe en place et les jeux sont distribués un par un
  if(st&&!G.walking&&G.dealK!==G.cur){G.dealK=G.cur;const gr=$("gpanel").querySelector(".ggrid"),hd=$("gpanel").querySelector(".gsh"),sl=$("gpanel").querySelector(".gstall");if(sl)sl.classList.add("rise");if(hd)hd.classList.add("drop");
   if(gr){gr.classList.add("deal");[...gr.children].forEach((e,j)=>{e.style.animationDelay=(160+j*45)+"ms,"+(e.style.getPropertyValue("--sd")||"0s");tone(520+j*26,.035,{w:"triangle",v:.03,t:.16+j*.045})})}}
  $("gbotw").innerHTML=gBot()}
 function gmDraw(){if(G.rev){gmDrawRev();return}if(G.fresh||!$("gsc")){gmSkel();G.fresh=false}gmFill()}
 // résultat : on ne montre que ce qui compte (tes achats, la pépite, les affaires ratées), et la revente se compte carte par carte
-function gmDrawRev(){const nx=G.cash>=gFee(G.stage+1)+1;
- const blocks=G.stands.map((st,k)=>{const lot=st.kind=="l",N=st.items.filter(x=>G.sel.has(x.i)||x.t=="p"||gMiss(x)||(lot&&x.t=="g")),rest=st.items.length-N.length;
-  return `<div class="gstall">`+gStallHead(st,k,`<div class="gsi"><b>${gLab(st,k)}</b> · vendeur ${GKN[st.kind]}${st.lot?" · faisait un prix de lot":""}</div><div class="gsi" style="opacity:.8">${N.length?"":"Rien à prendre ici. "}${rest>0?rest+" jeu"+(rest>1?"x":"")+" sans intérêt non affiché"+(rest>1?"s":""):""}</div>`)+(N.length?`<div class="ggrid">${N.map(gmCard).join("")}</div>`:"")+`</div>`}).join("");
- $("gm").innerHTML=gmTop()+`<div class="gres"><div class="gch2 ${G.ok?"jump":""}"><div class="gcw">${charSVG(GC)}</div></div><div style="flex:1;min-width:0"><div class="gtotw">REVENTE <b id="gtot">${G.scored?G.gain:0} €</b><span id="gstamp" class="gstamp ${G.ok?"ok":"ko"}${G.scored?" slam":""}">${G.ok?"OBJECTIF ATTEINT":"OBJECTIF MANQUÉ"}</span></div><div id="gmsg" class="gmsg2${G.scored?" show":""}">${G.msg}</div></div></div>`+blocks
-  +`<div class="gbot"><span></span><span><button class="gbtn sec" onclick="gmCustom()">Vestiaire</button> <button class="gbtn sec" onclick="gmOver()">Voir le bilan</button> ${G.ok&&nx?`<button class="gbtn" onclick="gmStage()">Brocante suivante (frais ${gFee(G.stage+1)} €)</button>`:`<button class="gbtn" onclick="gmOver()">Fin de partie</button>`}</span></div>`;$("gm").scrollTop=0;
+function gmDrawRev(){const nx=true,leg=[["blanc","#ffffff"]].concat(TI.filter(x=>x.k!="D").map(x=>[({C:"jaune",B:"orange",A:"rouge",S:"violet"})[x.k]+" dès "+x.t+" €",x.c])).map(([t,c])=>`<span><i style="background:${c}"></i>${t}</span>`).join("");
+ const blocks=G.stands.map((st,k)=>{const lot=st.kind=="l",N=st.items.filter(x=>G.sel.has(x.i)||x.t=="p"||gMiss(x)||x.ti>=2),rest=st.items.length-N.length;
+  return `<div class="gstall">`+gStallHead(st,k,`<div class="gsi"><b>${gLab(st,k)}</b> · vendeur ${GKN[st.kind]}${st.lot?" · faisait un prix de lot":""} · <b class="gnote ${st.note>=10?"ok":"ko"}">${st.note}/20</b>${st.vis?"":" · stand non visité"}${st.ideal?" · "+(st.gain>=0?"+":"")+st.gain+" € sur "+st.ideal+" € possibles":""}</div><div class="gsi" style="opacity:.8">${N.length?"":"Rien à prendre ici. "}${rest>0?rest+" jeu"+(rest>1?"x":"")+" sans intérêt non affiché"+(rest>1?"s":""):""}</div>`)+(N.length?`<div class="ggrid">${N.map(gmCard).join("")}</div>`:"")+`</div>`}).join("");
+ $("gm").innerHTML=gmTop()+`<div class="gres"><div class="gch2 ${G.ok?"jump":""}"><div class="gcw">${charSVG(GC)}</div></div><div style="flex:1;min-width:0"><div class="gtotw">REVENTE <b id="gtot">${G.scored?G.gain:0} €</b><span id="gstamp" class="gstamp ${G.ok?"ok":"ko"}${G.scored?" slam":""}">${G.note}/20 · ${G.ok?"REÇU":"RECALÉ"}</span></div><div class="gleg">${leg}</div><div id="gmsg" class="gmsg2${G.scored?" show":""}">${G.msg}</div></div></div>`+blocks
+  +`<div class="gbot"><span></span><span><button class="gbtn sec" onclick="gmCustom()">Vestiaire</button> <button class="gbtn sec" onclick="gmOver()">Voir le bilan</button> ${G.ok&&nx?`<button class="gbtn" onclick="gmStage()">Brocante suivante</button>`:`<button class="gbtn" onclick="gmOver()">Fin de partie</button>`}</span></div>`;$("gm").scrollTop=0;
  if(!G.scored)gmScore()}
 function gmScore(){const gm=$("gm"),cards=[...gm.querySelectorAll(".gstall .gc.on")],tot=$("gtot");let k=0,sum=0;
  const fin=()=>{clearInterval(G.scT);if(G.scored)return;G.scored=true;cards.forEach(c=>c.classList.remove("pend"));if(tot)tot.textContent=G.gain+" €";const m=$("gmsg"),s=$("gstamp");if(m)m.classList.add("show");if(s)s.classList.add("slam");
@@ -1173,29 +1266,40 @@ function gmScore(){const gm=$("gm"),cards=[...gm.querySelectorAll(".gstall .gc.o
  if(!cards.length){fin();return}cards.forEach(c=>c.classList.add("pend"));
  clearInterval(G.scT);G.scT=setInterval(()=>{if(!G||!G.rev){clearInterval(G&&G.scT);return}if(k>=cards.length){fin();return}const c=cards[k];c.classList.remove("pend");c.classList.add("pop");sum+=+c.dataset.v||0;if(tot)tot.textContent=sum+" €";tone(420+k*32,.07,{w:"triangle",v:.06});k++},cards.length>14?90:170);
  const rs=gm.querySelector(".gres");if(rs)rs.onclick=fin}
-function gmEnd(auto){if(!G||G.rev)return;ghHide();clearInterval(GT);GT=null;clearInterval(G.stepT);sAmbStop();const before=rankOf(G.cash);G.rev=true;
- const B=[...G.sel].map(i=>G.all[i]),spent=gSpent(),gain=B.reduce((a,x)=>a+x.v,0);
- G.cash+=gain-spent;G.maxCash=Math.max(G.maxCash,G.cash);
+// Fin de brocante : une note sur 20 par stand, et une note d'ensemble où les plus belles pépites pèsent le plus lourd.
+// Gain = revente nette − prix payé. « Possible » = la somme des affaires qui valaient au moins 5 € de gain.
+const gApp=n=>n>=18?"Excellent":n>=15?"Très bien":n>=12?"Bien":n>=10?"Passable":n>=6?"Insuffisant":"Raté";
+function gmEnd(auto){if(!G||G.rev)return;ghHide();vStop();clearInterval(GNT);clearInterval(GT);GT=null;clearInterval(G.stepT);sAmbStop();G.rev=true;
+ const B=[...G.sel].map(i=>G.all[i]),cl=(x,a,b)=>Math.max(a,Math.min(b,x));let GG=0,GI=0,GL=0,pf=0,pt=0;
+ G.stands.forEach(st=>{const lot=st.kind=="l",bo=st.items.filter(x=>G.sel.has(x.i));let gain=0,ideal=0;
+  if(lot){const pv=st.items.reduce((a,x)=>a+x.v,0)-st.p;ideal=pv>=5?pv:0;gain=bo.length?pv:0}
+  else{st.items.forEach(x=>{const d=x.v-x.s;if(d>=5)ideal+=d});bo.forEach(x=>gain+=x.v-gPaid(x))}
+  const loss=lot?0:bo.reduce((a,x)=>{const d=x.v-gPaid(x);return a+(d<0?-d:0)},0);
+  st.gain=Math.round(gain);st.ideal=Math.round(ideal);st.loss=Math.round(loss);st.note=ideal>0?Math.round(20*cl((gain-loss)/ideal,0,1)):(bo.length?cl(Math.round(20-loss),0,20):20);GG+=gain;GI+=ideal;GL+=loss;
+  st.items.forEach(x=>{if(x.ti>=3&&(lot?ideal>0:x.v-x.s>=5)){pt++;if(G.sel.has(x.i))pf++}})});
  B.forEach(x=>G.deals.push({t:x.r.g.t,c:x.r.g.c,p:Math.round(x.v-gPaid(x))}));
  G.stands.forEach(st=>{if(st.kind=="l"){if(!st.items.some(x=>G.sel.has(x.i))){const pv=Math.round(st.items.reduce((a,x)=>a+x.v,0)-st.p);if(pv>=Math.max(5,st.p*.5)){const b=[...st.items].sort((a,b)=>b.v-a.v)[0];G.missed.push({t:b.r.g.t+" (dans un lot)",c:b.r.g.c,p:pv})}}}
   else st.items.forEach(x=>{if(!G.sel.has(x.i)&&gMiss(x))G.missed.push({t:x.r.g.t,c:x.r.g.c,p:Math.round(x.v-x.s)})})});
- const net=G.cash-G.base,ok=net>=G.target&&B.length>0;G.ok=ok;if(ok)G.done++;
- const pe=G.all.find(x=>x.t=="p"),pt=pe?`<br>Pépite : <b>${esc(pe.r.g.t)}</b> ${G.stands[pe.st].kind=="l"?"cachée dans le lot à "+G.stands[pe.st].p+" €":"affichée "+pe.s+" €"}, vaut ~${pe.v} € net · ${G.sel.has(pe.i)?"tu l'as trouvée !":"ratée"}`:"<br>Pas de pépite sur cette brocante.";
- G.msg=(auto&&!B.length?"Temps écoulé, rien acheté. ":"")+"Résultat : <b class='"+(net>=0?"gw":"gl")+"'>"+(net>=0?"+":"")+net+" €</b> (frais compris), objectif +"+G.target+" € : "+(ok?"<b class='gw'>réussi </b>":"<b class='gl'>manqué </b>")+" · caisse "+G.cash+" €"+(ok&&rankOf(G.cash)!=before?" · nouveau rang : <b>"+rankOf(G.cash)+"</b>":"")+pt;
- const found=!!(pe&&G.sel.has(pe.i)),xg=Math.max(0,net)+(found?25:0)+(ok?10*G.stage:0),x0=gXP(),x1=x0+xg;gSetXP(x1);const nu=gUnl(x1).filter(n=>!gUnl(x0).includes(n));
+ GG=Math.round(GG);GI=Math.round(GI);GL=Math.round(GL);const note=GI>0?Math.round(200*cl((GG-GL)/GI,0,1))/10:(GL?cl(Math.round(20-GL),0,20):20),ok=note>=10;
+ G.ok=ok;G.note=note;if(ok)G.done++;G.notes.push(note);G.pf+=pf;G.pt+=pt;
+ const pe=G.all.find(x=>x.t=="p"),found=!!(pe&&G.sel.has(pe.i)),ptx=pe?`<br>La plus belle affaire : <b>${esc(pe.r.g.t)}</b> ${G.stands[pe.st].kind=="l"?"cachée dans le lot à "+G.stands[pe.st].p+" €":"affichée "+pe.s+" €"}, cote ${Math.round(pe.raw)} € · ${found?"tu l'as trouvée !":"ratée"}`:"";
+ G.msg=(auto&&!B.length?"Temps écoulé, rien acheté. ":"")+`Note de la brocante : <b class="${ok?"gw":"gl"}">${note}/20</b> · ${gApp(note)}. Tu as gagné <b class="${GG>=0?"gw":"gl"}">${GG>=0?"+":""}${GG} €</b> sur ${GI} € possibles${GL?` · <b class="gl">−${GL} €</b> perdus sur de mauvaises pioches, qui comptent double dans la note`:""} · pépites rouges ou violettes trouvées : <b>${pf}/${pt}</b>${ok?"":" · il faut 10/20 pour continuer"}`+ptx;
+ const xg=Math.round(note*3)+pf*25+(ok?10*G.stage:0),x0=gXP(),x1=x0+xg;gSetXP(x1);const nu=gUnl(x1).filter(n=>!gUnl(x0).includes(n));
  G.msg+=`<br>+${xg} XP (total ${x1}, niveau ${gLvl(x1)})`+(nu.length?`<br>Débloqué : <b>${nu.map(esc).join(", ")}</b> · à essayer au vestiaire`:"");
- G.gain=gain;G.found=found;G.nu=nu.length>0;G.scored=false;
+ G.gain=B.reduce((a,x)=>a+x.v,0);G.found=found;G.nu=nu.length>0;G.scored=false;
  gmDraw()}
-function gmOver(){ghHide();if(G)clearInterval(G.scT);clearInterval(GT);GT=null;sAmbStop();if(!G)return;clearInterval(G.stepT);
+function gmOver(){ghHide();vStop();clearInterval(GNT);if(G)clearInterval(G.scT);clearInterval(GT);GT=null;sAmbStop();if(!G)return;clearInterval(G.stepT);
  const by={};G.deals.forEach(d=>{const o=by[d.c]=by[d.c]||{n:0,p:0,m:0};o.n++;o.p+=d.p});G.missed.forEach(d=>{const o=by[d.c]=by[d.c]||{n:0,p:0,m:0};o.m++});
- const rows=Object.entries(by).sort((a,b)=>a[1].p-b[1].p),best=[...G.deals].sort((a,b)=>b.p-a.p)[0],worst=[...G.deals].sort((a,b)=>a.p-b.p)[0];
+ const rows=Object.entries(by).sort((a,b)=>a[1].p-b[1].p),best=[...G.deals].sort((a,b)=>b.p-a.p)[0],worst=[...G.deals].sort((a,b)=>a.p-b.p)[0],bm=[...G.missed].sort((a,b)=>b.p-a.p)[0];
+ const avg=G.notes.length?Math.round(10*G.notes.reduce((a,b)=>a+b,0)/G.notes.length)/10:0;
  let old={};try{old=JSON.parse(localStorage.getItem(LB))||{}}catch(e){}
- const rec=G.done>0&&(G.done>(old.stands||0));if(G.done>0){try{localStorage.setItem(LB,JSON.stringify({cash:Math.max(old.cash||0,G.maxCash),stands:Math.max(old.stands||0,G.done)}))}catch(e){}}
+ const rec=G.done>0&&(G.done>(old.stands||0));if(G.notes.length){try{localStorage.setItem(LB,JSON.stringify({avg:Math.max(old.avg||0,G.done>0?avg:0),stands:Math.max(old.stands||0,G.done)}))}catch(e){}}
  const spot=rows.length&&rows[0][1].p<0?`Ton angle mort : <b>${esc(cname(rows[0][0]))}</b> (${rows[0][1].p} € sur ${rows[0][1].n} achat${rows[0][1].n>1?"s":""}).`:(rows.length?"Aucune console ne t'a fait perdre d'argent, bien joué.":"");
  const mm=rows.filter(r=>r[1].m).sort((a,b)=>b[1].m-a[1].m)[0];
  $("gm").innerHTML=`<div class="gbox"><button class="gx" onclick="gmClose()" style="align-self:flex-end">✕ Fermer</button><div class="gtitle">BILAN</div>
- <div>Brocantes réussies : <b>${G.done}</b> · caisse finale : <b>${G.cash} €</b> · maximum : <b>${G.maxCash} €</b> · rang : <b>${rankOf(G.maxCash)}</b>${rec?" · nouveau record !":(old.stands?" · record : "+old.stands+" brocante"+(old.stands>1?"s":""):"")}</div>
+ <div>Brocantes réussies : <b>${G.done}</b> · moyenne : <b>${avg}/20</b>${G.notes.length?" ("+G.notes.join(" · ")+")":""} · pépites rouges ou violettes trouvées : <b>${G.pf}/${G.pt}</b>${rec?" · nouveau record !":(old.stands?" · record : "+old.stands+" brocante"+(old.stands>1?"s":""):"")}</div>
  ${best?`<div>Meilleure affaire : <b>${esc(best.t)}</b> (${esc(cname(best.c))}) <b class="gw">+${best.p} €</b></div>`:""}
+ ${bm?`<div>Plus belle affaire ratée : <b>${esc(bm.t)}</b> (${esc(cname(bm.c))}) <b class="gl">+${bm.p} €</b></div>`:""}
  ${worst&&worst.p<0?`<div>Pire erreur : <b>${esc(worst.t)}</b> (${esc(cname(worst.c))}) <b class="gl">${worst.p} €</b></div>`:""}
  <div>${spot}${mm?` Affaires ratées surtout sur <b>${esc(cname(mm[0]))}</b> (${mm[1].m}).`:""}</div>
  ${rows.length?`<table><tr><th>Console</th><th>Achats</th><th>Résultat</th><th>Affaires ratées</th></tr>${rows.map(([c,o])=>`<tr><td>${pill(c)}</td><td>${o.n}</td><td class="${o.p>=0?"gw":"gl"}">${o.p>=0?"+":""}${o.p} €</td><td>${o.m}</td></tr>`).join("")}</table>`:""}
@@ -1203,18 +1307,17 @@ function gmOver(){ghHide();if(G)clearInterval(G.scT);clearInterval(GT);GT=null;s
  <div><button class="gbtn" onclick="gmOpen()">Menu</button></div></div>`}
 /* --- prise en main : survoler un jeu l'agrandit, comme si on le prenait sur l'étal, et fait défiler ses photos (dos, intérieur…) --- */
 const GH={i:-1,k:0,t:null,el:null,L:[]},gTouch=()=>!!(window.matchMedia&&matchMedia("(hover:none)").matches);
-function ghEl(){if(!GH.el){const e=document.createElement("div");e.id="ghold";e.onclick=ghHide;document.body.appendChild(e);GH.el=e}return GH.el}
+function ghEl(){let e=$("ghold");if(!e){e=document.createElement("div");e.id="ghold";e.onclick=ghHide;($("gpanel")||$("gm")).prepend(e)}GH.el=e;return e}
 function ghHide(){clearInterval(GH.t);GH.t=null;GH.i=-1;if(GH.el)GH.el.style.display="none"}
-function ghDots(){const d=$("ghd"),l=$("ghl");if(d)d.innerHTML=GH.L.length>1?GH.L.map((_,k)=>`<i class="${k==GH.k?"on":""}"></i>`).join(""):"";if(l){const c=GH.cov?1:0;l.textContent=c&&GH.k==0?"jaquette":"photo "+(GH.k+1-c)+"/"+(GH.L.length-c)+" d'une annonce"}}
+function ghDots(){const d=$("ghd"),l=$("ghl");if(d)d.innerHTML=GH.L.length>1?GH.L.map((_,k)=>`<i class="${k==GH.k?"on":""}"></i>`).join(""):"";if(l){const u=GH.L[GH.k],c=GH.L.includes(GH.cov)?1:0;l.textContent=u===GH.cov?"jaquette officielle":"photo "+(GH.k+1)+"/"+(GH.L.length-c)+" de l'annonce"}}
 function ghSet(){const m=$("ghim");if(m&&GH.i>=0&&GH.L.length)m.src=GH.L[GH.k];ghDots()}
 function ghNext(){if(GH.i<0||GH.L.length<2)return;GH.k=(GH.k+1)%GH.L.length;const im=$("ghim");if(!im)return;im.classList.remove("flip");void im.offsetWidth;im.classList.add("flip");setTimeout(ghSet,160)}
-function ghBad(){if(GH.i<0)return;if(GH.k==0)GH.cov=false;GH.L.splice(GH.k,1);if(!GH.L.length){ghHide();return}GH.k=GH.k%GH.L.length;ghSet()}
-function ghShow(i,card){if(!G||!G.all[i]||!card)return;const it=G.all[i],r=it.r,L=[...new Set([gImg(r),...(r.imgs||[])].filter(Boolean))];if(!L.length){ghHide();return}
- GH.i=i;GH.k=0;GH.L=L;GH.cov=!!gImg(r);const e=ghEl(),st=G.stands[it.st],b=card.getBoundingClientRect(),vw=window.innerWidth,vh=window.innerHeight,small=vw<700,W=small?Math.min(320,vw-20):Math.min(340,vw*.4),H=Math.min(470,vh-20);
- e.style.width=W+"px";e.style.height=H+"px";e.style.left=(small?(vw-W)/2:(b.left+b.width/2<vw/2?Math.min(vw-W-10,b.right+14):Math.max(10,b.left-W-14)))+"px";e.style.top=Math.max(10,Math.min(vh-H-10,small?(vh-H)/2:b.top+b.height/2-H/2))+"px";
- e.innerHTML=`<div class="ghi"><img id="ghim" src="${safe(L[0])}" alt="" onerror="ghBad()"><span class="gp">${st.kind=="l"?"lot":it.s+" €"}</span></div><div class="ghd" id="ghd"></div><div class="ght">${esc(r.g.t)}</div><div class="ghc">${pill(r.g.c)} ${r.cart?"cartouche seule":"complet"} · <span id="ghl"></span></div>`;
- e.style.display="flex";e.classList.remove("in");void e.offsetWidth;e.classList.add("in");ghDots();SFX.hold();
- L.slice(1).forEach(u=>{const im=new Image();im.src=u});clearInterval(GH.t);GH.t=L.length>1?setInterval(ghNext,1300):null}
+function ghBad(){if(GH.i<0)return;GH.L.splice(GH.k,1);if(!GH.L.length){ghHide();return}GH.k=GH.k%GH.L.length;ghSet()}
+function ghShow(i,card){if(!G||!G.all[i]||!card)return;const it=G.all[i],r=it.r,L=[...new Set([...(r.imgs||[]),gCov(r)].filter(Boolean))];if(!L.length){ghHide();return}
+ GH.i=i;GH.k=0;GH.L=L;GH.cov=gCov(r);const e=ghEl(),st=G.stands[it.st];
+ e.innerHTML=`<div class="ghi"><img id="ghim" src="${safe(L[0])}" alt="" onerror="ghBad()"><span class="gp">${st.kind=="l"?"lot":it.s+" €"}</span></div><div class="ghr"><div class="ght">${esc(r.g.t)}</div><div class="ghc">${pill(r.g.c)} ${r.cart?"cartouche seule":"complet"}</div><div class="ghd" id="ghd"></div><div class="ghc" id="ghl"></div><div class="ghc" style="margin-top:auto">Survole une autre carte pour la prendre en main.</div></div>`;
+ e.style.display="flex";if(!e.classList.contains("in")){e.classList.add("in")}else{const im=$("ghim");if(im){im.classList.remove("flip");void im.offsetWidth;im.classList.add("flip")}}
+ ghDots();SFX.hold();L.slice(1).forEach(u=>{const im=new Image();im.src=u});clearInterval(GH.t);GH.t=L.length>1?setInterval(ghNext,1300):null}
 function ghTap(i,el){if(GH.i===i)ghHide();else ghShow(i,el.closest(".gc"))}
 $("gm").addEventListener("mousemove",e=>{if(gTouch())return;const c=e.target.closest?e.target.closest(".gc[data-i]"):null;if(!c){if(GH.i>=0)ghHide();return}const i=+c.dataset.i;if(i!==GH.i)ghShow(i,c)});
 $("gm").addEventListener("mouseleave",ghHide);
