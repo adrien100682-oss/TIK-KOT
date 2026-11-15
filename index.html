@@ -16,7 +16,7 @@ select{background:var(--bg);color:var(--fg);border:1px solid var(--mut);border-r
 #ab,#addb,#gmb,#nlb,summary{border:0;border-radius:8px;padding:7px 12px;font-weight:700;cursor:pointer;font-size:14px;list-style:none}
 #ab{background:var(--acc);color:#111}
 #addb{background:#7a3cff;color:#fff}
-#gmb{background:#e5383b;color:#fff}
+#gmb{background:#e5383b;color:#fff}body.solo>*:not(#gm):not(script){display:none!important}body.solo .gmb2[onclick*="gmClose"],body.solo .gx[onclick*="gmClose"]{display:none}
 #nlb,summary{background:var(--bg);color:var(--fg);border:1px solid var(--mut)}
 summary::-webkit-details-marker{display:none}
 details{position:relative}
@@ -560,6 +560,7 @@ function setT(i,k,v){TI[i][k]=k=="t"?Math.max(0,+v||0):v;jset(LTI,TI);drawTiers(
 function resetT(){TI=DEF_T.map(x=>({...x}));jset(LTI,TI);drawTiers();build()}
 
 /* ---- état ---- */
+var SOLO=/[?&#]jeu\b/.test(location.href);if(SOLO)document.body.classList.add("solo");
 let ALLROWS=[],CONS=[],SEL=[],DB={},GM={},LAT={},LD={},XC={},OBS=null,ITEMS=[],LASTM=null;
 const CART=new Set(["nes","snes","n64","gb","gbc","gba","md","sms","gg","ds","3ds"]);   // jeux sur cartouche : on se base sur le prix de la cartouche seule
 const mcOf=c=>CART.has(c)?"loose":"complet";
@@ -726,7 +727,7 @@ function build(){
    if(x&&!live.some(l=>l.lang=="FR"&&l.sp==ed))miss.push({g,last:x.p,date:x.d,ver:"FR",src:"manual",ed,unc:null})});
  });
  rows.forEach(r=>{const o=r.others.map(x=>x.min).filter(Boolean);r.solo=r.n==1&&!o.some(x=>x>=r.min*0.5&&x<=r.min*2);r.box=r.full?Math.round(r.full.min-r.min):null;r.bx=r.full&&r.min>0?r.full.min/r.min:null});
- ALLROWS=rows.slice();boxStats(rows);
+ ALLROWS=rows.slice();boxStats(rows);if(SOLO&&!GON&&ALLROWS.length)gmOpen();
  if($("ex").checked){rows=rows.filter(r=>r.g.x);miss=miss.filter(m=>m.g.x)}
  if($("fm").checked){rows=rows.filter(r=>r.g.fame===0);miss=miss.filter(m=>m.g.fame===0)}
  if($("two").checked)rows=rows.filter(r=>r.n>=2);
@@ -906,7 +907,7 @@ let G=null,GT=null,GPOOL=[];
 // jeux utilisables : PAL FR, version standard, au moins 2 annonces, prix confirmé (jamais une annonce unique)
 const gmPool=()=>ALLROWS.filter(r=>!r.solo&&r.n>=2&&r.ver=="FR"&&!r.spOnly&&(r.g.cover||r.g.img||(r.imgs&&r.imgs.length)));
 const gCov=r=>r.g.img||(r.g.cover?IMG+r.g.cover+".jpg":""),gImg=r=>(r.imgs&&r.imgs[0])||gCov(r);
-function gmClose(){GON=false;ghHide();vStop();clearInterval(GNT);clearInterval(GT);GT=null;sAmbStop();if(G)clearInterval(G.stepT);$("gm").style.display="none";G=null}
+function gmClose(){GON=false;ghHide();vStop();clearInterval(GNT);clearInterval(GT);GT=null;sAmbStop();if(G)clearInterval(G.stepT);$("gm").style.display="none";G=null;if(SOLO)gmOpen()}
 /* --- sons : tout est synthétisé, aucun fichier audio --- */
 const SND={ctx:null,amb:null,ambG:null,t:null,on:(()=>{try{return localStorage.getItem("tikkot_snd")!=="0"}catch(e){return true}})(),
  v:(()=>{try{return {amb:.3,sfx:.5,voi:.5,...JSON.parse(localStorage.getItem("tikkot_vol")||"{}")}}catch(e){return {amb:.3,sfx:.5,voi:.5}}})()};
@@ -1488,5 +1489,5 @@ fetch("data/consoles.json",{cache:"no-store"}).then(okj).catch(()=>[])
  .then(c=>c.some(x=>x.key==="ps2")?c:fetch("data/latest.json",{cache:"no-store"}).then(okj).then(d=>[{key:"ps2",name:"PlayStation 2",games:d.games.length},...c]).catch(()=>c))
  .then(c=>{if(!c.length)c=[{key:"ps2",name:"PlayStation 2",games:0}];
   CONS=c;const sv=ldSel().filter(k=>CONS.some(x=>x.key==k));
-  SEL=sv.length?sv:[CONS[0].key];drawCons();refresh()});
+  SEL=SOLO?CONS.map(x=>x.key):sv.length?sv:[CONS[0].key];drawCons();refresh()});
 </script></body></html>
