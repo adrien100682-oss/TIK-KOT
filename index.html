@@ -336,7 +336,7 @@ table.cmp{width:100%;border-collapse:collapse;background:var(--card);border-radi
 .gtic{display:block;width:100%;height:92px;overflow:hidden;position:relative}.gtic svg{width:54px;height:90px;overflow:visible;display:block;margin:2px auto 0}.gtic.head svg{width:112px;height:187px;margin:20px auto 0}
 .gti .nm{font-size:11px;font-weight:700;line-height:1.15;min-height:2.3em;display:flex;align-items:center;text-align:center}.gti .ra{font:700 6px "Press Start 2P",ui-monospace,monospace;color:var(--rc);letter-spacing:.5px}
 .gti .eq{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#fff;color:#111;font:700 7px "Press Start 2P",ui-monospace,monospace;padding:4px 6px;border-radius:5px;white-space:nowrap;z-index:2}
-.gti.lock .gtic svg{filter:brightness(.25) saturate(.3)}.gti.lock{cursor:not-allowed}
+.gti.lock .gtic svg{filter:brightness(.25) saturate(.3)}.gti.lock{cursor:pointer}.gpg{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;padding:20px}.gpc{background:var(--card);border:3px solid #000;box-shadow:4px 4px 0 #000;padding:14px;display:flex;flex-direction:column;gap:8px;align-items:center;flex:1 1 200px;max-width:260px}.gpc.cur{outline:3px solid var(--cy)}.gpv{width:90px;height:130px}.gpv svg{width:100%;height:100%}.gpn0{font:700 13px "Press Start 2P",ui-monospace,monospace;text-align:center;word-break:break-word}.gpi{padding:9px;background:#0006;color:inherit;border:2px solid #000;width:100%;box-sizing:border-box;font:inherit}.gti.arm{outline:4px solid #f0c050;outline-offset:2px}.gtk{display:inline-block;min-width:22px;text-align:center;background:var(--c);color:#111;font:700 11px system-ui;padding:2px 5px;margin-right:4px;border:2px solid #000}
 .gti .lk{position:absolute;top:34px;left:0;right:0;text-align:center;font-weight:800;font-size:12px;color:#fff;text-shadow:0 1px 3px #000}.gti .lk i{display:block;height:5px;background:#fff3;border-radius:3px;margin:4px 14px 0}.gti .lk b{display:block;height:100%;background:var(--acc);border-radius:3px}
 .shake{animation:gshk .3s}@keyframes gshk{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 .gswl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:14px 0 4px}.gswl b{min-width:96px;font:700 8px "Press Start 2P",ui-monospace,monospace;color:var(--mut)}.gswl .sw{width:34px;height:34px;box-shadow:0 3px 0 #0007}
@@ -946,12 +946,32 @@ const GBK=[["Aucun",0],["Sac à dos",0],["Sac manette",150],["Cape",450],["Épé
  ["Bouclier",400],["Arc et carquois",650],["Katana",900],["Drone compagnon",1600,["pep",8,"Trouver 8 pépites"]],["Grande épée",1300],["Ailes de dragon",3600,["pep",30,"Trouver 30 pépites"]],["Pack de cartouches",100],["Manette géante",350]];
 const GAU=[["Aucune",0],["Étincelles",500],["Néon",900],["Pluie de pixels",1400],["Glitch",1700],["Flammes",2000,["ok",10,"Réussir 10 brocantes"]],["Éclairs",2600,["perf",2,"2 brocantes ×3 sans erreur"]],["Pluie de pièces",3500,["pep",40,"Trouver 40 pépites"]]];
 const GCAT=[["hs","Cheveux",GHS],["hat","Tête",GHT],["of","Tenue",GOF],["fa","Visage",GFA],["bk","Dos",GBK],["au","Aura",GAU]];
-const LA="tikkot_ach",gA=()=>{try{return JSON.parse(localStorage.getItem(LA))||{}}catch(e){return {}}},gAch=(a,A)=>((A||gA())[a[0]]||0)>=a[1],gLk=(it,x,A)=>it[1]>x||(it[2]&&!gAch(it[2],A));
-const gLkTxt=(it,x)=>[it[1]>x?"encore "+(it[1]-x)+" XP":"",it[2]&&!gAch(it[2])?it[2][2]:""].filter(Boolean).join(" + ");
+const LA="tikkot_ach",gA=()=>{try{return JSON.parse(localStorage.getItem(LA))||{}}catch(e){return {}}},gAch=(a,A)=>((A||gA())[a[0]]||0)>=a[1],gLk=(it)=>!gOwned(it);
+const gLkTxt=(it)=>[gPrice(it)?gPrice(it)+" ◎":"",it[2]&&!gAch(it[2])?it[2][2]:""].filter(Boolean).join(" + ");
 const LX="tikkot_xp",gXP=()=>{try{return Math.max(0,parseInt(localStorage.getItem(LX))||0)}catch(e){return 0}},gSetXP=v=>{try{localStorage.setItem(LX,String(v))}catch(e){}};
+GCAT.forEach(([k,,L])=>L.forEach(it=>{it.id=k+":"+it[0]}));
+const LCN="tikkot_coins",LO="tikkot_own",LT="tikkot_tok",LK="tikkot_col",GTN=["","JAUNE","ORANGE","ROUGE","VIOLET"],GTK=[0,6,4,2,1],GTC=["","#f2c230","#f08a2a","#e5383b","#8a4be0"];
+const jg=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}},js=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+const gCoins=()=>{try{return Math.max(0,parseInt(localStorage.getItem(LCN))||0)}catch(e){return 0}},gSetCoins=v=>{try{localStorage.setItem(LCN,String(Math.max(0,Math.round(v))))}catch(e){}};
+const gPrice=it=>it[1]>0?Math.max(10,Math.round(it[1]/40)*5):0,gTierOf=it=>it[1]>=2500?4:it[1]>=1200?3:it[1]>=450?2:it[1]>0?1:0;
+const gOwned=it=>gPrice(it)==0?(!it[2]||gAch(it[2])):jg(LO,[]).includes(it.id);
+let GARM=null,GARMT="",GRST=0,GPD=null;
+const LPF="tikkot_prof",PK=[LX,LA,LCN,LO,LT,LK,"tikkot_char",LB],gPf=()=>jg(LPF,{list:[],cur:null});
+(()=>{const p=gPf();if(!p.list.length&&PK.some(k=>{try{return localStorage.getItem(k)!=null}catch(e){return false}})){p.list=[{id:"p1",name:"Chineur 1"}];p.cur="p1";js(LPF,p)}})();
+const gPfSave=()=>{const p=gPf();if(!p.cur)return;const b={};PK.forEach(k=>{try{b[k]=localStorage.getItem(k)}catch(e){}});js("tikkot_pd_"+p.cur,b)};
+const gPfClr=()=>PK.forEach(k=>{try{localStorage.removeItem(k)}catch(e){}});
+const gPfLoad=id=>{gPfClr();const b=jg("tikkot_pd_"+id,{});PK.forEach(k=>{if(b[k]!=null)try{localStorage.setItem(k,b[k])}catch(e){}});GC=gLoadChar()};
+function gPfSel(id){gPfSave();GPD=null;const p=gPf();p.cur=id;js(LPF,p);gPfLoad(id);SFX.pick();gmMenu()}
+function gPfNew(i){const inp=$("gpn"+i),nm=((inp&&inp.value.trim())||"Chineur "+(i+1)).slice(0,12);gPfSave();const p=gPf(),id="p"+Date.now().toString(36);p.list.push({id,name:nm});p.cur=id;js(LPF,p);gPfClr();js("tikkot_pd_"+id,{});GC=gLoadChar();SFX.gem();gmMenu()}
+function gPfDel(id){if(GPD!==id){GPD=id;gmProfiles();return}GPD=null;const p=gPf();p.list=p.list.filter(e=>e.id!=id);try{localStorage.removeItem("tikkot_pd_"+id)}catch(e){}if(p.cur==id){p.cur=null;gPfClr();GC=gLoadChar()}js(LPF,p);gmProfiles()}
+function gmProfiles(){const p=gPf();gPfSave();
+ const av=(e)=>{try{const b=e.id==p.cur?null:jg("tikkot_pd_"+e.id,{});return charSVG(b?{...CH0,...JSON.parse(b["tikkot_char"]||"{}")}:GC)}catch(x){return ""}};
+ const card=i=>{const e=p.list[i];if(!e)return `<div class="gpc"><div class="gpv"></div><div class="gpn0">LIBRE</div><input id="gpn${i}" maxlength="12" placeholder="Nom du chineur" class="gpi"><button type="button" class="gmb1" onclick="gPfNew(${i})">+ NOUVEAU</button></div>`;
+  const b=e.id==p.cur?{[LX]:localStorage.getItem(LX),[LCN]:localStorage.getItem(LCN)}:jg("tikkot_pd_"+e.id,{}),x=parseInt(b[LX])||0,c=parseInt(b[LCN])||0;
+  return `<div class="gpc${e.id==p.cur?" cur":""}"><div class="gpv">${av(e)}</div><div class="gpn0">${esc(e.name)}</div><small>NIV ${gLvl(x)} · ${c} ◎</small><button type="button" class="gmb1" onclick="gPfSel('${e.id}')">${e.id==p.cur?"CONTINUER":"JOUER"}</button><button type="button" class="gmb2 sm" onclick="gPfDel('${e.id}')"${GPD==e.id?' style="background:#e5383b;color:#fff"':""}>${GPD==e.id?"SÛR ? CLIQUE ENCORE":"SUPPRIMER"}</button></div>`};
+ $("gm").innerHTML=`<div class="gmenu"><div class="gvh"><${p.cur?'button type="button" class="gmb2 sm" onclick="GPD=null;gmMenu()">◀ RETOUR</button':"span></span"}><div class="gtitle">QUI CHINE AUJOURD'HUI ?</div><span></span></div><div class="gpg">${[0,1,2].map(card).join("")}</div></div>`}
+
 const gLvl=x=>1+Math.floor(Math.sqrt(x/20));
-const gUnl=(x,A)=>GCAT.flatMap(c=>c[2].filter(i=>i[1]>0&&!gLk(i,x,A)).map(i=>i[0]));
-const gNext=x=>GCAT.flatMap(c=>c[2]).filter(i=>i[1]>x).sort((a,b)=>a[1]-b[1])[0];
 const CH0={skin:1,hs:0,hc:2,hat:0,sh:3,pa:1,of:0,fa:0,bk:0,au:0};
 function gLoadChar(){let c={};try{c=JSON.parse(localStorage.getItem("tikkot_char"))||{}}catch(e){}
  if(c.ac==1&&c.fa==null)c.fa=1;if(c.ac==2&&c.bk==null)c.bk=1;c={...CH0,...c};delete c.ac;const x=gXP();
@@ -1075,18 +1095,20 @@ function charSVG(c){const sk=GSK[c.skin]||GSK[1],skd=GSD[c.skin]||GSD[1],hc=GHC[
 const gNpc=()=>{const r=n=>Math.floor(Math.random()*n);return {skin:r(6),hs:r(5),hc:r(7),hat:any([0,0,0,1,2,3]),sh:r(10),pa:r(6),of:any([0,0,1,2]),fa:any([0,0,0,1,2,3]),bk:any([0,0,1])}};
 let GTAB="of",GON=false;
 const gBest=()=>{try{return JSON.parse(localStorage.getItem(LB))||{}}catch(e){return {}}};
-const gXpBar=()=>{const x=gXP(),nx=gNext(x);return `<div class="gvx"><span class="gvl">NIV ${gLvl(x)}</span><div style="flex:1;min-width:150px"><div class="gbar"><div style="width:${nx?Math.min(100,100*x/nx[1]):100}%"></div></div><small>${x} XP${nx?` · prochain objet : <b>${nx[0]}</b> à ${nx[1]} XP`:" · tout est débloqué !"}</small></div></div>`};
+const gXpBar=()=>{const x=gXP(),tk=jg(LT,{}),col=jg(LK,{});return `<div class="gvx"><span class="gvl">NIV ${gLvl(x)}</span><div style="flex:1;min-width:150px"><div><b style="font-size:15px">${gCoins()} ◎</b> · ${x} XP</div><small>Jetons : ${[1,2,3,4].map(t=>`<span class="gtk" style="--c:${GTC[t]}" title="${GTN[t]} : ${(col[t]||0)%GTK[t]}/${GTK[t]} avant le prochain">${tk[t]||0}</span>`).join("")} <i style="opacity:.7">un jeton débloque gratuitement un objet de sa rareté</i></small></div></div>`};
 // décor animé réutilisé par le menu
 function gBackdrop(){const dec=gThemeDec(1,1500,2);
  const npc=Array.from({length:5},(_,i)=>{const d=26+Math.random()*22;return `<div class="gnpc walking${i%2?" rv lft":""}" style="animation-duration:${d.toFixed(1)}s;animation-delay:-${(Math.random()*d).toFixed(1)}s;bottom:${24+i*4}px"><div class="gfl"><div class="gcw">${charSVG(gNpc())}</div></div></div>`}).join("");
  return `<div class="gmscene" style="--night:0;--torch:0"><div class="gsky" style="background:linear-gradient(#2a1458,#e0605a)"><div class="gsun" style="left:78%;top:52%"></div><div class="gcl" style="top:18px;width:110px;animation-duration:70s;animation-delay:-20s"></div><div class="gcl" style="top:52px;width:80px;animation-duration:95s;animation-delay:-60s"></div><div class="gcl" style="top:8px;width:140px;animation-duration:120s;animation-delay:-95s"></div></div>
  <div class="gin th1" style="--w:1500px"><div class="gfar"></div><div class="ggr"></div>${dec}<div class="gbun"></div>${npc}<div class="gmme walking"><div class="gcw">${charSVG(GC)}</div></div></div></div>`}
 // menu principal
-function gmMenu(){ghHide();vStop();clearInterval(GNT);clearInterval(GT);GT=null;sAmbStop();G=null;const b=gBest();$("gm").style.display="block";
- $("gm").innerHTML=`<div class="gmenu"><div class="gmhead"><div class="gtitle big gbounce">LA BROCANTE</div><div class="gtag">CHASSE AUX PÉPITES RÉTRO</div></div>${gBackdrop()}
- <div class="gmrow"><button type="button" class="gmb1" onclick="gmBegin()"><span class="gar">▶</span> JOUER</button>
- <div class="gmgrid"><button type="button" class="gmb2" onclick="gmCustom()">VESTIAIRE</button><button type="button" class="gmb2" onclick="gmHow()">COMMENT JOUER</button>
- <button type="button" class="gmb2" onclick="sToggle();gmMenu()">${SND.on?"SON : OUI":"SON : NON"}</button><button type="button" class="gmb2" onclick="gmClose()">✕ QUITTER</button></div></div>
+function gmReset(){if(!GRST){GRST=1;gmMenu();setTimeout(()=>{if(GRST){GRST=0;if($("gm")&&$("gm").querySelector(".gmrow"))gmMenu()}},4000);return}
+ GRST=0;[LX,LA,LCN,LO,LT,LK,"tikkot_char",LB].forEach(k=>{try{localStorage.removeItem(k)}catch(e){}});GC=gLoadChar();SFX.nope();gmMenu()}
+function gmMenu(){ghHide();vStop();clearInterval(GNT);clearInterval(GT);GT=null;sAmbStop();G=null;const b=gBest();$("gm").style.display="block";if(!gPf().cur){gmProfiles();return}
+ $("gm").innerHTML=`<div class="gmenu"><div class="gmhead"><div class="gtitle big gbounce">LA BROCANTE</div><div class="gtag">CHASSE AUX PÉPITES RÉTRO · ${esc((gPf().list.find(e=>e.id==gPf().cur)||{}).name||"")}</div></div>${gBackdrop()}
+ <div class="gmrow"><button type="button" class="gmb1" onclick="gmBegin()"><span class="gar">▶</span> NOUVELLE PARTIE</button>
+ <div class="gmgrid"><button type="button" class="gmb2" onclick="gmCustom()">VESTIAIRE</button><button type="button" class="gmb2" onclick="gmProfiles()">CHANGER DE CHINEUR</button><button type="button" class="gmb2" onclick="gmHow()">COMMENT JOUER</button>
+ <button type="button" class="gmb2" onclick="sToggle();gmMenu()">${SND.on?"SON : OUI":"SON : NON"}</button><button type="button" class="gmb2" onclick="gmReset()" style="${GRST?"background:#e5383b;color:#fff":""}">${GRST?"SÛR ? CLIQUE ENCORE":"EFFACER PROGRESSION"}</button><button type="button" class="gmb2" onclick="gmClose()">✕ QUITTER</button></div></div>
  <div class="gmfoot">${gXpBar()}<div class="gmrec">${b.stands?`RECORD : ${b.stands} BROCANTE${b.stands>1?"S":""}${b.avg?" · ×"+b.avg:""}`:"AUCUN RECORD"}<br><small>${GPOOL.length} jeux dans les bacs</small></div></div></div>`}
 function gmHow(){$("gm").innerHTML=`<div class="gmenu"><div class="gvh"><button type="button" class="gmb2 sm" onclick="gmMenu()">◀ RETOUR</button><div class="gtitle">COMMENT JOUER</div><span></span></div><div class="gvgrid" style="line-height:1.55;min-height:0">
  <p>Le but : apprendre à repérer les jeux qui valent le déplacement. Tu pars avec <b>${GBUD} €</b> toujours fixes. Achète, puis tout est revendu à la fin : il faut finir avec <b>×2</b> (caisse + revente) pour passer à la brocante suivante. <b>×3</b> ou <b>×4</b> <u>sans aucune mauvaise affaire</u> donne un gros bonus.</p><p>Ton scanner <b>Lens</b> donne la cote d'un jeu (nombre limité par brocante, plus puissant avec l'XP ; les meilleures lunettes révèlent un stand entier). Les belles pièces rouges ou violettes <b>partent vers midi</b>.</p><p>Les couleurs sont celles du site. La moitié des jeux sont <b>blancs</b> (mauvaises pioches), beaucoup sont <b>jaunes</b> (peu d'intérêt), quelques-uns <b>orange</b>, et il y a toujours au moins une pépite <b>rouge ou violette</b>.</p>
@@ -1102,16 +1124,25 @@ function gmCustom(tab){if(tab)GTAB=tab;sInit();ghHide();const back=G&&G.rev;$("g
  $("gm").innerHTML=`<div class="gves"><div class="gvh"><button type="button" class="gmb2 sm" onclick="${back?"gmDraw()":"gmMenu()"}">◀ RETOUR</button><div class="gtitle">VESTIAIRE</div>${gXpBar()}</div>
  <div class="gvb"><div class="gvstage"><div class="gvspot"></div><div class="gvchar" id="gvp"></div><div class="gvped"></div><div class="gvname" id="gvn"></div><button type="button" class="gmb2 sm" onclick="gcRand()">AU HASARD</button></div>
  <div class="gvr"><div class="gvtabs" id="gvt"></div><div class="gvgrid" id="gvg"></div></div></div></div>`;gvRefresh()}
-function gvRefresh(){if(!$("gvg"))return;const x=gXP();$("gvp").innerHTML=charSVG(GC);$("gvn").textContent="";
+function gvRefresh(){if(!$("gvg"))return;const x=gXP();$("gvp").innerHTML=charSVG(GC);$("gvn").textContent="";{const h=document.querySelector(".gves .gvx");if(h)h.outerHTML=gXpBar()}
  $("gvt").innerHTML=GTABS.map(([k,t])=>{const L=GLIST[k];return `<button type="button" class="gvtab${k==GTAB?" on":""}" onclick="gvTab('${k}')">${t}<small>${L?L.filter(i=>!gLk(i,x)).length+"/"+L.length:"&nbsp;"}</small></button>`}).join("");
  const sw=(k,L,lab)=>`<div class="gswl"><b>${lab}</b>${L.map((c,i)=>`<button type="button" class="sw${GC[k]==i?" on":""}" style="background:${c}" onclick="gcSet('${k}',${i})"></button>`).join("")}</div>`;
  const tiles=k=>`<div class="gtiles">${GLIST[k].map((it,i)=>{const [t,need]=it,lk=gLk(it,x),[rn,rc]=gRar(need);
-  return `<button type="button" class="gti ${rc}${GC[k]==i?" on":""}${lk?" lock":""}" onmouseenter="gvTry('${k}',${i})" onmouseleave="gvTry()" onclick="gvPick('${k}',${i},this)">${GC[k]==i?'<span class="eq">ÉQUIPÉ</span>':""}<span class="gtic${k=="of"||k=="bk"||k=="au"?"":" head"}">${charSVG({...GC,[k]:i})}</span>${lk?`<span class="lk"><span class="plk"></span>${[need>x?need+" XP":"",it[2]&&!gAch(it[2])?it[2][2]:""].filter(Boolean).join("<br>")}<i><b style="width:${Math.min(100,Math.round(100*x/Math.max(need,1)))}%"></b></i></span>`:""}<span class="nm">${t}</span><span class="ra">${rn}</span></button>`}).join("")}</div>`;
+  return `<button type="button" class="gti ${rc}${GC[k]==i?" on":""}${lk?" lock":""}${GARM==it.id?" arm":""}" onmouseenter="gvTry('${k}',${i})" onmouseleave="gvTry()" onclick="gvPick('${k}',${i},this)">${GC[k]==i?'<span class="eq">ÉQUIPÉ</span>':""}<span class="gtic${k=="of"||k=="bk"||k=="au"?"":" head"}">${charSVG({...GC,[k]:i})}</span>${lk?`<span class="lk"><span class="plk"></span>${gLkTxt(it)}<i><b style="width:${Math.min(100,Math.round(100*gCoins()/Math.max(gPrice(it),1)))}%"></b></i></span>`:""}<span class="nm">${t}</span><span class="ra">${rn}</span></button>`}).join("")}</div>`;
  $("gvg").innerHTML={body:()=>sw("skin",GSK,"PEAU")+sw("sh",GSH,"HAUT")+sw("pa",GPA,"PANTALON")+'<p class="sub" style="text-align:left;margin-top:16px">Les autres catégories changent la coiffure, la tête, la tenue, le visage et le dos. Survole un objet pour l\'essayer, même verrouillé.</p>',
   hs:()=>tiles("hs")+sw("hc",GHC,"COULEUR"),hat:()=>tiles("hat"),of:()=>tiles("of")+sw("sh",GSH,"HAUT")+sw("pa",GPA,"PANTALON"),fa:()=>tiles("fa"),bk:()=>tiles("bk"),au:()=>tiles("au")}[GTAB]()}
 function gvTab(k){GTAB=k;SFX.arrive();gvRefresh()}
-function gvTry(k,i){const p=$("gvp"),n=$("gvn");if(!p)return;if(k==null){p.innerHTML=charSVG(GC);n.textContent="";return}const it=GLIST[k][i],lk=gLk(it,gXP());p.innerHTML=charSVG({...GC,[k]:i});n.textContent=it[0]+(lk?" · verrouillé : "+gLkTxt(it,gXP()):"")}
-function gvPick(k,i,el){const it=GLIST[k][i],x=gXP();if(gLk(it,x)){SFX.nope();el.classList.remove("shake");void el.offsetWidth;el.classList.add("shake");const n=$("gvn");if(n)n.textContent=it[0]+" : "+gLkTxt(it,x);return}GC[k]=i;gSaveChar();SFX.pick();gvRefresh()}
+function gvTry(k,i){const p=$("gvp"),n=$("gvn");if(!p)return;if(k==null){p.innerHTML=charSVG(GC);n.textContent="";return}const it=GLIST[k][i],lk=gLk(it,gXP());p.innerHTML=charSVG({...GC,[k]:i});if(GARM===it.id&&lk){n.textContent=GARMT;return}n.textContent=it[0]+(lk?" · verrouillé : "+gLkTxt(it,gXP()):"")}
+function gvPick(k,i,el){const it=GLIST[k][i],n=$("gvn");
+ if(!gLk(it)){GARM=null;GC[k]=i;gSaveChar();SFX.pick();gvRefresh();return}
+ const bad=m=>{SFX.nope();el.classList.remove("shake");void el.offsetWidth;el.classList.add("shake");if(n)n.textContent=m};
+ const pr=gPrice(it),t=gTierOf(it),tok=jg(LT,{});
+ if(it[2]&&!gAch(it[2])){bad(it[0]+" : "+it[2][2]);return}
+ const useTok=t>0&&(tok[t]||0)>0;
+ if(!useTok&&gCoins()<pr){bad(it[0]+" : "+pr+" ◎ (il te manque "+(pr-gCoins())+" ◎)");return}
+ if(GARM!==it.id){GARM=it.id;GARMT=it[0]+" · clique encore pour "+(useTok?"utiliser 1 jeton "+GTN[t]+" (gratuit)":"acheter pour "+pr+" ◎");SFX.arrive();gvRefresh();if(n)n.textContent=GARMT;return}
+ GARM=null;if(useTok){tok[t]--;js(LT,tok)}else gSetCoins(gCoins()-pr);
+ const own=jg(LO,[]);own.push(it.id);js(LO,own);GC[k]=i;gSaveChar();SFX.gem();gvRefresh()}
 function gcSet(k,v){GC[k]=v;gSaveChar();SFX.pick();gvRefresh()}
 function gcRand(){const r=n=>Math.floor(Math.random()*n),x=gXP(),pk=L=>any(L.map((it,i)=>!gLk(it,x)?i:-1).filter(i=>i>=0));GC={skin:r(6),hc:r(9),sh:r(10),pa:r(6),hs:pk(GHS),hat:pk(GHT),of:pk(GOF),fa:pk(GFA),bk:pk(GBK),au:pk(GAU)};gSaveChar();SFX.pick();gvRefresh()}
 function gmOpen(){GON=true;const P=gmPool();$("gm").style.display="block";
@@ -1384,8 +1415,9 @@ function gmEnd(auto){if(!G||G.rev)return;ghHide();vStop();clearInterval(GNT);cle
  G.ok=ok;G.mult=mult;if(ok)G.done++;G.notes.push(mult);G.pf+=pf;G.pt+=pt;
  const pe=G.all.find(x=>x.t=="p"),found=!!(pe&&G.sel.has(pe.i)),ptx=pe?`<br>La plus belle affaire : <b>${esc(pe.r.g.t)}</b> ${G.stands[pe.st].kind=="l"?"cachée dans le lot à "+G.stands[pe.st].p+" €":"affichée "+pe.s+" €"}, cote ${Math.round(pe.raw)} € · ${found?"tu l'as trouvée !":"ratée"}`:"";
  G.msg=(auto&&!B.length?"Temps écoulé, rien acheté. ":"")+`Fortune : <b class="${ok?"gw":"gl"}">${wealth} €</b> pour ${GBUD} € de départ (<b>×${mult}</b>) · ${ok?"objectif ×2 atteint":"objectif ×2 raté, il fallait "+2*GBUD+" €"}${b4?" · <b class=\"gw\">BONUS ×4 sans erreur !</b>":b3?" · <b class=\"gw\">BONUS ×3 sans erreur !</b>":(mis?` · <b class="gl">${mis} mauvais achat${mis>1?"s":""}</b> : plus de bonus possible`:"")} · pépites rouges ou violettes trouvées : <b>${pf}/${pt}</b>`+ptx;
- const xg=Math.round(Math.max(0,GG)*1.5)+pf*25+(ok?10*G.stage:0)+(b4?60:b3?30:0),x0=gXP(),x1=x0+xg,A0=gA(),A1={...A0,pep:(A0.pep||0)+pf,runs:(A0.runs||0)+1,ok:(A0.ok||0)+(ok?1:0),perf:(A0.perf||0)+(b3?1:0),stage:ok?Math.max(A0.stage||0,G.stage):(A0.stage||0)};gSetXP(x1);try{localStorage.setItem(LA,JSON.stringify(A1))}catch(e){}const nu=gUnl(x1,A1).filter(n=>!gUnl(x0,A0).includes(n));
- G.msg+=(gLensLv(x1)[0]!=gLensLv(x0)[0]?`<br>Nouveau matériel : <b>${gLensLv(x1)[2]}</b> (${gLensLv(x1)[1]} scans par brocante)`:"")+`<br>+${xg} XP (total ${x1}, niveau ${gLvl(x1)})`+(nu.length?`<br>Débloqué : <b>${nu.map(esc).join(", ")}</b> · à essayer au vestiaire`:"");
+ const xg=Math.round(Math.max(0,GG)*1.5)+pf*25+(ok?10*G.stage:0)+(b4?60:b3?30:0),x0=gXP(),x1=x0+xg,A0=gA(),A1={...A0,pep:(A0.pep||0)+pf,runs:(A0.runs||0)+1,ok:(A0.ok||0)+(ok?1:0),perf:(A0.perf||0)+(b3?1:0),stage:ok?Math.max(A0.stage||0,G.stage):(A0.stage||0)};gSetXP(x1);try{localStorage.setItem(LA,JSON.stringify(A1))}catch(e){}const col=jg(LK,{}),tok=jg(LT,{}),nu=[];B.forEach(x=>{if(x.ti>=1&&x.v-gPaid(x)>=0){col[x.ti]=(col[x.ti]||0)+1;if(col[x.ti]%GTK[x.ti]==0){tok[x.ti]=(tok[x.ti]||0)+1;nu.push(x.ti)}}});js(LK,col);js(LT,tok);gSetCoins(gCoins()+xg);
+ const colTxt="<br><small>Collection (jeu rentable de la couleur) : "+[1,2,3,4].map(t=>GTN[t].toLowerCase()+" "+(col[t]%GTK[t])+"/"+GTK[t]).join(" · ")+" → 1 jeton à chaque palier</small>";
+ G.msg+=(gLensLv(x1)[0]!=gLensLv(x0)[0]?`<br>Nouveau matériel : <b>${gLensLv(x1)[2]}</b> (${gLensLv(x1)[1]} scans par brocante)`:"")+`<br>+${xg} XP · +${xg} ◎ (porte-monnaie : ${gCoins()} ◎, niveau ${gLvl(x1)})`+(nu.length?`<br>Jeton gagné : <b>${nu.map(t=>GTN[t]).join(", ")}</b> · à utiliser au vestiaire`:"")+colTxt;
  G.gain=resale;G.found=found;G.nu=nu.length>0;G.scored=false;
  gmDraw()}
 function gmOver(){ghHide();vStop();clearInterval(GNT);if(G)clearInterval(G.scT);clearInterval(GT);GT=null;sAmbStop();if(!G)return;clearInterval(G.stepT);
