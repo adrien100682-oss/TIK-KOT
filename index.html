@@ -301,6 +301,9 @@ table.cmp{width:100%;border-collapse:collapse;background:var(--card);border-radi
 #gvolp{position:absolute;right:0;top:34px;z-index:80;background:#0b0820f6;border:3px solid var(--line);padding:10px 12px;display:flex;flex-direction:column;gap:8px;min-width:190px}
 #gvolp label{display:flex;flex-direction:column;gap:3px;font:700 7px "Press Start 2P",monospace;color:var(--mut);text-align:left}
 #gvolp input{width:100%;accent-color:var(--acc)}
+.gst.pro .aw{--c:#2a5fb0;height:38px}.gst.pro .pb{position:absolute;left:-4px;right:-4px;top:34px;height:16px;background:#12206a;color:#fff;font:700 7px/16px "Press Start 2P",monospace;text-align:center;z-index:3;border:2px solid #000}.gst.pro .tb{background:linear-gradient(#bfe8f0cc,#4a7a9a);border-top-color:#e0e8f0}.gst.pro .tb i{margin-top:-30px;height:34px}.gst.pro .gsg .num{background:#f0c050}
+.gst.tbl .aw{height:8px;opacity:.35}.gst.tbl .aw::before,.gst.tbl .aw::after{height:70px}.gst.tbl .tb{background:#c9b890;border-top-color:#e8dcc0;height:40px}.gst.tbl .tb i{height:26px;margin-top:-20px}
+.glens{background:#4fd6d0;color:#04201f;font:700 10px "Press Start 2P",monospace;padding:7px 9px;border:2px solid #000;box-shadow:3px 3px 0 #000a}.glens.zero{background:#e0503a;color:#fff}
 .gzo{display:none;position:absolute;right:3px;bottom:3px;background:#000a;color:#fff;border-radius:50%;width:26px;height:26px;align-items:center;justify-content:center;font-size:13px}
 @media(hover:none){.gzo{display:flex}}
 .deal .gc{animation:gdeal .32s backwards cubic-bezier(.2,1.3,.4,1)}@keyframes gdeal{from{opacity:0;transform:translateY(-26px) rotate(-6deg) scale(.8)}}
@@ -889,7 +892,7 @@ $("bg").onchange=()=>build();
 const LB="tikkot_best",GSEC=26;
 const GNAME=["Vide-grenier de quartier","Brocante du dimanche","Puces de la ville","Braderie de la place","Marché aux puces","Grande brocante"];
 const gFee=n=>n<=6?[0,5,8,12,18,25][n-1]:25+(n-6)*7,gTarget=n=>n<=6?[8,10,14,18,24,30][n-1]:30+(n-6)*8,gNst=n=>[3,4,5,6,7,8,9,10][Math.min(n-1,7)];
-const GBUD=40,GLV=[[0,3,"Lens de base",0],[300,5,"Lens+",0],[900,8,"Lens Pro",0],[1800,12,"Lens Max",0],[3500,16,"Lunettes AR",1]],gLensLv=x=>GLV.filter(l=>x>=l[0]).pop();
+const GBUD=40,GLV=[[0,2,"Lens de base",0],[300,3,"Lens+",0],[900,5,"Lens Pro",0],[1800,8,"Lens Max",0],[3500,12,"Lunettes AR",1]],gLensLv=x=>GLV.filter(l=>x>=l[0]).pop();
 const GRANK=[[0,"Apprenti"],[100,"Chineur"],[250,"Brocanteur"],[500,"Pro des puces"],[1000,"Légende"]];
 const rankOf=c=>GRANK.filter(x=>c>=x[0]).pop()[1];
 // Revente nette = cote − 10 % − frais par jeu (envoi, commission, temps). En dessous de 4 €, le jeu est invendable : tout acheter ne rapporte rien.
@@ -1124,12 +1127,15 @@ const gBelow=x=>[...GLAD].reverse().find(l=>l<=x)||1,gAbove=x=>GLAD.find(l=>l>x)
 // 4 sortes de vendeurs : g = vide son grenier (prix au hasard, sans rapport avec la cote), c = connaisseur (proche de la cote), r = rêveur (trop cher), u = tout au même prix
 // Les vendeurs. Personne ne vend tout « au prix du marché » : la plupart des jeux sont communs et bradés à prix ronds.
 // g = vide-grenier (prix au hasard) · u = tout au même prix · m = malin (reconnaît les jeux célèbres, pas les méconnus) · r = rêveur (surcote ce qui est connu) · l = lot indissociable
-const GQ={p:["« Prix du marché, j'ai tout vérifié. »","« Je fais ça toute l'année, je connais mes prix. »","« Pas de négociation, c'est la cote. »"],g:["« Je vide le grenier, faites-vous plaisir. »","« C'était à mon fils, il n'y joue plus. »","« Je n'y connais rien, tout doit partir. »","« On déménage, je ne ramène rien. »"],
- m:["« J'ai regardé les prix sur internet. »","« Les bons jeux, je sais ce que ça vaut. »","« Celui-là il est coté, le reste c'est donné. »"],
- r:["« C'est rare ça, ça vaut cher sur internet ! »","« Je l'ai vu à ce prix-là sur eBay. »","« C'est collector, je ne brade pas. »"],
- u:["« Tout au même prix, servez-vous. »","« Prix unique, pas de jaloux. »","« Fouillez, c'est le même prix partout. »"],
- l:["« Je vends le carton entier, je ne détaille pas. »","« C'est le lot ou rien. »","« Tout le carton pour ce prix-là. »"]};
-const GKN={p:"brocanteur pro (prix du marché)",g:"vide-grenier (ne connaît pas les prix)",m:"malin (connaît les jeux célèbres)",r:"rêveur (surcote ce qui est connu)",u:"prix unique",l:"lot indissociable"};
+const GQ={
+ g:["« C'est les jeux de mon fils, il est parti de la maison. »","« Je sais pas ce que ça vaut, j'ai mis 5 euros pièce. »","« Mon mari m'a dit de tout vider avant qu'il rentre. »","« Je les ai jamais essayés, ça marche encore je crois. »","« Le petit joue plus à ça, il est sur sa console de maintenant. »","« J'ai plus de place dans le garage, faites-moi une offre. »","« J'ai trouvé ça dans le grenier en rangeant, prenez tout. »","« Ça traîne depuis dix ans dans un carton, ça m'arrange que ça parte. »","« Oh moi je connais rien, c'est ma fille qui jouait. »","« Je vous fais un prix si vous en prenez plusieurs. »","« Les manettes, je les ai plus, hein. »","« On déménage, je ramène rien à la maison. »"],
+ u:["« Tout à 5 euros, j'ai pas envie de réfléchir. »","« Prix unique, pas de discussion, j'ai pas de monnaie. »","« Tout au même prix, c'est plus simple pour moi. »","« Je vais pas passer ma journée à étiqueter, c'est le même prix partout. »","« Fouillez, c'est tout pareil, ça m'évite de calculer. »"],
+ m:["« J'ai regardé sur Leboncoin, c'est le prix. »","« Je me suis renseigné sur eBay, je suis dans les clous. »","« C'est le prix du marché, vérifiez si vous voulez. »","« Les classiques, ça part vite, donc je les garde à la cote. »","« Je fais ça en plus de mon boulot, mais je connais les prix. »","« Les vieux jeux montent, faut pas les brader. »"],
+ r:["« C'est rare ça, y en a plus nulle part. »","« Collector, sur internet ça part à prix d'or. »","« Ça vaut une fortune, je vous fais un cadeau. »","« Dernier exemplaire, un autre client le veut déjà. »","« Complet, comme neuf, jamais ouvert ou presque. »","« Les stands d'à côté vous vendent du pirate, moi c'est du vrai. »"],
+ l:["« Je vends le carton entier, j'ai pas le temps de trier. »","« C'est le lot ou rien, je vais pas démonter. »","« Tout le carton pour ce prix-là, pas négociable. »","« Je débarrasse la cave de mon père, prenez tout. »"],
+ p:["« Tout est testé et garanti, facture à l'appui. »","« Prix du marché, comparez avec internet si vous voulez. »","« Je fais les salons, je connais ma cote sur le bout des doigts. »","« Pas de négociation, mes prix sont déjà justes. »","« Je rachète aussi, passez me voir avec vos cartons. »","« Boîte, notice, calage, tout y est : c'est du complet. »","« Spécialiste rétro depuis quinze ans, je sais ce que je vends. »"]};
+const VMUK={g:["Faites-moi une offre, hein.","Mon fils va râler si je vends tout.","Tenez, regardez celui-là, il est beau.","Y'a un chargeur quelque part, je crois.","Je vous fais un prix, c'est pas pour gagner de l'argent."],u:["C'est le même prix pour tous, hein.","Je rends pas la monnaie sur les gros billets.","Prenez-en plusieurs, ça fera moins de cartons."],m:["Je suis déjà moins cher que sur internet.","Les classiques, je les ai pas bradés.","Si vous trouvez moins cher, tant mieux pour vous."],r:["Ça va monter, croyez-moi.","Un collectionneur est repassé tout à l'heure.","Faut pas me prendre pour un débutant."],l:["Le carton, c'est pas négociable.","Je préfère que ça parte en bloc."],p:["Je rachète aussi, apportez vos cartons.","Tout est garanti trois mois.","Je suis aux salons tous les week-ends.","Un jeu complet, ça se paie."]};
+const GKN={p:"brocanteur pro (prix du marché)",g:"particulier (ne connaît pas les prix)",m:"revendeur amateur (prix internet, parfois à côté)",r:"arnaqueur (surcote tout ce qui est connu)",u:"prix unique",l:"lot indissociable"};
 const any=a=>a[Math.floor(Math.random()*a.length)];
 // Prix de lot : dès 3 jeux au même stand, environ −20 %, arrondi à un prix rond
 const gLot=sum=>sum<10?Math.max(1,Math.floor(sum*.8)):Math.floor(sum*.8/5)*5;
@@ -1138,24 +1144,25 @@ function gPaid(it){const st=G.stands[it.st];if(st.kind=="l")return st.p/st.items
 // couleur du jeu, la même que sur le site : 0 blanc (ou banal), 1 jaune, 2 orange, 3 rouge, 4 violet
 const gTi=r=>{const t=tierOf(r.min);return t?"DCBAS".indexOf(t.k):0};
 function gmStage(){const n=++G.stage;G.sel=new Set();G.rev=false;G.cur=-1;G.dealK=-1;G.seen=0;G.f=0;G.warned=false;G.walking=false;G.fresh=true;G.msg="";G.ok=false;G.mid=false;G.cash=GBUD;
- const LV=gLensLv(gXP());G.lens=LV[1];G.lensMax=LV[1];G.scan=LV[3]?1:0;
+ const LV=gLensLv(gXP());G.lens=Math.min(LV[1],n);G.lensMax=G.lens;G.scan=LV[3]?1:0;
  const su=new Set(),inSt=(st,r)=>st.items.some(x=>x.r===r),fr=r=>G.fr.get(r)||0,cnt=(a,b)=>a+Math.floor(Math.random()*(b-a+1)),k5=Math.min(n-1,4);
  const CN={};G.pool.forEach(r=>CN[r.g.c]=(CN[r.g.c]||0)+1);let CW=Object.entries(CN).filter(e=>e[1]>=12);if(!CW.length)CW=Object.entries(CN);
  const wpick=not=>{const L=CW.filter(e=>e[0]!==not),t=L.reduce((a,e)=>a+e[1],0);let x=Math.random()*t;for(const e of L){x-=e[1];if(x<=0)return e[0]}return L[0][0]};
  // chaque brocante apporte un nouveau type de vendeur ; les prix moyens montent
  const N=gNst(n),K=[["g","g","u"],["g","u","m","g"],["g","u","m","l","g"],["g","u","m","l","r","p"],["g","u","m","l","r","p","g"]][k5].slice();while(K.length<N)K.push(any(["g","u","p","m","p","l","g"]));
  const lo=[5,5,8,8,10,10,12,15][Math.min(n-1,7)];
- const stands=shuf(K).map(k=>{const b0={g:any([lo,lo,gAbove(lo)]),u:lo,m:lo,r:gAbove(lo),l:1,p:gAbove(lo)}[k],c1=wpick(),c2=CW.length>1&&Math.random()<.4?wpick(c1):null;
-  return {kind:k,cs:c2?[c1,c2]:[c1],items:[],q:any(GQ[k]),p:b0,lot:k=="g"||k=="u"?Math.random()<.4:(k=="m"?Math.random()<.2:false)}});
+ const stands=shuf(K).map(k=>{const b0={g:any([lo,lo,gAbove(lo)]),u:lo,m:lo,r:gAbove(lo),l:1,p:gAbove(lo)}[k],c1=wpick(),cs=[c1];if(k=="p"){let g=0;while(cs.length<Math.min(3,CW.length)&&g++<12){const c=wpick(c1);if(!cs.includes(c))cs.push(c)}}else if(CW.length>1&&Math.random()<.08)cs.push(wpick(c1));
+  return {kind:k,cs,items:[],q:any(GQ[k]),p:b0,lot:k=="g"||k=="u"?Math.random()<.4:(k=="m"?Math.random()<.2:false)}});
  {const i=stands.findIndex(s=>s.kind=="g");if(i>0)[stands[0],stands[i]]=[stands[i],stands[0]];if(stands[0].kind=="g"){stands[0].car=true;stands[0].q=any(["« J'ai tout chargé dans le coffre ce matin. »","« Tout le grenier est dans le coffre, servez-vous. »"])}}
  const add=(st,r,t)=>{const it={r,v:gv(r),raw:gRaw(r),ti:gTi(r),t:t||"j",s:0};st.items.push(it);return it};
  const pick=(st,ti)=>{let L=G.T[ti].filter(r=>st.cs.includes(r.g.c)&&!inSt(st,r));if(!L.length)L=G.T[ti].filter(r=>!inSt(st,r));if(!L.length)return null;
-  if(ti==0){for(let i=0;i<30;i++){const r=any(L);if(Math.random()<.3+.7*fr(r))return r}return any(L)}
-  const F=L.filter(r=>!su.has(r)&&!G.used.has(r.g.uid)),F2=F.length?F:L.filter(r=>!su.has(r)),r=any(F2.length?F2:L);su.add(r);G.used.add(r.g.uid);return r};
+  const famous=st.kind=="m"||st.kind=="r"||st.kind=="p";
+  if(ti==0){if(!famous){const C=L.filter(r=>r.min<10);if(C.length&&Math.random()<.85)L=C}for(let i=0;i<40;i++){const r=any(L);if(Math.random()<(famous?.1+.9*fr(r):.3+.7*fr(r)))return r}return any(L)}
+  const F=L.filter(r=>!su.has(r)&&!G.used.has(r.g.uid)),F2=F.length?F:L.filter(r=>!su.has(r));let P=F2.length?F2:L;if(famous){const Q=P.filter(r=>fr(r)>=.5);if(Q.length)P=Q}const r=any(P);su.add(r);G.used.add(r.g.uid);return r};
  // répartition des couleurs : de plus en plus de jeux de valeur à chaque brocante, jamais de rouge ni de violet à la première
- const wW=[.70,.62,.55,.50,.48][k5],wY=[.27,.30,.31,.30,.29][k5];
- stands.forEach(st=>{const k=st.kind;st.npc=gNpc();st.packF=rnd(.78,.97);st.packed=false;st.vis=false;st.vi=Math.floor(Math.random()*50);st.vp=rnd(.55,1.5);st.vr=rnd(.95,1.2);st.thk=0;
-  const lo2=[4,5,6,7,8][k5],hi2=[6,8,10,12,15][k5],tot=k=="l"?cnt(4,7):cnt(lo2,hi2);let guard=0;
+ const wW=[.78,.70,.62,.55,.50][k5],wY=[.19,.24,.28,.30,.29][k5];
+ stands.forEach(st=>{const k=st.kind;st.npc=k=="p"?{...gNpc(),of:10,hat:1,fa:1,bk:0}:gNpc();st.packF=rnd(.78,.97);st.packed=false;st.vis=false;st.vi=Math.floor(Math.random()*50);st.vp=rnd(.55,1.5);st.vr=rnd(.95,1.2);st.thk=0;
+  const R={g:[[3,6],[4,7],[4,8],[5,9],[5,10]],m:[[5,8],[5,9],[6,10],[6,11],[7,12]],l:[[4,6],[4,7],[5,7],[5,8],[5,8]],p:[[10,16],[12,18],[14,22],[16,25],[18,28]]},rg=(R[k]||R.m)[k5],tot=cnt(rg[0],rg[1]);let guard=0;
   while(st.items.length<tot&&guard++<200){const x=Math.random(),r=pick(st,x<wW?0:x<wW+wY?1:2)||pick(st,0);if(r&&!inSt(st,r))add(st,r)}});
  // au moins quelques oranges accessibles (vendeurs bon marché)
  {const cheap=stands.filter(s=>s.kind=="g"||s.kind=="u"),minO=[2,2,3,4,5][k5];let c=cheap.reduce((a,s)=>a+s.items.filter(x=>x.ti==2).length,0),g=0;
@@ -1175,7 +1182,7 @@ function gmStage(){const n=++G.stage;G.sel=new Set();G.rev=false;G.cur=-1;G.deal
    if(x.und)x.s=k=="p"?gRound(Math.max(x.raw,6)*rnd(.35,.5)):b;
    else if(k=="u")x.s=b;
    else if(k=="g")x.s=Math.random()<.22?gAbove(b):b;
-   else if(k=="m")x.s=f>=.5&&x.raw>=15?gRound(x.raw*rnd(.95,1.35)):(Math.random()<.2?gAbove(b):b);
+   else if(k=="m")x.s=x.raw>=10?gRound(x.raw*(Math.random()<.2?any([rnd(.35,.6),rnd(1.7,2.2)]):rnd(.95,1.3))):(Math.random()<.2?gAbove(b):b);
    else if(k=="p")x.s=x.raw>=10?gRound(x.raw*rnd(1,1.4)):gAbove(b);
    else x.s=f>=.55?gRound(Math.max(x.raw,10)*rnd(1.6,2.6)):gAbove(b)});
   st.items=shuf(st.items)});
@@ -1212,7 +1219,7 @@ function gmCur(k){ghHide();if(!G||G.rev||G.walking||k===G.cur||k<0||k>=G.stands.
  clearInterval(G.stepT);G.stepT=setInterval(SFX.step,300);gmFill();
  setTimeout(()=>{if(!G)return;clearInterval(G.stepT);if(G.rev)return;G.cur=k;G.walking=false;const c=$("gch"),g2=$("gin"),st=G.stands[k];st.vis=true;if(c){c.classList.remove("walking","lft")}SFX.arrive();
   if(g2){g2.style.transformOrigin=gX(k)+"px 50%";g2.style.transform="scale(1.6)";g2.classList.add("zoomed")}
-  gmFill();if(!st.packed)gSay(k,any(VHI)+" "+st.q.replace(/[«»]/g,"").trim())},dur*1000+30)}
+  gmFill();if(!st.packed)gSay(k,st.q.replace(/[«»]/g,"").trim())},dur*1000+30)}
 // décor en aplats : immeubles violets à fenêtres éclairées, arbres turquoise, voiture
 function gHouse(x,i){const c=["#2a2350","#33285f","#3a2f6a","#2a3560","#3d2a66"][i%5],hl=["#4a3f8a","#5548a0","#5a4fa0","#4a5a9a","#6048a0"][i%5],w=20+(i%4)*4,hh=20+((i*7)%5)*5,S=4,lit=["#f0c050","#e0708a","#4fd6d0"];let p="";
  for(let y=4;y<hh-8;y+=6)for(let wx=3;wx<w-4;wx+=5){const k=(wx*3+y*5+i)%7;p+=`<rect x="${wx}" y="${y+6}" width="3" height="3" fill="#141033"/>`+(k<3?`<rect x="${wx}" y="${y+6}" width="3" height="3" fill="${lit[k]}" style="opacity:calc(.25 + var(--night)*.75)"/>`:"")}
@@ -1291,7 +1298,7 @@ function gSay(k,txt){const st=G&&G.stands[k],e=$("gs"+k);if(!st||!e)return;const
 function gmSkel(){const N=G.stands.length,W=GPAD+N*GW+260,cols=["#b0407a","#2fa0a0","#e08040","#6a4fb0","#3f9f6a","#c0a040","#8a3f9a","#3a6fb0"],T=(G.stage-1)%GTH.length,dec=gThemeDec(T,W,G.stage);G.seen=N-1;
  const st=G.stands.map((s,k)=>{const c=cols[(k*3+G.stage)%cols.length],bc=["#b0407a","#2fa0a0","#e08040","#6a4fb0","#3f9f6a","#22243a"],th=[0,1,2,3].map(q=>`<i style="background:${bc[(k*2+q*3)%6]}"></i>`).join("");
   const sign=`<span class="num">${k+1}</span>`;
-  return `<div class="gst${s.car?" car":""}${s.packed?" packed":""}" id="gs${k}" style="left:${GPAD+k*GW+10}px" onclick="gmCur(${k})"><div class="gsg">${sign}</div>${s.car?gCar(c):`<div class="aw" style="--c:${c}"></div>`}<div class="gsel">${charSVG(s.npc)}</div><div class="tb">${th}</div><div class="bd" id="gb${k}"></div><div class="gbub">${esc(s.q)}</div></div>`}).join("");
+  return `<div class="gst${s.car?" car":""}${s.kind=="p"?" pro":(s.kind=="g"||s.kind=="u")&&!s.car?" tbl":""}${s.packed?" packed":""}" id="gs${k}" style="left:${GPAD+k*GW+10}px" onclick="gmCur(${k})"><div class="gsg">${sign}</div>${s.car?gCar(c):`<div class="aw" style="--c:${c}"></div>${s.kind=="p"?`<div class="pb">OCCASIONS</div>`:""}`}<div class="gsel">${charSVG(s.npc)}</div><div class="tb">${th}</div><div class="bd" id="gb${k}"></div><div class="gbub">${esc(s.q)}</div></div>`}).join("");
  $("gm").innerHTML=`<div id="gtopw"></div>
  <div class="gsc" id="gsc"><div class="gsky" id="gsky"><div class="gstars"></div><div class="gsun" id="gsun"></div><div class="gmoon"></div><div class="gcl" style="top:22px;width:110px;animation-duration:70s;animation-delay:-20s"></div><div class="gcl" style="top:62px;width:80px;animation-duration:95s;animation-delay:-60s"></div><div class="gcl" style="top:8px;width:140px;animation-duration:120s;animation-delay:-95s"></div></div>
  <div class="gscroll" id="gscr"><div class="gin th${T}" id="gin"><div class="gfar" id="gfar"></div><div class="ggr"></div>${dec}<div class="gbun"></div><div class="gent">ENTRÉE →</div>${st}<div id="gnp"></div><div class="gend" id="gfog">FIN</div>
@@ -1314,12 +1321,12 @@ function gmTick(){if(!G||G.rev){clearInterval(GT);return}const left=G.end-Date.n
  gmSky(f);
  G.stands.forEach((st,k)=>{if(!st.packed&&f>=st.packF){st.packed=true;const e=$("gs"+k);if(e)e.classList.add("packed");SFX.pack();if(!G.warned){G.warned=true;gToast("Les vendeurs commencent à remballer !")}if(k===G.cur){gmFill();gSay(k,any(VPK))}}});
  if(!G.mid&&f>=.5){G.mid=true;let nn=0;G.stands.forEach(st=>{if(!st.items.some(x=>x.van))return;if(st.kind=="l"){if(!st.items.some(x=>G.sel.has(x.i))){st.items.forEach(x=>x.gone=true);nn++}}else st.items.forEach(x=>{if(x.van&&!G.sel.has(x.i)){x.gone=true;nn++}})});if(nn){gToast("Midi : un ratisseur vient d'embarquer une belle pièce…");SFX.nope();if(G.cur>=0&&!G.walking)gmFill()}}
- if(G.cur>=0&&!G.walking&&!G.stands[G.cur].packed&&Math.random()<.012){const st=G.stands[G.cur];if(Date.now()-(st.thk||0)>9000){st.thk=Date.now();gSay(G.cur,any(VMU))}}
+ if(G.cur>=0&&!G.walking&&!G.stands[G.cur].packed&&Math.random()<.012){const st=G.stands[G.cur];if(Date.now()-(st.thk||0)>9000){st.thk=Date.now();gSay(G.cur,any(VMUK[st.kind]||VMU))}}
  if(left<=0)gmEnd(true)}
 function gmTop(){return `<div class="gtop"><div><span class="gtitle">LA BROCANTE</span> &nbsp;<b>${esc(G.name)}</b> <span class="sub">· brocante n° ${G.stage}</span></div><span><span style="position:relative"><button class="gx" id="gsnd" onclick="sPanel()" title="Volumes">${SND.on?"SON":"MUET"}</button><div id="gvolp" hidden><label>AMBIANCE<input type="range" min="0" max="100" data-ch="amb" oninput="sVol('amb',this.value)"></label><label>EFFETS<input type="range" min="0" max="100" data-ch="sfx" oninput="sVol('sfx',this.value)"></label><label>VOIX<input type="range" min="0" max="100" data-ch="voi" oninput="sVol('voi',this.value)"></label><button class="gx" onclick="sToggle()">${SND.on?"COUPER TOUT":"RÉACTIVER"}</button></div></span> <button class="gx" onclick="gmOver()">Arrêter</button></span></div>`}
 const gStallHead=(st,k,extra)=>`<div class="gsh"><div class="gport">${charSVG(st.npc)}</div><div style="flex:1;min-width:0">${extra}</div></div>`;
 const gHudTxt=()=>`CAISSE ${G.cash-gSpent()} € <span>OBJECTIF ${2*GBUD} € · LENS ${G.lens}/${G.lensMax}${G.scan?" · LUNETTES 1":""}</span>`;
-const gBot=()=>{const n=G.sel.size,sp=gSpent();return `<div class="gbot"><div class="gbar"><div id="gbt" style="width:${Math.max(0,(G.end-Date.now())/(G.tot*10))}%"></div></div><span><b id="gtt">${Math.max(0,Math.ceil((G.end-Date.now())/1000))} s</b> avant la fin de la journée · panier : <b>${n}</b> jeu${n>1?"x":""} (${sp} €)</span><span>${G.cur<G.stands.length-1?`<button class="gbtn" onclick="gmNext()">Stand suivant ▶</button> `:""}<button class="gbtn sec" onclick="gmEnd()">Quitter la brocante</button></span></div>`};
+const gBot=()=>{const n=G.sel.size,sp=gSpent();return `<div class="gbot"><div class="gbar"><div id="gbt" style="width:${Math.max(0,(G.end-Date.now())/(G.tot*10))}%"></div></div><span class="glens${G.lens?"":" zero"}">LENS ${G.lens}/${G.lensMax}</span><span><b id="gtt">${Math.max(0,Math.ceil((G.end-Date.now())/1000))} s</b> avant la fin de la journée · panier : <b>${n}</b> jeu${n>1?"x":""} (${sp} €)</span><span>${G.cur<G.stands.length-1?`<button class="gbtn" onclick="gmNext()">Stand suivant ▶</button> `:""}<button class="gbtn sec" onclick="gmEnd()">Quitter la brocante</button></span></div>`};
 const gBadges=()=>G.stands.forEach((s,k)=>{const c=s.items.filter(x=>G.sel.has(x.i)).length,b=$("gb"+k),e=$("gs"+k);if(b)b.textContent=c?"✓ "+c:"";if(e)e.classList.toggle("cur",k===G.cur&&!G.walking)});
 const gInfoLine=(st,k)=>`<b>${gLab(st,k)}</b> · ${st.items.length} jeux${gLotTxt(st)}${st.packed?" · <b>remballé</b> : tes achats sont gardés, mais tu ne peux plus rien changer ici":""}`;
 const gLotBtn=st=>st.items.some(x=>G.sel.has(x.i))?"Reposer le lot":st.items.some(x=>x.gone)?"Lot vendu":"Prendre tout le lot · "+st.p+" €";
